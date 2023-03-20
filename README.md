@@ -1,4 +1,4 @@
-# SoPra FS23 - Pictionary Prooject
+# SoPra FS23 - Pictionary Project
 
 
 
