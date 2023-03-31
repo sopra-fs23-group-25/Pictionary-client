@@ -1,9 +1,9 @@
 @import "styles/theme";
 
 .main-container {
-    background-color: $background;
-    //border-radius: $boxradius;
-    //box-shadow: $box-shadow;
+    background-color: $background-color;
+    border-radius: $box-radius;
+    box-shadow: $box-shadow;
     width: 500px;
     margin: 0;
 
@@ -25,7 +25,7 @@
     &.sub-container-header {
         height: 20%;
 
-        //color: $accent-color;
+        color: $accent-color;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -40,7 +40,7 @@
             font-size: 1.2em;
             margin-top: 0;
             margin-bottom: 2em;
-            //color: $text-color;
+            color: $text-color;
         }
     }
 
@@ -60,7 +60,7 @@
             font-weight: 600;
             overflow: hidden;
 
-            //color: $accent-color;
+            color: $accent-color;
 
             &.name {
                 justify-content: left;
@@ -86,7 +86,7 @@
             flex-direction: row;
             height: 23px;
             gap: 20px;
-            //border-radius: $box-radius;
+            border-radius: $box-radius;
 
             &.name {
                 cursor: pointer;
@@ -96,14 +96,14 @@
                 justify-content: left;
                 text-align: left;
                 overflow: hidden;
-                //background: $list-color;
+                background: $list-color;
 
                 //overflow: hidden;
                 padding-left: 7px;
                 width: 80%;
             }
             &.name:hover {
-                //background-color: $list-hover-color;
+                background-color: $list-hover-color;
             }
 
             &.size {
@@ -113,7 +113,7 @@
                 display: flex;
                 align-items: center;
                 overflow: hidden;
-                //background: $list-color;
+                background: $list-color;
                 width: 10%;
             }
         }
@@ -128,13 +128,13 @@
         font-weight: 500;
 
         &.button {
-            //border-radius: $box-radius;
+            border-radius: $box-radius;
             height: 35px;
-            //box-shadow: $box-shadow;
+            box-shadow: $box-shadow;
 
-            //background-color: $button-color;
-            //border-color: $button-color;
-            //color: $button-text-color;
+            background-color: $button-color;
+            border-color: $button-color;
+            color: $button-text-color;
             cursor: pointer;
 
             &.one {
@@ -161,7 +161,7 @@
         }
 
         &.button:hover {
-            //background: $accent-color;
+            background: $accent-color;
         }
     }
 }

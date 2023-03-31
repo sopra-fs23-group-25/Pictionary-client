@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
+import {api, apiWithAuth, handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
@@ -66,15 +66,14 @@ const Register = props => {
         try {
             var select = document.getElementById('language');
             const language = select.options[select.selectedIndex].value;
-            alert(`Language chosen: \n${language}`)
             const requestBody = JSON.stringify({username, password, language}); //creationDate
             const response = await api.post('/users', requestBody);
 
-            // Get the returned user and update a new object.
-            const user = new User(response.data);
-
             const requestBodyForLogin = JSON.stringify({username, password})
             const responseFromLogin = await api.post('/sessions', requestBodyForLogin)
+
+            // Get the returned user and update a new object.
+            const user = new User(responseFromLogin.data);
 
             // Store the token into the local storage.
             localStorage.setItem('token', user.token);
