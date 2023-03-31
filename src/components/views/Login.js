@@ -35,28 +35,50 @@ FormField.propTypes = {
   onChange: PropTypes.func
 };
 
+const PasswordField = props => { //Class for Layout
+    return (
+            <div className="login field">
+                <label className="login label">
+                    {props.label}
+                </label>
+                <input
+                        className="login input"
+                        placeholder="enter here.."
+                        type = {"password"}
+                        value={props.value}
+                        onChange={e => props.onChange(e.target.value)}
+                />
+            </div>
+    );
+};
+
 const Login = props => {
   const history = useHistory();
-  const [name, setName] = useState(null);
+  const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({username, name});
-      const response = await api.post('/users', requestBody);
+      const requestBody = JSON.stringify({username, password});
+      const response = await api.post('/sessions', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
       // Store the token into the local storage.
       localStorage.setItem('token', user.token);
+      localStorage.setItem('id', user.id);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
+      // Login successfully worked --> navigate to the lobby overview
+      history.push(`/lobbies`);
+
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
   };
+  const doRegister = async () => {
+      history.push('/register');
+    }
 
   return (
     <BaseContainer>
@@ -67,19 +89,26 @@ const Login = props => {
             value={username}
             onChange={un => setUsername(un)}
           />
-          <FormField
-            label="Name"
-            value={name}
-            onChange={n => setName(n)}
-          />
+
+            <PasswordField
+                    label="Password"
+                    value={password}
+                    onChange={n=>setPassword(n)}
+            />
           <div className="login button-container">
             <Button
-              disabled={!username || !name}
-              width="100%"
+              disabled={!username || !password}
+              width="150px"
               onClick={() => doLogin()}
             >
               Login
             </Button>
+              <Button
+                      width="150px"
+                      onClick={() => doRegister()}
+              >
+                  Register
+              </Button>
           </div>
         </div>
       </div>

@@ -1,0 +1,167 @@
+@import "styles/theme";
+
+.main-container {
+    background-color: $background;
+    //border-radius: $boxradius;
+    //box-shadow: $box-shadow;
+    width: 500px;
+    margin: 0;
+
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+    flex-direction: column;
+    height: 650px; /* adjust the height as needed */
+}
+
+.sub-container {
+    width: 100%;
+    flex-direction: column;
+    @include center;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    &.sub-container-header {
+        height: 20%;
+
+        //color: $accent-color;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        & h1 {
+            font-size: 2.5em;
+            margin-top: 1.5em;
+            margin-bottom: 0em;
+        }
+        & h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 2em;
+            //color: $text-color;
+        }
+    }
+
+    &.sub-container-list {
+        height: 70%;
+        display: block;
+        align-items: flex-start;
+        font-weight: 600;
+        overflow-y: auto;
+        margin-block-end: 9px;
+
+        &.header {
+            display: flex;
+            height: 20px;
+            font-size: 16px;
+            flex-direction: row;
+            font-weight: 600;
+            overflow: hidden;
+
+            //color: $accent-color;
+
+            &.name {
+                justify-content: left;
+                text-align: left;
+                width: 80%;
+                overflow: hidden;
+
+                padding-left: 20px;
+            }
+
+            &.size {
+                justify-content: right;
+
+                overflow: hidden;
+                width: 20%;
+                padding-right: 5px;
+            }
+        }
+        &.list {
+            display: flex;
+            font-size: 18px;
+            overflow: hidden;
+            flex-direction: row;
+            height: 23px;
+            gap: 20px;
+            //border-radius: $box-radius;
+
+            &.name {
+                cursor: pointer;
+
+                display: flex;
+                align-items: center;
+                justify-content: left;
+                text-align: left;
+                overflow: hidden;
+                //background: $list-color;
+
+                //overflow: hidden;
+                padding-left: 7px;
+                width: 80%;
+            }
+            &.name:hover {
+                //background-color: $list-hover-color;
+            }
+
+            &.size {
+                font-weight: 400;
+                font-size: 15px;
+
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                //background: $list-color;
+                width: 10%;
+            }
+        }
+    }
+
+    &.sub-container-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        height: 10%;
+        margin-bottom: 20px;
+        font-weight: 500;
+
+        &.button {
+            //border-radius: $box-radius;
+            height: 35px;
+            //box-shadow: $box-shadow;
+
+            //background-color: $button-color;
+            //border-color: $button-color;
+            //color: $button-text-color;
+            cursor: pointer;
+
+            &.one {
+                //background-image: url("../../images/refresh-icon.png");
+                background-repeat: no-repeat;
+                background-size: 20px 20px; /* set the size of the background image */
+                background-position: right 10px center; /* position the background image to the right of the text */
+                width: 150px;
+            }
+
+            &.one:hover {
+                //background-image: url("../../images/refresh-icon.png");
+                background-repeat: no-repeat;
+                background-size: 20px 20px; /* set the size of the background image */
+                background-position: right 10px center;
+            }
+
+            &.two {
+                width: 200px;
+            }
+            &.three {
+                width: 100px;
+            }
+        }
+
+        &.button:hover {
+            //background: $accent-color;
+        }
+    }
+}
