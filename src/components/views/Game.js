@@ -31,8 +31,10 @@ const Game = () => {
   const [users, setUsers] = useState(null);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
+      const header = JSON.stringify(localStorage.getItem('token'))
+      const response = api.delete('sessions', header)
+      localStorage.removeItem('token');
+      history.push('/login');
   }
 
   // the effect hook can be used to react to change in your component.
