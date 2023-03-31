@@ -3,8 +3,7 @@ import { GameGuard } from "components/routing/routeProtectors/GameGuard";
 import GameRouter from "components/routing/routers/GameRouter";
 import { LoginGuard } from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
-import LobbyOverview from "components/views/LobbyOverview";
-import Registration from "../../views/Registration";
+import Registration from "components/views/Registration";
 import LobbyOverview from "components/views/LobbyOverview";
 
 /**
