@@ -25,28 +25,31 @@ const LobbyOverview = () => {
   const history = useHistory();
   const [lobbies, setLobbies] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await api.get("/lobbies");
-        console.log("render page");
-
-        setLobbies(response.data);
-      } catch (error) {
-        console.error(
-          `Something went wrong while fetching the lobbies: \n${handleError(
-            error
-          )}`
-        );
-        console.error("Details:", error);
-        alert(
-          "Something went wrong while fetching the lobbies! See the console for details."
-        );
-      }
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/lobbies");
+      setLobbies(response.data);
+    } catch (error) {
+      console.error(
+        `Something went wrong while fetching the lobbies: \n${handleError(
+          error
+        )}`
+      );
+      console.error("Details:", error);
+      alert(
+        "Something went wrong while fetching the lobbies! See the console for details."
+      );
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  async function refreshLobby() {
+    await fetchData();
+    console.log(lobbies);
+  }
 
   function handleClickOnLobby(lobby) {
     if (window.confirm(`join ${lobby.lobbyName} ?`)) {
@@ -70,17 +73,15 @@ const LobbyOverview = () => {
     ));
   }
 
-  async function refreshLobby() {
-    const response = await api.get("/lobbies");
-    setLobbies(response.data);
-    console.log(lobbies);
-  }
-
   const logout = () => {
-    const token = localStorage.getItem("token");
-    apiWithAuth(token).delete("/session");
-    localStorage.clear();
-    history.push("/login");
+    try {
+      const token = localStorage.getItem("token");
+      apiWithAuth(token).delete("/sessions");
+      localStorage.clear();
+      history.push("/login");
+    } catch (error) {
+      alert("Something went wrong while logging out!");
+    }
   };
 
   return (
