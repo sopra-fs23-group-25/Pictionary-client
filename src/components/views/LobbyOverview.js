@@ -73,10 +73,10 @@ const LobbyOverview = () => {
     ));
   }
 
-  const logout = () => {
+  const logout = async () => {
     try {
       const token = localStorage.getItem("token");
-      apiWithAuth(token).delete("/sessions");
+      await apiWithAuth(token).delete("/sessions");
       localStorage.clear();
       history.push("/login");
     } catch (error) {

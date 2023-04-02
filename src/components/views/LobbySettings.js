@@ -57,7 +57,7 @@ const LobbySettings = () => {
           min={"1"}
           max={"10"}
           step={"1"}
-          disabled={"true"}
+          disabled={true}
         ></RangeSelection>
         number of rounds: <span>{selectedRounds}</span>
       </label>
