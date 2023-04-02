@@ -1,83 +1,128 @@
-import "styles/views/LobbyOverview.scss";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { api, apiWithAuth, handleError } from "helpers/api";
+
+import "styles/views/LobbyOverview.scss";
+import { Spinner } from "components/ui/Spinner";
 
 const LobbyItem = ({ lobby, handleClick }) => {
-    return (
-            <div className="sub-container sub-container-list list">
-                <div
-                        onClick={() => handleClick(lobby)}
-                        className="sub-container sub-container-list list name"
-                >
-                    {lobby.lobbyName}
-                </div>
-                <div className="sub-container sub-container-list list size">
-                    {lobby.lobbySize}
-                </div>
-            </div>
-    );
+  return (
+    <div className="sub-container sub-container-list list">
+      <div
+        onClick={() => handleClick(lobby)}
+        className="sub-container sub-container-list list name"
+      >
+        {lobby.lobbyName}
+      </div>
+      <div className="sub-container sub-container-list list size">
+        {lobby.numberOfPlayers}
+      </div>
+    </div>
+  );
 };
 
 const LobbyOverview = () => {
-    const history = useHistory();
+  const history = useHistory();
+  const [lobbies, setLobbies] = useState(null);
 
-    const lobbies = {
-        object1: {
-            lobbyName: "UZH",
-            lobbySize: 2,
-        },
-    };
-
-    const lobbyArray = Object.values(lobbies);
-
-    function handleClick(lobby) {
-        if (window.confirm(`join ${lobby.lobbyName} ?`)) {
-            // Perform the action here
-        }
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/lobbies");
+      setLobbies(response.data);
+    } catch (error) {
+      console.error(
+        `Something went wrong while fetching the lobbies: \n${handleError(
+          error
+        )}`
+      );
+      console.error("Details:", error);
+      alert(
+        "Something went wrong while fetching the lobbies! See the console for details."
+      );
     }
+  };
 
-    const navigateToLobbySettings = () => {
-        history.push("/lobbysettings");
-    };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    return (
-            <div className="main-container">
-                <div className="sub-container sub-container-header">
-                    <h1>Lobby Overview</h1>
-                    <h2>Join a lobby by clicking on the name</h2>
-                </div>
-                <div className="sub-container sub-container-list">
-                    <div className="sub-container sub-container-list header">
-                        <div className="sub-container sub-container-list header name">
-                            Lobbies
-                        </div>
-                        <div className="sub-container sub-container-list header size">
-                            Group Size
-                        </div>
-                    </div>
-                    {lobbyArray.map((lobby) => (
-                            <LobbyItem
-                                    lobby={lobby}
-                                    handleClick={handleClick}
-                                    key={lobby.lobbyName}
-                            ></LobbyItem>
-                    ))}
-                </div>
-                <div className="sub-container sub-container-buttons">
-                    <button className="sub-container sub-container-buttons button one">
-                        REFRESH
-                    </button>
-                    <button
-                            onClick={navigateToLobbySettings}
-                            className="sub-container sub-container-buttons button two"
-                    >
-                        CREATE A NEW LOBBY
-                    </button>
-                    <button className="sub-container sub-container-buttons button three">
-                        LOGOUT
-                    </button>
-                </div>
-            </div>
-    );
+  async function refreshLobby() {
+    await fetchData();
+    console.log(lobbies);
+  }
+
+  function handleClickOnLobby(lobby) {
+    if (window.confirm(`join ${lobby.lobbyName} ?`)) {
+      // Perform the action here
+    }
+  }
+
+  const navigateToLobbySettings = () => {
+    history.push("/lobbysettings");
+  };
+
+  let lobbyListContent = <Spinner></Spinner>;
+
+  if (lobbies) {
+    lobbyListContent = lobbies.map((lobby) => (
+      <LobbyItem
+        lobby={lobby}
+        handleClick={handleClickOnLobby}
+        key={lobby.lobbyName}
+      ></LobbyItem>
+    ));
+  }
+
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await apiWithAuth(token).delete("/sessions");
+      localStorage.clear();
+      history.push("/login");
+    } catch (error) {
+      alert("Something went wrong while logging out!");
+    }
+  };
+
+  return (
+    <div className="main-container">
+      <div className="sub-container sub-container-header">
+        <h1>Lobby Overview</h1>
+        <h2>Join a lobby by clicking on the name</h2>
+      </div>
+      <div className="sub-container sub-container-list">
+        <div className="sub-container sub-container-list header">
+          <div className="sub-container sub-container-list header name">
+            Lobbies
+          </div>
+          <div className="sub-container sub-container-list header size">
+            Group Size
+          </div>
+        </div>
+        {lobbyListContent}
+      </div>
+      <div className="sub-container sub-container-buttons">
+        <button
+          onClick={() => refreshLobby()}
+          className="sub-container sub-container-buttons button one"
+        >
+          REFRESH
+        </button>
+        <button
+          onClick={navigateToLobbySettings}
+          className="sub-container sub-container-buttons button two"
+        >
+          CREATE A NEW LOBBY
+        </button>
+        <button
+          onClick={() => logout()}
+          className="sub-container sub-container-buttons button three"
+        >
+          LOGOUT
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default LobbyOverview;

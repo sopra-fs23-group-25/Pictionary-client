@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import User from 'models/User';
-import {useHistory} from 'react-router-dom';
-import {Button} from 'components/ui/Button';
-import 'styles/views/Login.scss';
+import React, { useState } from "react";
+import { api, handleError } from "helpers/api";
+import User from "models/User";
+import { useHistory } from "react-router-dom";
+import { Button } from "components/ui/Button";
+import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 
@@ -13,17 +13,15 @@ however be sure not to clutter your files with an endless amount!
 As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
-const FormField = props => {
+const FormField = (props) => {
   return (
     <div className="login field">
-      <label className="login label">
-        {props.label}
-      </label>
+      <label className="login label">{props.label}</label>
       <input
         className="login input"
         placeholder="enter here.."
         value={props.value}
-        onChange={e => props.onChange(e.target.value)}
+        onChange={(e) => props.onChange(e.target.value)}
       />
     </div>
   );
@@ -32,53 +30,51 @@ const FormField = props => {
 FormField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
-const PasswordField = props => { //Class for Layout
-    return (
-            <div className="login field">
-                <label className="login label">
-                    {props.label}
-                </label>
-                <input
-                        className="login input"
-                        placeholder="enter here.."
-                        type = {"password"}
-                        value={props.value}
-                        onChange={e => props.onChange(e.target.value)}
-                />
-            </div>
-    );
+const PasswordField = (props) => {
+  //Class for Layout
+  return (
+    <div className="login field">
+      <label className="login label">{props.label}</label>
+      <input
+        className="login input"
+        placeholder="enter here.."
+        type={"password"}
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+      />
+    </div>
+  );
 };
 
-const Login = props => {
+const Login = (props) => {
   const history = useHistory();
-  const [password, setPassword] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/sessions', requestBody);
+      const requestBody = JSON.stringify({ username, password });
+      const response = await api.post("/sessions", requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
       // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-      localStorage.setItem('id', user.id);
+      localStorage.setItem("token", user.token);
+      localStorage.setItem("id", user.id);
 
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);
-
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
   };
   const doRegister = async () => {
-      history.push('/register');
-    }
+    history.push("/register");
+  };
 
   return (
     <BaseContainer>
@@ -87,14 +83,14 @@ const Login = props => {
           <FormField
             label="Username"
             value={username}
-            onChange={un => setUsername(un)}
+            onChange={(un) => setUsername(un)}
           />
 
-            <PasswordField
-                    label="Password"
-                    value={password}
-                    onChange={n=>setPassword(n)}
-            />
+          <PasswordField
+            label="Password"
+            value={password}
+            onChange={(n) => setPassword(n)}
+          />
           <div className="login button-container">
             <Button
               disabled={!username || !password}
@@ -103,12 +99,9 @@ const Login = props => {
             >
               Login
             </Button>
-              <Button
-                      width="150px"
-                      onClick={() => doRegister()}
-              >
-                  Register
-              </Button>
+            <Button width="150px" onClick={() => doRegister()}>
+              Register
+            </Button>
           </div>
         </div>
       </div>

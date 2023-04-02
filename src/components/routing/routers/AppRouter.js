@@ -1,10 +1,10 @@
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import {GameGuard} from "components/routing/routeProtectors/GameGuard";
-import GameRouter from "components/routing/routers/GameRouter";
-import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { LobbyGuard } from "components/routing/routeProtectors/LobbyGuard";
+import { LoginGuard } from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
-import Registration from "../../views/Registration";
-import LobbyOverview from "../../views/LobbyOverview";
+import Registration from "components/views/Registration";
+import LobbyOverview from "components/views/LobbyOverview";
+import LobbySettings from "components/views/LobbySettings";
 
 /**
  * Main router of your application.
@@ -19,42 +19,39 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Switch>
-
-        <Route path="/game">
-          <GameGuard>
-            <GameRouter base="/game"/>
-          </GameGuard>
-        </Route>
-
         <Route exact path="/login">
           <LoginGuard>
-            <Login/>
+            <Login />
           </LoginGuard>
         </Route>
 
-          <Route exact path="/register">
-              <LoginGuard>
-                  <Registration/>
-              </LoginGuard>
-          </Route>
+        <Route exact path="/register">
+          <LoginGuard>
+            <Registration />
+          </LoginGuard>
+        </Route>
 
-          <Route exact path="/lobbies">
-              <GameGuard>
-                  <LobbyOverview/>
-              </GameGuard>
-          </Route>
+        <Route exact path="/lobbies">
+          <LobbyGuard>
+            <LobbyOverview />
+          </LobbyGuard>
+        </Route>
 
-          <Route exact path="/">
-              <Redirect to="/register"/>
-          </Route>
+        <Route exact path="/lobbysettings">
+          <LobbyGuard>
+            <LobbySettings />
+          </LobbyGuard>
+        </Route>
 
-
+        <Route exact path="/">
+          <Redirect to="/register" />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
 };
 
 /*
-* Don't forget to export your component!
+ * Don't forget to export your component!
  */
 export default AppRouter;
