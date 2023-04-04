@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
 import { useHistory } from "react-router-dom";
-import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -13,37 +11,15 @@ however be sure not to clutter your files with an endless amount!
 As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
-const FormField = (props) => {
+const FormField = ({ label, value, type, onChange }) => {
   return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
+    <div className="form-field">
       <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
-
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
-
-const PasswordField = (props) => {
-  //Class for Layout
-  return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        type={"password"}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
+        className="form-field input"
+        placeholder={label}
+        value={value}
+        type={type}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
@@ -72,37 +48,42 @@ const Login = (props) => {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
   };
-  const doRegister = async () => {
+  const navigateToRegister = async () => {
     history.push("/register");
   };
 
   return (
     <BaseContainer>
-      <div className="login container">
-        <div className="login form">
+      <div className="login">
+        <div className="subcontainer header-container">
+          <h1>Login</h1>
+          <h2>Sign in to your account</h2>
+          <p>
+            or <span onClick={() => navigateToRegister()}>register</span> a new
+            account
+          </p>
+        </div>
+        <div className="subcontainer form-container">
           <FormField
-            label="Username"
+            label="username"
             value={username}
             onChange={(un) => setUsername(un)}
-          />
-
-          <PasswordField
-            label="Password"
+          ></FormField>
+          <FormField
+            label="password"
             value={password}
+            type="password"
             onChange={(n) => setPassword(n)}
-          />
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password}
-              width="150px"
-              onClick={() => doLogin()}
-            >
-              Login
-            </Button>
-            <Button width="150px" onClick={() => doRegister()}>
-              Register
-            </Button>
-          </div>
+          ></FormField>
+        </div>
+        <div className="subcontainer button-container">
+          <button
+            disabled={!username || !password}
+            className="login-button"
+            onClick={() => doLogin()}
+          >
+            Login
+          </button>
         </div>
       </div>
     </BaseContainer>

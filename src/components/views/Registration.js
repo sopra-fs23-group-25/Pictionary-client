@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
 import { useHistory } from "react-router-dom";
-import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import "styles/ui/DropDownMenu.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -14,53 +12,58 @@ however be sure not to clutter your files with an endless amount!
 As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
-const FormField = (props) => {
+const FormField = ({ label, value, type, onChange }) => {
   return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
+    <div className="form-field">
       <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
+        className="form-field input"
+        placeholder={label}
+        value={value}
+        type={type}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
 };
 
-const PasswordField = (props) => {
-  //Class for Layout
+const DropDown = ({ label, value, options, onChange }) => {
   return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        type={"password"}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
+    <div className="form-field">
+      <label htmlFor="dropdown" className="form-field label">
+        {label}{" "}
+      </label>
+      <select
+        className="form-field input"
+        id="dropdown"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ paddingTop: "7px" }}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
-};
-
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
 };
 
 const Register = (props) => {
   const history = useHistory();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  //  const [language, setLanguage] = useState(null);
+  const [language, setLanguage] = useState("");
+
+  const languageOptions = [
+    { value: "en", label: "English" },
+    { value: "de", label: "German" },
+    { value: "fr", label: "French" },
+  ];
 
   const doRegister = async () => {
     try {
-      var select = document.getElementById("language");
-      const language = select.options[select.selectedIndex].value;
-      const requestBody = JSON.stringify({ username, password, language }); //creationDate
+      const requestBody = JSON.stringify({ username, password, language });
       await api.post("/users", requestBody);
 
       const requestBodyForLogin = JSON.stringify({ username, password });
@@ -84,53 +87,47 @@ const Register = (props) => {
     }
   };
 
-  const doLogin = async () => {
+  const navigateToLogin = async () => {
     history.push("/login");
   };
 
   return (
     <BaseContainer>
-      <div className="login container">
-        Welcome to Registration page
-        <div className="login form">
+      <div className="login">
+        <div className="subcontainer header-container">
+          <h1>Registration</h1>
+          <h2>Already have an account?</h2>
+          <p>
+            continue to <span onClick={() => navigateToLogin()}>login</span>
+          </p>
+        </div>
+        <div className="subcontainer form-container">
           <FormField
-            label="Username"
+            label="username"
             value={username}
             onChange={(un) => setUsername(un)}
-          />
-
-          <PasswordField
-            label="Password"
+          ></FormField>
+          <FormField
+            label="password"
             value={password}
+            type="password"
             onChange={(n) => setPassword(n)}
-          />
-
-          <div className="dropdown">
-            <div>
-              <label htmlFor="language">
-                Select your preferred language:
-                <select className="dropbtn" name="language" id="language">
-                  <option value="DE">DE</option>
-                  <option value="ENG">ENG</option>
-                  <option value="FR">FR</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password}
-              width="150px"
-              onClick={() => doRegister()}
-            >
-              Register
-            </Button>
-
-            <Button width="150px" onClick={() => doLogin()}>
-              Continue to login
-            </Button>
-          </div>
+          ></FormField>
+          <DropDown
+            label={"Choose your prefered language"}
+            value={language}
+            options={languageOptions}
+            onChange={(l) => setLanguage(l)}
+          ></DropDown>
+        </div>
+        <div className="subcontainer button-container">
+          <button
+            disabled={!username || !password}
+            className="login-button"
+            onClick={() => doRegister()}
+          >
+            Register
+          </button>
         </div>
       </div>
     </BaseContainer>
