@@ -1,4 +1,5 @@
 import RangeSelection from "components/ui/RangeSelection";
+import "styles/views/Game/PaintToolBar.scss";
 
 const colors = [
   "yellow",
@@ -18,7 +19,7 @@ const PaintToolbar = (props) => {
 
   const handleClearCanvas = () => {
     console.log("clear canvas");
-    //sendClearMessage();
+    sendClearMessage();
   };
 
   return (
