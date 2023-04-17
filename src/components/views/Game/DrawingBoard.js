@@ -26,7 +26,7 @@ const DrawingBoard = forwardRef(
         const currentY = event.clientY - bounds.top;
 
         drawOnBoard(ref, lastX, lastY, currentX, currentY, color, lineWidth);
-        // sendDrawingMessage(lastX, lastY, currentX, currentY, color, lineWidth);
+        sendDrawingMessage(lastX, lastY, currentX, currentY, color, lineWidth);
 
         lastX = currentX;
         lastY = currentY;

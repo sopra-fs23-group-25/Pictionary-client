@@ -1,4 +1,10 @@
-import DrawingBoard from "./DrawingBoard";
+import {
+  websocket_endpoints,
+  websocket_topics,
+} from "components/socket/Socket";
+import Socket from "components/socket/Socket";
+
+import DrawingBoard, { drawOnBoard } from "./DrawingBoard";
 import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
@@ -9,7 +15,7 @@ import PlayerRanking from "./PlayerRanking";
 const GameView = () => {
   //Refs
   const canvasRef = useRef(null);
-  // const clientRef = useRef(null);
+  const clientRef = useRef(null);
 
   //Drawing Board
   const [color, setColor] = useState("black");
@@ -38,8 +44,8 @@ const GameView = () => {
   // Information Needed on render page:
   // lobbysettings(time, rounds, ), lobbyId, userId,
 
-  // const lobbyId = 1;
-  // const userId = 10;
+  const lobbyId = 1;
+  const userId = localStorage.getItem("userId");
   // const timePerRound = 5;
 
   //setting Default Values on Render
@@ -57,6 +63,71 @@ const GameView = () => {
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
 
+  // WebSocket functions - TODO: refactor and extract
+
+  const sendStartGameMessage = () => {
+    const requestBody = JSON.stringify({ task: "start game" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).start_game,
+      requestBody
+    );
+  };
+
+  const sendDrawingMessage = (x1, y1, x2, y2, color, lineWidth) => {
+    const requestBody = JSON.stringify({
+      prevX: x1,
+      prevY: y1,
+      currX: x2,
+      currY: y2,
+      color: color,
+      lineWidth: lineWidth,
+    });
+    console.log(requestBody, websocket_endpoints(lobbyId).drawing_all);
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).drawing_all,
+      requestBody
+    );
+  };
+
+  const sendClearMessage = () => {
+    const requestBody = JSON.stringify({ task: "clear drawing board" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).drawing_clear,
+      requestBody
+    );
+  };
+
+  const sendJoinGameMessage = () => {
+    const requestBody = JSON.stringify({ task: "joined Game" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).user_join,
+      requestBody
+    );
+  };
+
+  // handle websocket (incoming) messages
+  const onMessage = (msg, topic) => {
+    if (topic === websocket_topics(lobbyId).drawing) {
+      drawOnBoard(
+        canvasRef,
+        msg.prevX,
+        msg.prevY,
+        msg.currX,
+        msg.currY,
+        msg.color,
+        msg.lineWidth
+      );
+      console.log("received changes on drawing", msg);
+    } else if (topic === websocket_topics(lobbyId).clear) {
+      clearCanvas(canvasRef.current);
+    } else if (topic === websocket_topics(lobbyId).users) {
+      console.log(msg);
+    } else if (topic === websocket_topics(lobbyId).start) {
+      //startGame();
+      console.log(msg);
+    }
+  };
+
   return (
     <div className="game">
       <div className="game big-container">
@@ -69,7 +140,7 @@ const GameView = () => {
                   setColor={setColor}
                   lineWidth={lineWidth}
                   setLineWidth={setLineWidth}
-                  sendClearMessage={clearCanvas}
+                  sendClearMessage={sendClearMessage}
                 ></PaintToolbar>
               ) : null}
             </div>
@@ -89,6 +160,7 @@ const GameView = () => {
             lineWidth={lineWidth}
             ref={canvasRef}
             isPainter={isPainter}
+            sendDrawingMessage={sendDrawingMessage}
           ></DrawingBoard>
         </div>
       </div>
@@ -108,6 +180,14 @@ const GameView = () => {
           <PlayerRanking players={players}></PlayerRanking>
         </div>
       </div>
+      <Socket
+        clientRef={clientRef}
+        lobbyId={lobbyId}
+        userId={userId}
+        sendJoinGameMessage={sendJoinGameMessage}
+        topics={Object.values(websocket_topics(lobbyId))}
+        onMessage={onMessage}
+      />
     </div>
   );
 };
