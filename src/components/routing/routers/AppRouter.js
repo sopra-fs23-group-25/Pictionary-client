@@ -3,9 +3,16 @@ import { LobbyGuard } from "components/routing/routeProtectors/LobbyGuard";
 import { LoginGuard } from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
 import Registration from "components/views/Registration";
+<<<<<<< HEAD
 import LobbyOverview from "components/views/Lobby/LobbyOverview";
 import LobbySettings from "components/views/Lobby/LobbySettings";
 import Game from "components/views/Game/Game";
+=======
+import LobbyOverview from "components/views/LobbyOverview";
+import LobbySettings from "components/views/LobbySettings";
+import EndOfTurnResults from "../../views/EndOfTurnResults";
+import EndOfGame from "../../views/EndOfGame";
+>>>>>>> e8f2301 (- #44 without functionality)
 
 /**
  * Main router of your application.
@@ -47,6 +54,15 @@ const AppRouter = () => {
             <LobbySettings />
           </LobbyGuard>
         </Route>
+
+
+          <Route exact path="/endofturn">
+                  <EndOfTurnResults />
+          </Route>
+
+          <Route exact path="/endofgame">
+              <EndOfGame />
+          </Route>
 
         <Route exact path="/">
           <Redirect to="/register" />
