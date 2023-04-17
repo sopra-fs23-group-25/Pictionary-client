@@ -51,11 +51,30 @@ const LobbyOverview = () => {
     console.log(lobbies);
   }
 
+  async function joinLobby(lobbyId) {
+    try {
+      const userId = localStorage.getItem("id");
+
+      const requestBody = JSON.stringify({
+        userId: userId,
+      });
+      await api.put(`/lobbies/${lobbyId}`, requestBody);
+      navigateToGamePage(lobbyId);
+    } catch (error) {
+      alert(`Could not join Lobby`);
+    }
+  }
+
   function handleClickOnLobby(lobby) {
     if (window.confirm(`join ${lobby.lobbyName} ?`)) {
+      joinLobby(lobby.lobbyId);
       // Perform the action here
     }
   }
+
+  const navigateToGamePage = (lobbyId) => {
+    history.push(`/game/${lobbyId}`);
+  };
 
   const navigateToLobbySettings = () => {
     history.push("/lobbysettings");

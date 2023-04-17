@@ -66,6 +66,10 @@
     &.button:hover {
       background: $accent-color;
     }
+
+    &.button:disabled {
+      background-color: $button-color * 0.8;
+    }
   }
 }
 

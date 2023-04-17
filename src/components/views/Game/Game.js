@@ -3,7 +3,7 @@ import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PlayerRanking from "./PlayerRanking";
 
 const GameView = () => {
@@ -19,6 +19,14 @@ const GameView = () => {
   const [isPainter, setIsPainter] = useState(true);
   // const isHost = true;
 
+  // get players as props from Server
+  const players = [
+    { name: "Player 1", score: 100, role: "guesser" },
+    { name: "Player 2", score: 90, role: "guesser" },
+    { name: "Player 3", score: 80, role: "painter" },
+    { name: "Player 4", score: 70, role: "guesser" },
+  ];
+
   //Game Logic - Timer
   // const [remainingTime, setRemainingTime] = useState(0);
   // const [isRunning, setIsRunning] = useState(false);
@@ -33,6 +41,14 @@ const GameView = () => {
   // const lobbyId = 1;
   // const userId = 10;
   // const timePerRound = 5;
+
+  //setting Default Values on Render
+  useEffect(() => {
+    setRound(0);
+    setIsEndOfRound(true);
+    setIsPainter(true);
+    console.log("default value");
+  }, []);
 
   function clearCanvas() {
     setColor("black");
@@ -83,13 +99,13 @@ const GameView = () => {
         </div>
         <div className="game small-container sub-container2">
           {isPainter ? (
-            <WordToDrawBoard></WordToDrawBoard>
+            <WordToDrawContainer></WordToDrawContainer>
           ) : (
-            <GuessingBoard></GuessingBoard>
+            <GuessingContainer></GuessingContainer>
           )}
         </div>
         <div className="game small-container sub-container3">
-          <PlayerRanking></PlayerRanking>
+          <PlayerRanking players={players}></PlayerRanking>
         </div>
       </div>
     </div>
@@ -98,7 +114,7 @@ const GameView = () => {
 
 export default GameView;
 
-const WordToDrawBoard = () => {
+const WordToDrawContainer = () => {
   return (
     <div className="guessing-container">
       <h1>Word to paint</h1>
@@ -107,7 +123,7 @@ const WordToDrawBoard = () => {
   );
 };
 
-const GuessingBoard = () => {
+const GuessingContainer = () => {
   return (
     <div className="guessing-container">
       <h1>Type in your guess</h1>

@@ -21,15 +21,20 @@ const LobbySettings = () => {
       });
 
       const token = localStorage.getItem("token");
-      await apiWithAuth(token).post("/lobbies", requestBody);
+      const response = await apiWithAuth(token).post("/lobbies", requestBody);
 
       alert(
         `you created a new lobby: ${lobbyName} \n --> Redirect to Game-Page`
       );
+      navigateToGamePage(response.data.lobbyId);
     } catch (error) {
       alert("Something went wrong while creating a new lobby! See console");
     }
   }
+
+  const navigateToGamePage = (lobbyId) => {
+    history.push(`/game/${lobbyId}`);
+  };
 
   return (
     <div className="lobbysettings">
@@ -81,6 +86,7 @@ const LobbySettings = () => {
         <button
           onClick={() => createLobby()}
           className="lobbysettings button-container button confirm"
+          disabled={!lobbyName}
         >
           CONFIRM
         </button>
