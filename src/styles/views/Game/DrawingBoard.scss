@@ -1,0 +1,70 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  border-radius: $box-radius;
+  box-shadow: $box-shadow;
+
+  &.container {
+    background: $background-color;
+    height: 800px;
+    width: 1000px;
+  }
+
+  &.header-container {
+    box-shadow: none;
+    border-top-left-radius: $box-radius;
+    border-top-right-radius: $box-radius;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom: 3px solid $accent-color;
+
+    height: 20%;
+    width: 100%;
+
+    //border: 2px solid $accent-color;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    &.sub-container1 {
+      border-top-left-radius: $box-radius;
+      border-top-right-radius: 0px;
+      flex: 35%;
+      height: 100%;
+      border-right: 6px solid $accent-color;
+    }
+
+    &.sub-container2 {
+      align-items: center;
+      color: $accent-color;
+      font-size: 200%;
+      font-weight: 900;
+
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-right: 6px solid $accent-color;
+      flex: 30%;
+      height: 100%;
+    }
+
+    &.sub-container3 {
+      border-top-left-radius: 0px;
+      border-top-right-radius: $box-radius;
+      flex: 35%;
+      height: 100%;
+      flex-direction: column;
+    }
+  }
+
+  &.canvas {
+    box-shadow: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: $box-radius;
+    border-bottom-right-radius: $box-radius;
+    //cursor: url("../../paintbrush.png"), pointer;
+  }
+}

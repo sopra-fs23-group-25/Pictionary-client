@@ -29,7 +29,6 @@ const LobbyOverview = () => {
     try {
       const response = await api.get("/lobbies");
       setLobbies(response.data);
-      console.log(lobbies);
     } catch (error) {
       console.error(
         `Something went wrong while fetching the lobbies: \n${handleError(
