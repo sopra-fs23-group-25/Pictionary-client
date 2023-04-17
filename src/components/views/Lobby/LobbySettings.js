@@ -14,10 +14,14 @@ const LobbySettings = () => {
 
   async function createLobby() {
     try {
+      const userId = localStorage.getItem("userId");
+
       const requestBody = JSON.stringify({
         lobbyName: lobbyName,
         timePerRound: selectedTime,
         nrOfRounds: selectedRounds,
+        maxNrOfPlayers: selectedNrOfPlayers,
+        hostId: userId,
       });
 
       const token = localStorage.getItem("token");
