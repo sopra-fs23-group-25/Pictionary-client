@@ -10,7 +10,7 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 
 import { useState, useRef, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 
 const GameView = (props) => {
@@ -27,7 +27,6 @@ const GameView = (props) => {
   const [isHost, setIsHost] = useState(false);
 
   const location = useLocation();
-  const history = useHistory();
 
   useEffect(() => {
     // this information was passed while creating/joining lobby
@@ -75,12 +74,9 @@ const GameView = (props) => {
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
 
-  function navigateToLobby() {
-    history.push("/lobbies");
-  }
-
   // WebSocket functions - TODO: refactor and extract
 
+  /*
   const sendStartGameMessage = () => {
     const requestBody = JSON.stringify({ task: "start game" });
     clientRef.current.sendMessage(
@@ -88,6 +84,8 @@ const GameView = (props) => {
       requestBody
     );
   };
+
+  */
 
   const sendDrawingMessage = (x1, y1, x2, y2, color, lineWidth) => {
     const requestBody = JSON.stringify({
