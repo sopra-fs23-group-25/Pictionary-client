@@ -95,6 +95,10 @@ MOCKS
     u5.points = "+0";
     u5.word = "dog";
     mockusers.push(u5);
+    mockusers.push(u5);
+    mockusers.push(u5);
+    mockusers.push(u5);
+    mockusers.push(u5);
 
 
     /*
