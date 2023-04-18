@@ -82,6 +82,13 @@ MOCKS
     u5.position = "#5";
     u5.points = "90";
     mockusers.push(u5);
+    mockusers.push(u5);
+    mockusers.push(u5);
+
+
+
+
+
 
     /*
 MOCKS
@@ -123,16 +130,19 @@ MOCKS
     }
 
     const startNewGame = () => {
+        //api.delete("/games/{lobbyId}");
+        //api.post("/games");
         history.push("/endofturn");
     };
 
     const exit = () => {
+        //api.delete("/games/{lobbyId}");
         history.push("/endofturn");
     };
 
   return (
     <BaseContainer>
-        <div className="popup">
+        <div className="popup-endofgame">
             <div className="trophy">
 
             </div>
@@ -157,29 +167,21 @@ MOCKS
                     </div>
                     {userListContent}
                 </div>
+            </div>
+            <div className="flag">
+            </div>
+            <div className="button-container">
 
-                <div className="sub-container last-row-container">
-                    <div className ="sub-container last-row-container white-space">
-
-                    </div>
-                    <div className="sub-container last-row-container flag">
-
-                    </div>
-                    <div className="sub-container last-row-container button-container">
-
-                        <div className="sub-container last-row-container button-container button-game-again"
-                             onClick={() => startNewGame()}>
-                            Game again?
-                        </div>
-
-                        <div className="sub-container last-row-container button-container button-exit"
-                             onClick={() => exit()}>
-                            Exit
-                        </div>
-                    </div>
+                <div className="button-container button-game-again"
+                     onClick={() => startNewGame()}>
+                    Game again?
                 </div>
 
-            </div>
+                <div className="button-container button-exit"
+                     onClick={() => exit()}>
+                    Exit
+                </div>
+                </div>
 
         </div>
     </BaseContainer>

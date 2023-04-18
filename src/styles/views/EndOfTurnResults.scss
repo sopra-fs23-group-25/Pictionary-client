@@ -12,8 +12,23 @@
     height: 700px;
     left: 83px;
     top: 69px;
+    -webkit-animation-duration: 30s;animation-duration: 30s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
 
 }
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
 
 .sub-container-players {
   //width: 100%;

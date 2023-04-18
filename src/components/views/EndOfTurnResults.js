@@ -5,6 +5,8 @@ import "styles/views/EndOfTurnResults.scss"
 import "styles/views/Login.scss"
 import {api, handleError} from "../../helpers/api";
 import {Spinner} from "../ui/Spinner";
+//import { setTimeout } from "timers/promises";
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -101,13 +103,20 @@ MOCKS
 
   const history = useHistory();
   const [users, setUsers] = useState(null);
+  function sleep(ms) {
+        return new Promise(val => setTimeout(val, ms));
+    }
 
     const fetchData = async () => {
         try {
             //URL NOCH ANPASSEN
-            //const response = await api.get("/lobbies/{lobbyId}/users");
-            //setUsers(response.data);
+            //const response_users = await api.get("/lobbies/{lobbyId}/users");
+            //const response_guesses = await api.get("/games/{lobbyId}/playerguess");
+            //setUsers(response_users.data);
+            //setGuesses(response_guesses.data);
             setUsers(mockusers);
+            //await sleep(1000);
+            //document.getElementById("base-container").style.visibility = "hidden";
         } catch (error) {
             console.error(
                     `Something went wrong while fetching the lobbies: \n${handleError(
@@ -136,7 +145,7 @@ MOCKS
 
 
   return (
-    <BaseContainer>
+    <BaseContainer id="base-container">
         <div className="popup">
             <div className="sub-container-players">
                 <div className="sub-container-players header-container">
