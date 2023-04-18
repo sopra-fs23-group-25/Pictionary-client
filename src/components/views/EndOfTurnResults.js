@@ -94,6 +94,7 @@ MOCKS
     u5.word = "dog";
     mockusers.push(u5);
 
+
     /*
 MOCKS
  */
@@ -159,6 +160,9 @@ MOCKS
                         </div>
                     </div>
                     {userListContent}
+                </div>
+                <div className = "sub-container-players flag-container">
+
                 </div>
                 <div className="sub-container-players header-nextRound">
                     Get ready for Round 4!!!

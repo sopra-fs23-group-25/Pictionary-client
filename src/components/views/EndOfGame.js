@@ -133,12 +133,16 @@ MOCKS
   return (
     <BaseContainer>
         <div className="popup">
+            <div className="trophy">
+
+            </div>
             <div className="sub-container">
                 <div className="sub-container header-container">
                     <h1>
                         Final Scores
                     </h1>
                 </div>
+
                 <div className="sub-container sub-container-list">
                     <div className="sub-container sub-container-list header">
                         <div className="sub-container sub-container-list header position">
@@ -153,17 +157,28 @@ MOCKS
                     </div>
                     {userListContent}
                 </div>
-                <div className="sub-container button-container">
-                    <div className="sub-container button-container button-game-again"
-                         onClick={() => startNewGame()}>
-                        Game again?
-                    </div>
 
-                    <div className="sub-container button-container button-exit"
-                         onClick={() => exit()}>
-                        Exit
+                <div className="sub-container last-row-container">
+                    <div className ="sub-container last-row-container white-space">
+
+                    </div>
+                    <div className="sub-container last-row-container flag">
+
+                    </div>
+                    <div className="sub-container last-row-container button-container">
+
+                        <div className="sub-container last-row-container button-container button-game-again"
+                             onClick={() => startNewGame()}>
+                            Game again?
+                        </div>
+
+                        <div className="sub-container last-row-container button-container button-exit"
+                             onClick={() => exit()}>
+                            Exit
+                        </div>
                     </div>
                 </div>
+
             </div>
 
         </div>

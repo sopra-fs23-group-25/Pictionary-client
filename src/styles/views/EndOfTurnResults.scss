@@ -56,7 +56,7 @@
     }
     &.sub-container-list {
         position: relative;
-        height: 80%;
+        height: 50%;
         width: 100%;
         display: flex;
         align-items: flex-start;
@@ -205,6 +205,22 @@
             }
 
         }
+    }
+    &.flag-container{
+
+
+        position: absolute;
+        max-width: 400px;
+        height: 100%;
+        top: 72%;
+        left: 72%;
+        transform: translateX(-50%);
+
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("../../images/Fahne.png");
+        //z-index: 1;
+
     }
 
     &.header-nextRound{
