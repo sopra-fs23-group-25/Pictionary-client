@@ -1,4 +1,4 @@
-import "styles/views/Lobby/LobbySettings.scss";
+import "styles/views/LobbySettings.scss";
 
 const RangeSelection = ({ setter, state, min, max, step, disabled }) => {
   return (

@@ -40,7 +40,7 @@ const Login = (props) => {
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
-      localStorage.setItem("userId", user.userId);
+      localStorage.setItem("id", user.id);
 
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);
