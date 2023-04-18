@@ -53,7 +53,7 @@ const DrawingBoard = forwardRef(
         canvas.removeEventListener("mouseup", handleMouseUp);
         canvas.removeEventListener("mouseout", handleMouseOut);
       };
-    }, [color, lineWidth, isPainter, ref]);
+    }, [color, lineWidth, isPainter, ref, sendDrawingMessage]);
 
     return (
       <canvas
