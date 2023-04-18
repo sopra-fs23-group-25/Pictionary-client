@@ -10,9 +10,10 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 
 import { useState, useRef, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 
-const GameView = () => {
+const GameView = (props) => {
   //Refs
   const canvasRef = useRef(null);
   const clientRef = useRef(null);
@@ -23,15 +24,25 @@ const GameView = () => {
 
   //Roles
   const [isPainter, setIsPainter] = useState(true);
-  // const isHost = true;
+  const [isHost, setIsHost] = useState(false);
 
-  // get players as props from Server
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    // this information was passed while creating/joining lobby
+    const isHost = location?.state?.isHost || false;
+    console.log("HOST: ", isHost);
+    setIsHost(isHost);
+  }, [props, location]);
+
+  // get players from Server and Sort
   const players = [
-    { name: "Player 1", score: 100, role: "guesser" },
     { name: "Player 2", score: 90, role: "guesser" },
+    { name: "Player 1", score: 100, role: "guesser" },
     { name: "Player 3", score: 80, role: "painter" },
     { name: "Player 4", score: 70, role: "guesser" },
-  ];
+  ].sort((a, b) => b.score - a.score);
 
   //Game Logic - Timer
   // const [remainingTime, setRemainingTime] = useState(0);
@@ -56,11 +67,16 @@ const GameView = () => {
     console.log("default value");
   }, []);
 
+  // ClearCanvas
   function clearCanvas() {
     setColor("black");
     setLineWidth(5);
     const context = canvasRef.current.getContext("2d");
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+  }
+
+  function navigateToLobby() {
+    history.push("/lobbies");
   }
 
   // WebSocket functions - TODO: refactor and extract
@@ -167,6 +183,8 @@ const GameView = () => {
 
       <div className="game small-container">
         <div className="game small-container sub-container1">
+          {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
+          {isHost ? <button>Start Game</button> : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
         <div className="game small-container sub-container2">

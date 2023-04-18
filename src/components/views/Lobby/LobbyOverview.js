@@ -73,7 +73,10 @@ const LobbyOverview = () => {
   }
 
   const navigateToGamePage = (lobbyId) => {
-    history.push(`/game/${lobbyId}`);
+    history.push({
+      pathname: `/game/${lobbyId}`,
+      state: { isHost: false },
+    });
   };
 
   const navigateToLobbySettings = () => {

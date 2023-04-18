@@ -10,7 +10,7 @@ const Socket = (props) => {
 
   function onConnect() {
     console.log("connected");
-    props.sendJoinGameMessage();
+    //props.sendJoinGameMessage();
     //send-message to lobby
   }
 
