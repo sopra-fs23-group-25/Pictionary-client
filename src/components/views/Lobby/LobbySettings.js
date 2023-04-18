@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import RangeSelection from "components/ui/RangeSelection";
 import { apiWithAuth } from "helpers/api";
-import "styles/views/LobbySettings.scss";
+import "styles/views/Lobby/LobbySettings.scss";
 
 const LobbySettings = () => {
   const history = useHistory();
@@ -14,22 +14,34 @@ const LobbySettings = () => {
 
   async function createLobby() {
     try {
+      const userId = localStorage.getItem("userId");
+
       const requestBody = JSON.stringify({
         lobbyName: lobbyName,
         timePerRound: selectedTime,
         nrOfRounds: selectedRounds,
+        maxNrOfPlayers: selectedNrOfPlayers,
+        hostId: userId,
       });
 
       const token = localStorage.getItem("token");
-      await apiWithAuth(token).post("/lobbies", requestBody);
+      const response = await apiWithAuth(token).post("/lobbies", requestBody);
 
       alert(
         `you created a new lobby: ${lobbyName} \n --> Redirect to Game-Page`
       );
+      navigateToGamePage(response.data.lobbyId);
     } catch (error) {
       alert("Something went wrong while creating a new lobby! See console");
     }
   }
+
+  const navigateToGamePage = (lobbyId) => {
+    history.push({
+      pathname: `/game/${lobbyId}`,
+      state: { isHost: true },
+    });
+  };
 
   return (
     <div className="lobbysettings">
@@ -81,6 +93,7 @@ const LobbySettings = () => {
         <button
           onClick={() => createLobby()}
           className="lobbysettings button-container button confirm"
+          disabled={!lobbyName}
         >
           CONFIRM
         </button>

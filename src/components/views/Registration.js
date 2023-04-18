@@ -77,7 +77,7 @@ const Register = (props) => {
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
-      localStorage.setItem("id", user.id);
+      localStorage.setItem("userId", user.userId);
 
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);
