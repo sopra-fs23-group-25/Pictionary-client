@@ -3,9 +3,8 @@ import { LobbyGuard } from "components/routing/routeProtectors/LobbyGuard";
 import { LoginGuard } from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
 import Registration from "components/views/Registration";
-import LobbyOverview from "components/views/Lobby/LobbyOverview";
-import LobbySettings from "components/views/Lobby/LobbySettings";
-import Game from "components/views/Game/Game";
+import LobbyOverview from "components/views/LobbyOverview";
+import LobbySettings from "components/views/LobbySettings";
 
 /**
  * Main router of your application.
@@ -36,10 +35,6 @@ const AppRouter = () => {
           <LobbyGuard>
             <LobbyOverview />
           </LobbyGuard>
-        </Route>
-
-        <Route path="/game/:id">
-          <Game />
         </Route>
 
         <Route exact path="/lobbysettings">
