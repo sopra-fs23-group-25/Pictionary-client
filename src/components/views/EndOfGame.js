@@ -28,14 +28,14 @@ class User {
 
 const UserItem = ({ user }) => {
   return (
-    <div className="sub-container sub-container-list list">
-      <div className="sub-container sub-container-list list position">
+    <div className="sub-container-end-game sub-container-list list">
+      <div className="sub-container-end-game sub-container-list list position">
         {user.position}
       </div>
-      <div className="sub-container sub-container-list list username">
+      <div className="sub-container-end-game sub-container-list list username">
         {user.username}
       </div>
-      <div className="sub-container sub-container-list list points">
+      <div className="sub-container-end-game sub-container-list list points">
         {user.points}
       </div>
     </div>
@@ -131,20 +131,20 @@ MOCKS
     <BaseContainer>
       <div className="popup-endofgame">
         <div className="trophy"></div>
-        <div className="sub-container">
-          <div className="sub-container header-container">
+        <div className="sub-container-end-game">
+          <div className="sub-container-end-game header-container">
             <h1>Final Scores</h1>
           </div>
 
-          <div className="sub-container sub-container-list">
-            <div className="sub-container sub-container-list header">
-              <div className="sub-container sub-container-list header position">
+          <div className="sub-container-end-game sub-container-list">
+            <div className="sub-container-end-game sub-container-list header">
+              <div className="sub-container-end-game sub-container-list header position">
                 Position
               </div>
-              <div className="sub-container sub-container-list header name">
+              <div className="sub-container-end-game sub-container-list header name">
                 Username
               </div>
-              <div className="sub-container sub-container-list header points">
+              <div className="sub-container-end-game sub-container-list header points">
                 Final Points
               </div>
             </div>
@@ -152,15 +152,18 @@ MOCKS
           </div>
         </div>
         <div className="flag"></div>
-        <div className="button-container">
+        <div className="button-container-end-game">
           <div
-            className="button-container button-game-again"
+            className="button-container-end-game button-game-again"
             onClick={() => startNewGame()}
           >
             Game again?
           </div>
 
-          <div className="button-container button-exit" onClick={() => exit()}>
+          <div
+            className="button-container-end-game button-exit"
+            onClick={() => exit()}
+          >
             Exit
           </div>
         </div>
