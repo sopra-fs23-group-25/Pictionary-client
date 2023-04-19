@@ -1,0 +1,310 @@
+@import "styles/theme";
+
+.popup {
+  background: $background-color;
+  border-radius: $box-radius;
+  box-shadow: $box-shadow;
+
+    position: relative;
+    //width: 916.48px;
+    width:90%;
+    //height: 875px;
+    height: 700px;
+    left: 83px;
+    top: 69px;
+    -webkit-animation-duration: 30s;animation-duration: 30s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+
+.sub-container-players {
+  //width: 100%;
+  //height: 100%;
+    position: absolute;
+    width: 70%;
+    height: 100%;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+    align-items: flex-start;
+
+    &.header-container {
+        margin-top: 10%;
+        height: 15%;
+        width: 70%;
+        position: relative;
+        //width: 391px;
+        //height: 70px;
+        //left: 164px;
+        //top: 232px;
+        //top: 100px;
+        //left:100px;
+        //margin-top: 163px;
+        //margin-left:81px;
+        color: $accent-color;
+        display: flex;
+        align-items: flex-start;
+        margin-left: 15%;
+        flex-direction: column;
+        justify-content: left;
+
+        &.h1 {
+            font-size: 2.5em;
+            margin-top: 0.3em;
+            margin-bottom: 0em;
+        }
+
+
+    }
+    &.sub-container-list {
+        position: relative;
+        height: 50%;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        font-weight: 600;
+        overflow-y: auto;
+        margin-block-end: 7px;
+
+
+        &.header {
+            margin-left: 5%;
+            position: relative;
+            display: flex;
+            height: 20px;
+            font-size: 14px;
+            flex-direction: row;
+            font-weight: 600;
+            overflow: hidden;
+            color: #ABADB0;
+            &.position {
+                //justify-content: center;
+                margin-left: 4%;
+                width: 10%;
+
+                display: flex;
+                //align-items: center;
+                justify-content: center;
+                text-align: center;
+
+                //overflow: hidden;
+
+                //padding-left: 2%;
+            }
+
+            &.name {
+                //justify-content: center;
+                margin-left: 3%;
+                width: 15%;
+                overflow: hidden;
+                justify-content: center;
+                text-align: center;
+
+                //padding-left: 10px;
+            }
+
+            &.points {
+
+                //justify-content: center;
+                text-align: center;
+                overflow: hidden;
+                width: 15%;
+                justify-content: center;
+                text-align: center;
+                //padding-left: 10px;
+            }
+            &.guessed-word {
+                margin-left: 0%;
+                //justify-content: left;
+                text-align: center;
+                overflow: hidden;
+                width: 20%;
+                justify-content: center;
+                text-align: center;
+                //padding-right: 5px;
+            }
+
+
+        }
+        &.list {
+            margin-left: 5%;
+            position: relative;
+            display: flex;
+            font-size: 18px;
+            overflow: hidden;
+            flex-direction: row;
+            height: 23px;
+            border-radius: $box-radius;
+
+
+            &.position {
+                width: 7%;
+                overflow: hidden;
+                color: black;
+
+                font-weight: 600;
+                font-size: 15px;
+                font-style: normal;
+
+                display: flex;
+                //align-items: center;
+                justify-content: center;
+                text-align: center;
+                background: $list-color;
+
+            }
+
+            &.name {
+                margin-left: 2%;
+                width: 23%;
+                overflow: hidden;
+                color: black;
+
+                font-weight: 600;
+                font-size: 15px;
+                font-style: normal;
+
+                display: flex;
+                //align-items: center;
+                justify-content: center;
+                text-align: center;
+                background: $list-color;
+            }
+
+            &.points {
+                margin-left: 2%;
+                width: 10%;
+                overflow: hidden;
+                color: black;
+
+                font-weight: 600;
+                font-size: 15px;
+                font-style: normal;
+
+                display: flex;
+                //align-items: center;
+                justify-content: center;
+                text-align: center;
+                background: $list-color;
+            }
+
+            &.guessed-word {
+                margin-left: 3%;
+                width: 20%;
+                overflow: hidden;
+                color: black;
+
+                font-weight: 600;
+                font-size: 15px;
+                font-style: normal;
+
+                display: flex;
+                //align-items: center;
+                justify-content: center;
+                text-align: center;
+                background: $list-color;
+            }
+
+        }
+    }
+    &.flag-container{
+
+
+        position: absolute;
+        max-width: 400px;
+        height: 100%;
+        top: 72%;
+        left: 72%;
+        transform: translateX(-50%);
+
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("../../images/Fahne.png");
+        //z-index: 1;
+
+    }
+
+    &.header-nextRound{
+        position: absolute;
+        //margin-top: 10%;
+        //justify-content: right;
+        //width: 280.28px;
+        width: 40%;
+        height: 34.36px;
+        left: 600px;
+        top: 20%;
+        //font-family: 'Outfit';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        //line-height: 100%;
+        //z-index: 1001;
+        /* or 220% */
+        text-align: center;
+
+        background: #2B86FB;
+        border-radius: 50px;
+
+        transform: matrix(0.99, -0.16, 0.15, 0.99, 0, 0);
+
+    }
+
+    &.header-nextPainter{
+
+        position: absolute;
+        //margin-top: 10%;
+        //justify-content: right;
+        //width: 300.28px;
+        width: 45%;
+        height: 34.36px;
+        left: 600px;
+        top: 30%;
+        text-align: center;
+        font-style: normal;
+
+        font-weight: 600;
+        font-size: 20px;
+        background: #FDDF77;
+        //filter: blur(1px);
+        border-radius: 50px;
+        transform: rotate(-0.21deg);
+        color: black;
+    }
+
+    &.header-correct-word{
+
+        position: absolute;
+        width: 40%;
+        //height: 34.36px;
+        height: 5%;
+        left: 602.22px;
+        top: 50%;
+        color: black;
+
+        font-weight: 600;
+        font-size: 20px;
+        font-style: normal;
+        background: rgba(117, 187, 249, 0.29);
+        border-radius: 50px;
+        transform: rotate(10.07deg);
+        text-align: center;
+    }
+
+}
+
+
+
