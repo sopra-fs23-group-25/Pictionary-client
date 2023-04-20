@@ -54,7 +54,7 @@ const EndOfTurn = () => {
   const fetchData = async () => {
     try {
       //URL NOCH ANPASSEN
-      //const response = await api.get("/lobbies/{lobbyId}/turnresult");
+      //const response = await api.get("/lobbies/{lobbyId}/game/turnresult");
       //setUsers(response.data);
       //setGuesses(response.data);
       /*
