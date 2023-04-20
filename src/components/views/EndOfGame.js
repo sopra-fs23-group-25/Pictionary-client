@@ -48,8 +48,7 @@ const EndOfGame = () => {
 
   const fetchData = async () => {
     try {
-      //URL NOCH ANPASSEN
-      //const response = await api.get("/lobbies/{lobbyId}/end");
+      //const response = await api.get("/lobbies/{lobbyId}/result");
       //setUsers(response.data);
 
       /*
@@ -117,13 +116,14 @@ MOCKS
   }
 
   const startNewGame = () => {
-    //api.delete("/games/{lobbyId}");
-    //api.post("/games");
+    //api.delete("/lobbies/{lobbyId}/game");
+    //api.post("/lobbies/{lobbyId}/game");
     history.push("/endofturn");
   };
 
   const exit = () => {
-    //api.delete("/games/{lobbyId}");
+      //api.delete("/lobbies/{lobbyId}/game");
+    //api.delete("/lobbies/{lobbyId}");
     history.push("/endofturn");
   };
 

@@ -23,7 +23,7 @@ class User {
     this.position = null;
     this.username = null;
     this.points = null;
-    this.word = null;
+    this.guess = null;
     Object.assign(this, data);
   }
 }
@@ -41,23 +41,22 @@ const UserItem = ({ user }) => {
         {user.points}
       </div>
       <div className="sub-container-players sub-container-list list guessed-word">
-        {user.word}
+        {user.guess}
       </div>
     </div>
   );
 };
 
-const EndOfTurn = (props) => {
+const EndOfTurn = () => {
   // const history = useHistory();
   const [users, setUsers] = useState(null);
 
   const fetchData = async () => {
     try {
       //URL NOCH ANPASSEN
-      //const response_users = await api.get("/lobbies/{lobbyId}/users");
-      //const response_guesses = await api.get("/games/{lobbyId}/playerguess");
-      //setUsers(response_users.data);
-      //setGuesses(response_guesses.data);
+      //const response = await api.get("/lobbies/{lobbyId}/turnresult");
+      //setUsers(response.data);
+      //setGuesses(response.data);
       /*
 MOCKS
  */
@@ -66,35 +65,35 @@ MOCKS
       u1.username = "Mionel Lessi";
       u1.position = "#1";
       u1.points = "+50";
-      u1.word = "duck";
+      u1.guess = "duck";
       mockusers.push(u1);
 
       const u2 = new User();
       u2.username = "Foger Rederer";
       u2.position = "#2";
       u2.points = "+30";
-      u2.word = "duck";
+      u2.guess = "duck";
       mockusers.push(u2);
 
       const u3 = new User();
       u3.username = "The Two";
       u3.position = "#3";
       u3.points = "+0";
-      u3.word = "";
+      u3.guess = "";
       mockusers.push(u3);
 
       const u4 = new User();
       u4.username = "The Twasaso";
       u4.position = "#4";
       u4.points = "+0";
-      u4.word = "bird";
+      u4.guess = "bird";
       mockusers.push(u4);
 
       const u5 = new User();
       u5.username = "LittleBigSmall";
       u5.position = "#5";
       u5.points = "+0";
-      u5.word = "dog";
+      u5.guess = "dog";
       mockusers.push(u5);
 
       /*
