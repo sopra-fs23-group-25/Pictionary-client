@@ -53,7 +53,7 @@ const LobbyOverview = () => {
 
   async function joinLobby(lobbyId) {
     try {
-      const userId = localStorage.getItem("id");
+      const userId = localStorage.getItem("userId");
 
       const requestBody = JSON.stringify({
         userId: userId,
