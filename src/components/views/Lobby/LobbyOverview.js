@@ -53,7 +53,7 @@ const LobbyOverview = () => {
 
   async function joinLobby(lobbyId) {
     try {
-      const userId = localStorage.getItem("userId");
+      const userId = sessionStorage.getItem("userId");
 
       const requestBody = JSON.stringify({
         userId: userId,
@@ -97,9 +97,9 @@ const LobbyOverview = () => {
 
   const logout = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await apiWithAuth(token).delete("/sessions");
-      localStorage.clear();
+      sessionStorage.clear();
       history.push("/login");
     } catch (error) {
       alert("Something went wrong while logging out!");

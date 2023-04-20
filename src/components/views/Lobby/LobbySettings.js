@@ -14,7 +14,7 @@ const LobbySettings = () => {
 
   async function createLobby() {
     try {
-      const userId = localStorage.getItem("userId");
+      const userId = sessionStorage.getItem("userId");
 
       const requestBody = JSON.stringify({
         lobbyName: lobbyName,
@@ -24,7 +24,7 @@ const LobbySettings = () => {
         hostId: userId,
       });
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await apiWithAuth(token).post("/lobbies", requestBody);
 
       alert(

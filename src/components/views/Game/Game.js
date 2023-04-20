@@ -55,7 +55,7 @@ const GameView = (props) => {
   // lobbysettings(time, rounds, ), lobbyId, userId,
 
   const lobbyId = 1;
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   // const timePerRound = 5;
 
   //setting Default Values on Render
