@@ -12,11 +12,13 @@ import "styles/views/Game/Game.scss";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
+import CountDownTimer from "./CountDownTimer";
 
 const GameView = (props) => {
   //Refs
   const canvasRef = useRef(null);
   const clientRef = useRef(null);
+  const timerRef = useRef(null);
 
   //Drawing Board
   const [color, setColor] = useState("black");
@@ -44,9 +46,8 @@ const GameView = (props) => {
   ].sort((a, b) => b.score - a.score);
 
   //Game Logic - Timer
-  // const [remainingTime, setRemainingTime] = useState(0);
-  // const [isRunning, setIsRunning] = useState(false);
   const [isEndOfRound, setIsEndOfRound] = useState(true);
+  const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
   const nrOfRounds = 3;
   const [round, setRound] = useState(0);
@@ -60,6 +61,7 @@ const GameView = (props) => {
 
   //setting Default Values on Render
   useEffect(() => {
+    setGameOver(false);
     setRound(0);
     setIsEndOfRound(true);
     setIsPainter(true);
@@ -139,7 +141,64 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
       console.log(msg);
+    } else if (topic === websocket_topics(lobbyId).game_state) {
+      if (msg === "start game") {
+        startGame();
+      } else if (msg === "start round") {
+        startRound();
+      } else if (msg === "end round") {
+        endRound();
+      } else if (msg === "end game") {
+        endGame();
+      }
     }
+  };
+
+  //Game Logic - Sequence - Timer
+  function handleClickStartGame() {
+    // POST game
+    //send start game over WS
+    // sendGameStateMessage("start game");
+    //set started: true -> to hide button for host
+    timerRef.current.endRound();
+  }
+
+  function startGame() {
+    // show startGame Component
+    setIsEndOfRound(true);
+    timerRef.current.startGame();
+    // GET Roles etc
+    // update is Painter
+  }
+
+  function startRound() {
+    // isEndOfRound: false
+    setIsEndOfRound(false);
+    timerRef.current.startRound();
+    // show Drawing Board
+  }
+
+  function endRound() {
+    // isEndOfRound: true
+    setIsEndOfRound(true);
+    timerRef.current.endRound();
+    // show Round Result
+    // GET ROUND RESULT (roles, word)
+    // setWord, setPlayers
+    // isPainter check
+  }
+
+  function endGame() {
+    // render End Of Game
+  }
+
+  //Websocket Sending Message
+  const sendGameStateMessage = (message) => {
+    const requestBody = JSON.stringify({ task: message });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).game_state,
+      requestBody
+    );
   };
 
   return (
@@ -162,7 +221,15 @@ const GameView = (props) => {
               Drawing Board
             </div>
             <div className="board header-container sub-container3">
-              <div className="clock-container"></div>
+              <div className="clock-container">
+                <CountDownTimer
+                  isEndOfRound={isEndOfRound}
+                  gameOver={gameOver}
+                  isHost={isHost}
+                  sendGameStateMessage={sendGameStateMessage}
+                  ref={timerRef}
+                ></CountDownTimer>
+              </div>
               <div className="rounds-container">
                 Round {round}/{nrOfRounds}
                 {isEndOfRound ? " Round Result" : " Drawing"}
@@ -182,7 +249,9 @@ const GameView = (props) => {
       <div className="game small-container">
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
-          {isHost ? <button>Start Game</button> : null}
+          {!isHost ? (
+            <button onClick={handleClickStartGame}>Start Game</button>
+          ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
         <div className="game small-container sub-container2">
