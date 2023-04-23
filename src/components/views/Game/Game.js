@@ -8,7 +8,7 @@ import DrawingBoard, { drawOnBoard } from "./DrawingBoard";
 import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
-
+import { api } from "helpers/api";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
@@ -30,15 +30,46 @@ const GameView = (props) => {
 
   const location = useLocation();
 
+  //Lobby-Information
+  const [lobbyId, setLobbyId] = useState(1);
+  const [players, setPlayers] = useState(
+    [
+      { name: "Player 2", score: 90, role: "guesser" },
+      { name: "Player 1", score: 100, role: "guesser" },
+      { name: "Player 3", score: 80, role: "painter" },
+      { name: "Player 4", score: 70, role: "guesser" },
+    ].sort((a, b) => b.score - a.score)
+  );
+  const [nrOfRounds, setNrOfRounds] = useState(null);
+  const [timePerRound, setTimePerRound] = useState(null);
+  const [currentRound, setCurrentRound] = useState(null);
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
     const isHost = location?.state?.isHost || false;
+    const lobbyId = location?.state?.lobbyId || 1;
     console.log("HOST: ", isHost);
+    setLobbyId(lobbyId);
     setIsHost(isHost);
   }, [props, location]);
 
+  useEffect(() => {
+    async function fetchLobbyInformation() {
+      try {
+        const response = await api.get(`/lobbies/${lobbyId}`);
+        setTimePerRound(response.data.timePerRound);
+        setNrOfRounds(response.data.nrOfRounds);
+        setPlayers(response.data.players);
+      } catch (error) {
+        alert(`Could not fetch Lobby`);
+      }
+    }
+
+    fetchLobbyInformation();
+  }, [lobbyId]);
+
   // get players from Server and Sort
-  const players = [
+  const players_mock = [
     { name: "Player 2", score: 90, role: "guesser" },
     { name: "Player 1", score: 100, role: "guesser" },
     { name: "Player 3", score: 80, role: "painter" },
@@ -49,13 +80,11 @@ const GameView = (props) => {
   const [isEndOfRound, setIsEndOfRound] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
-  const nrOfRounds = 3;
   const [round, setRound] = useState(0);
 
   // Information Needed on render page:
   // lobbysettings(time, rounds, ), lobbyId, userId,
 
-  const lobbyId = 1;
   const userId = sessionStorage.getItem("userId");
   // const timePerRound = 5;
 
