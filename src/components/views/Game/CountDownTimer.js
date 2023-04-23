@@ -22,13 +22,18 @@ const CountDownTimer = forwardRef((props, ref) => {
 
   const { isEndOfRound, gameOver, isHost } = props;
   const { sendGameStateMessage } = props;
+  const { updateGame, deleteTurn, createTurn } = props;
 
-  function handleTimerComplete() {
+  async function handleTimerComplete() {
     if (isHost) {
       if (!gameOver) {
         if (isEndOfRound) {
+          // DELETE/POST TURN
+          await deleteTurn();
+          await createTurn();
           sendGameStateMessage("start round");
         } else {
+          await updateGame();
           sendGameStateMessage("end round");
         }
       } else {

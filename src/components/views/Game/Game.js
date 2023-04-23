@@ -183,20 +183,62 @@ const GameView = (props) => {
     }
   };
 
+  async function createGame() {
+    await api.post(`/lobbies/${lobbyId}/game`);
+  }
+
+  async function fetchGame() {
+    const response = await api.get(`/lobbies/${lobbyId}/game`);
+    return response;
+  }
+
+  async function updateGame() {
+    const response = await api.put(`/lobbies/${lobbyId}/game`);
+    return response;
+  }
+
+  async function deleteTurn() {
+    await api.delete(`/lobbies/${lobbyId}/game/turn`);
+  }
+
+  async function createTurn() {
+    await api.post(`/lobbies/${lobbyId}/game/turn`);
+  }
+
+  async function fetchTurn() {
+    const response = await api.get(`/lobbies/${lobbyId}/game/turn`);
+    return response;
+  }
+
+  function configurePainter() {
+    const userId = sessionStorage.get("userId");
+    if (players.find((x) => x.userId === userId).role === "PAINTER") {
+      setIsPainter(true);
+    } else {
+      setIsPainter(false);
+    }
+  }
+
   //Game Logic - Sequence - Timer
   function handleClickStartGame() {
     // POST game
+    createGame();
     //send start game over WS
+    sendGameStateMessage("start game");
     // sendGameStateMessage("start game");
     //set started: true -> to hide button for host
-    timerRef.current.endRound();
+    // timerRef.current.endRound();
   }
 
-  function startGame() {
+  async function startGame() {
     // show startGame Component
     setIsEndOfRound(true);
     timerRef.current.startGame();
-    // GET Roles etc
+    // GET Roles
+    const response = await fetchGame();
+    setPlayers(response.data.players);
+    configurePainter();
+    // setPlayers & setIsPainter
     // update is Painter
   }
 
@@ -207,12 +249,17 @@ const GameView = (props) => {
     // show Drawing Board
   }
 
-  function endRound() {
+  async function endRound() {
     // isEndOfRound: true
     setIsEndOfRound(true);
     timerRef.current.endRound();
     // show Round Result
     // GET ROUND RESULT (roles, word)
+    const turnResponse = await fetchTurn();
+
+    const gameResponse = await fetchGame();
+    setPlayers(gameResponse.data.players);
+    configurePainter();
     // setWord, setPlayers
     // isPainter check
   }
@@ -256,6 +303,9 @@ const GameView = (props) => {
                   gameOver={gameOver}
                   isHost={isHost}
                   sendGameStateMessage={sendGameStateMessage}
+                  updateGame={updateGame}
+                  deleteTurn={deleteTurn}
+                  createTurn={createTurn}
                   ref={timerRef}
                 ></CountDownTimer>
               </div>
