@@ -44,13 +44,18 @@ const CountDownTimer = forwardRef((props, ref) => {
     console.log("Timer Ended");
   }
 
-  function handleTimerCompleteNew() {
+  async function handleTimerCompleteNew() {
     if (isHost) {
       if (gameState === "start game") {
+        await createTurn();
         sendGameStateMessage("start round");
       } else if (gameState === "start round") {
+        console.log("befor put game");
+        await updateGame();
         sendGameStateMessage("end round");
       } else if (gameState === "end round") {
+        await deleteTurn();
+        await createTurn();
         sendGameStateMessage("start round");
       }
     }
@@ -69,7 +74,7 @@ const CountDownTimer = forwardRef((props, ref) => {
   }
 
   function startRound() {
-    startTimer(7);
+    startTimer(10);
   }
 
   function endRound() {

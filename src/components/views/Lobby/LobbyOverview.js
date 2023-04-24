@@ -15,7 +15,7 @@ const LobbyItem = ({ lobby, handleClick }) => {
         {lobby.lobbyName}
       </div>
       <div className="sub-container sub-container-list list size">
-        {lobby.nrOfPlayers}
+        {lobby.players.length}/{lobby.maxNrOfPlayers}
       </div>
     </div>
   );

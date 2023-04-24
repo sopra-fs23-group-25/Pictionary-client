@@ -24,6 +24,10 @@ const GameView = (props) => {
   const [color, setColor] = useState("black");
   const [lineWidth, setLineWidth] = useState(5);
 
+  //Word
+  const [currentWord, setCurrentWord] = useState("");
+  const [currentGuess, setCurrentGuess] = useState("");
+
   //Roles
   const [isPainter, setIsPainter] = useState(true);
   const [isHost, setIsHost] = useState(false);
@@ -32,14 +36,7 @@ const GameView = (props) => {
 
   //Lobby-Information
   const [lobbyId, setLobbyId] = useState(1);
-  const [players, setPlayers] = useState(
-    [
-      { name: "Player 2", score: 90, role: "guesser" },
-      { name: "Player 1", score: 100, role: "guesser" },
-      { name: "Player 3", score: 80, role: "painter" },
-      { name: "Player 4", score: 70, role: "guesser" },
-    ].sort((a, b) => b.score - a.score)
-  );
+  const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
   const [currentRound, setCurrentRound] = useState(null);
@@ -66,14 +63,6 @@ const GameView = (props) => {
 
     fetchLobbyInformation();
   }, [props, location]);
-
-  // get players from Server and Sort
-  const players_mock = [
-    { name: "Player 2", score: 90, role: "guesser" },
-    { name: "Player 1", score: 100, role: "guesser" },
-    { name: "Player 3", score: 80, role: "painter" },
-    { name: "Player 4", score: 70, role: "guesser" },
-  ].sort((a, b) => b.score - a.score);
 
   //Game Logic - Timer
   const [gameState, setGameState] = useState("default");
@@ -195,8 +184,7 @@ const GameView = (props) => {
   }
 
   async function updateGame() {
-    const response = await api.put(`/lobbies/${lobbyId}/game`);
-    return response;
+    await api.put(`/lobbies/${lobbyId}/game`);
   }
 
   async function deleteTurn() {
@@ -204,7 +192,8 @@ const GameView = (props) => {
   }
 
   async function createTurn() {
-    await api.post(`/lobbies/${lobbyId}/game/turn`);
+    const response = await api.post(`/lobbies/${lobbyId}/game/turn`);
+    return response;
   }
 
   async function fetchTurn() {
@@ -213,14 +202,14 @@ const GameView = (props) => {
   }
 
   function configurePainter() {
-    const userId = sessionStorage.getItem("userId");
-    console.log(userId);
-    console.log(players.find((user) => user.currentRole === "PAINTER").userId);
+    const userId = parseInt(sessionStorage.getItem("userId"));
     if (
       players.find((user) => user.currentRole === "PAINTER").userId === userId
     ) {
+      console.log("set painter to true");
       setIsPainter(true);
     } else {
+      console.log("set painter to false");
       setIsPainter(false);
     }
   }
@@ -240,7 +229,6 @@ const GameView = (props) => {
   async function handleClickStartGame() {
     // POST game
     const response = await createGame();
-    console.log("post game response:", response);
     //send start game over WS
     sendGameStateMessage("start game");
     // sendGameStateMessage("start game");
@@ -254,34 +242,37 @@ const GameView = (props) => {
     timerRef.current.startGame();
     // GET Roles
     const response = await fetchGame();
-    console.log("get game response:", response);
-    console.log(response.data.players);
+    console.log("fetch game", response);
     setPlayers(response.data.players);
-    console.log(players);
-
     configurePainter();
+    console.log(response.data);
     // setPlayers & setIsPainter
     // update is Painter
   }
 
-  function startRound() {
-    // isEndOfRound: false
-    // setIsEndOfRound(false);
+  async function startRound() {
     timerRef.current.startRound();
+    if (isPainter) {
+      const response = await fetchTurn(); // to get word
+      console.log("turn response", response);
+      setCurrentWord(response.data.word);
+    }
     // show Drawing Board
   }
 
-  function endRound() {
+  async function endRound() {
     // isEndOfRound: true
     //setIsEndOfRound(true);
     timerRef.current.endRound();
     // show Round Result
     // GET ROUND RESULT (roles, word)
-    //const turnResponse = await fetchTurn();
-
-    //const gameResponse = await fetchGame();
-    //setPlayers(gameResponse.data.players);
-    //configurePainter();
+    const turnResponse = await fetchTurn(); // to get Result
+    const gameResponse = await fetchGame(); // to get new Roles
+    console.log("turn response:", turnResponse);
+    console.log("game response:", gameResponse);
+    setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
+    //.sort((a, b) => b.score - a.score);
+    configurePainter();
     // setWord, setPlayers
     // isPainter check
   }
@@ -357,7 +348,9 @@ const GameView = (props) => {
         </div>
         <div className="game small-container sub-container2">
           {isPainter ? (
-            <WordToDrawContainer></WordToDrawContainer>
+            <WordToDrawContainer
+              currentWord={currentWord}
+            ></WordToDrawContainer>
           ) : (
             <GuessingContainer></GuessingContainer>
           )}
@@ -380,16 +373,16 @@ const GameView = (props) => {
 
 export default GameView;
 
-const WordToDrawContainer = () => {
+const WordToDrawContainer = ({ currentWord }) => {
   return (
     <div className="guessing-container">
       <h1>Word to paint</h1>
-      <div className="guessing-container word">duck</div>
+      <div className="guessing-container word">{currentWord}</div>
     </div>
   );
 };
 
-const GuessingContainer = () => {
+const GuessingContainer = ({ currentGuess }) => {
   return (
     <div className="guessing-container">
       <h1>Type in your guess</h1>
