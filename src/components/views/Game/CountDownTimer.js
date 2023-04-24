@@ -20,24 +20,38 @@ const CountDownTimer = forwardRef((props, ref) => {
   const [duration, setDuration] = useState(0);
   const [key, setKey] = useState(0);
 
-  const { isEndOfRound, gameOver, isHost } = props;
+  const { gameState, gameOver, isHost } = props;
   const { sendGameStateMessage } = props;
   const { updateGame, deleteTurn, createTurn } = props;
+  const { isEndOfRound } = props;
 
   async function handleTimerComplete() {
     if (isHost) {
       if (!gameOver) {
         if (isEndOfRound) {
           // DELETE/POST TURN
-          await deleteTurn();
-          await createTurn();
+          //await deleteTurn();
+          //await createTurn();
           sendGameStateMessage("start round");
         } else {
-          await updateGame();
+          //await updateGame();
           sendGameStateMessage("end round");
         }
       } else {
         sendGameStateMessage("end game");
+      }
+    }
+    console.log("Timer Ended");
+  }
+
+  function handleTimerCompleteNew() {
+    if (isHost) {
+      if (gameState === "start game") {
+        sendGameStateMessage("start round");
+      } else if (gameState === "start round") {
+        sendGameStateMessage("end round");
+      } else if (gameState === "end round") {
+        sendGameStateMessage("start round");
       }
     }
     console.log("Timer Ended");
@@ -55,10 +69,11 @@ const CountDownTimer = forwardRef((props, ref) => {
   }
 
   function startRound() {
-    startTimer(15);
+    startTimer(7);
   }
 
   function endRound() {
+    console.log("end round");
     startTimer(5);
   }
 
@@ -89,7 +104,7 @@ const CountDownTimer = forwardRef((props, ref) => {
         strokeLinecap="butt"
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
-        onComplete={() => handleTimerComplete()}
+        onComplete={() => handleTimerCompleteNew()}
       >
         {renderTime}
       </CountdownCircleTimer>

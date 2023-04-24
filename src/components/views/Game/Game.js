@@ -51,12 +51,11 @@ const GameView = (props) => {
     console.log("HOST: ", isHost);
     setLobbyId(lobbyId);
     setIsHost(isHost);
-  }, [props, location]);
 
-  useEffect(() => {
     async function fetchLobbyInformation() {
       try {
         const response = await api.get(`/lobbies/${lobbyId}`);
+        console.log(response);
         setTimePerRound(response.data.timePerRound);
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
@@ -66,7 +65,7 @@ const GameView = (props) => {
     }
 
     fetchLobbyInformation();
-  }, [lobbyId]);
+  }, [props, location]);
 
   // get players from Server and Sort
   const players_mock = [
@@ -77,6 +76,7 @@ const GameView = (props) => {
   ].sort((a, b) => b.score - a.score);
 
   //Game Logic - Timer
+  const [gameState, setGameState] = useState("default");
   const [isEndOfRound, setIsEndOfRound] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
@@ -152,6 +152,7 @@ const GameView = (props) => {
 
   // handle websocket (incoming) messages
   const onMessage = (msg, topic) => {
+    console.log(msg);
     if (topic === websocket_topics(lobbyId).drawing) {
       drawOnBoard(
         canvasRef,
@@ -171,20 +172,21 @@ const GameView = (props) => {
       //startGame();
       console.log(msg);
     } else if (topic === websocket_topics(lobbyId).game_state) {
-      if (msg === "start game") {
-        startGame();
-      } else if (msg === "start round") {
-        startRound();
-      } else if (msg === "end round") {
-        endRound();
-      } else if (msg === "end game") {
-        endGame();
+      if (msg.task === "start game") {
+        setGameState(msg.task);
+      } else if (msg.task === "start round") {
+        setGameState(msg.task);
+      } else if (msg.task === "end round") {
+        setGameState(msg.task);
+      } else if (msg.task === "end game") {
+        setGameState(msg.task);
       }
     }
   };
 
   async function createGame() {
-    await api.post(`/lobbies/${lobbyId}/game`);
+    const response = await api.post(`/lobbies/${lobbyId}/game`);
+    return response;
   }
 
   async function fetchGame() {
@@ -211,18 +213,34 @@ const GameView = (props) => {
   }
 
   function configurePainter() {
-    const userId = sessionStorage.get("userId");
-    if (players.find((x) => x.userId === userId).role === "PAINTER") {
+    const userId = sessionStorage.getItem("userId");
+    console.log(userId);
+    console.log(players.find((user) => user.currentRole === "PAINTER").userId);
+    if (
+      players.find((user) => user.currentRole === "PAINTER").userId === userId
+    ) {
       setIsPainter(true);
     } else {
       setIsPainter(false);
     }
   }
 
+  useEffect(() => {
+    console.log(gameState);
+    if (gameState === "start game") {
+      startGame();
+    } else if (gameState === "start round") {
+      startRound();
+    } else if (gameState === "end round") {
+      endRound();
+    }
+  }, [gameState]);
+
   //Game Logic - Sequence - Timer
-  function handleClickStartGame() {
+  async function handleClickStartGame() {
     // POST game
-    createGame();
+    const response = await createGame();
+    console.log("post game response:", response);
     //send start game over WS
     sendGameStateMessage("start game");
     // sendGameStateMessage("start game");
@@ -232,11 +250,15 @@ const GameView = (props) => {
 
   async function startGame() {
     // show startGame Component
-    setIsEndOfRound(true);
+    //setIsEndOfRound(true);
     timerRef.current.startGame();
     // GET Roles
     const response = await fetchGame();
+    console.log("get game response:", response);
+    console.log(response.data.players);
     setPlayers(response.data.players);
+    console.log(players);
+
     configurePainter();
     // setPlayers & setIsPainter
     // update is Painter
@@ -244,22 +266,22 @@ const GameView = (props) => {
 
   function startRound() {
     // isEndOfRound: false
-    setIsEndOfRound(false);
+    // setIsEndOfRound(false);
     timerRef.current.startRound();
     // show Drawing Board
   }
 
-  async function endRound() {
+  function endRound() {
     // isEndOfRound: true
-    setIsEndOfRound(true);
+    //setIsEndOfRound(true);
     timerRef.current.endRound();
     // show Round Result
     // GET ROUND RESULT (roles, word)
-    const turnResponse = await fetchTurn();
+    //const turnResponse = await fetchTurn();
 
-    const gameResponse = await fetchGame();
-    setPlayers(gameResponse.data.players);
-    configurePainter();
+    //const gameResponse = await fetchGame();
+    //setPlayers(gameResponse.data.players);
+    //configurePainter();
     // setWord, setPlayers
     // isPainter check
   }
@@ -299,7 +321,7 @@ const GameView = (props) => {
             <div className="board header-container sub-container3">
               <div className="clock-container">
                 <CountDownTimer
-                  isEndOfRound={isEndOfRound}
+                  gameState={gameState}
                   gameOver={gameOver}
                   isHost={isHost}
                   sendGameStateMessage={sendGameStateMessage}
@@ -311,7 +333,7 @@ const GameView = (props) => {
               </div>
               <div className="rounds-container">
                 Round {round}/{nrOfRounds}
-                {isEndOfRound ? " Round Result" : " Drawing"}
+                {gameState !== "start round" ? " Round Result" : " Drawing"}
               </div>
             </div>
           </div>
@@ -328,7 +350,7 @@ const GameView = (props) => {
       <div className="game small-container">
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
-          {!isHost ? (
+          {isHost ? (
             <button onClick={handleClickStartGame}>Start Game</button>
           ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
