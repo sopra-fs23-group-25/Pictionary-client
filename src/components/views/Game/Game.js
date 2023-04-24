@@ -27,6 +27,7 @@ const GameView = (props) => {
   //Word
   const [currentWord, setCurrentWord] = useState("");
   const [currentGuess, setCurrentGuess] = useState("");
+  const [guessSubmitted, setGuessSubmitted] = useState(false);
 
   //Roles
   const [isPainter, setIsPainter] = useState(true);
@@ -257,6 +258,8 @@ const GameView = (props) => {
       console.log("turn response", response);
       setCurrentWord(response.data.word);
     }
+    setGuessSubmitted(false);
+    setCurrentGuess("");
     // show Drawing Board
   }
 
@@ -352,7 +355,13 @@ const GameView = (props) => {
               currentWord={currentWord}
             ></WordToDrawContainer>
           ) : (
-            <GuessingContainer></GuessingContainer>
+            <GuessingContainer
+              currentGuess={currentGuess}
+              setCurrentGuess={setCurrentGuess}
+              guessSubmitted={guessSubmitted}
+              setGuessSubmitted={setGuessSubmitted}
+              lobbyId={lobbyId}
+            ></GuessingContainer>
           )}
         </div>
         <div className="game small-container sub-container3">
@@ -382,13 +391,42 @@ const WordToDrawContainer = ({ currentWord }) => {
   );
 };
 
-const GuessingContainer = ({ currentGuess }) => {
+const GuessingContainer = ({
+  currentGuess,
+  setCurrentGuess,
+  guessSubmitted,
+  setGuessSubmitted,
+  lobbyId,
+}) => {
+  async function submitGuess() {
+    console.log("submit guess", currentGuess);
+    const userId = sessionStorage.getItem("userId");
+    const requestBody = JSON.stringify({ userId, currentGuess });
+    //await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+    setGuessSubmitted(true);
+  }
+
   return (
     <div className="guessing-container">
-      <h1>Type in your guess</h1>
+      <h1>
+        {!guessSubmitted ? "Type in your guess " : "Your submitted guess"}
+      </h1>
       <div className="word-input-container">
-        <input className="word-input"></input>
-        <button className="word-input-button">Submit</button>
+        <input
+          value={currentGuess}
+          onChange={(e) => setCurrentGuess(e.target.value)}
+          disabled={guessSubmitted}
+          className="word-input"
+        ></input>
+        {!guessSubmitted ? (
+          <button
+            disabled={!currentGuess || guessSubmitted}
+            onClick={() => submitGuess()}
+            className="word-input-button"
+          >
+            Submit
+          </button>
+        ) : null}
       </div>
     </div>
   );
