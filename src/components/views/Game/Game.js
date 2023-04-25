@@ -269,9 +269,7 @@ const GameView = (props) => {
     const gameResponse = await fetchGame(); // to get new Roles
     console.log("turn response:", turnResponse);
     console.log("game response:", gameResponse);
-    setRoundResult(
-      turnResponse.data.players.guesses((a, b) => b.score - a.score)
-    );
+    setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
     //.sort((a, b) => b.score - a.score);
@@ -436,8 +434,12 @@ const GuessingContainer = ({
   async function submitGuess() {
     console.log("submit guess", currentGuess);
     const userId = sessionStorage.getItem("userId");
-    const requestBody = JSON.stringify({ userId, currentGuess });
-    await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+    const requestBody = JSON.stringify({ userId: userId, guess: currentGuess });
+    try {
+      await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+    } catch (error) {
+      console.log(error);
+    }
     setGuessSubmitted(true);
   }
 
