@@ -434,9 +434,13 @@ const GuessingContainer = ({
   async function submitGuess() {
     console.log("submit guess", currentGuess);
     const userId = sessionStorage.getItem("userId");
-    const requestBody = JSON.stringify({ userId: userId, guess: currentGuess });
+    const guess = currentGuess;
+    const requestBody = JSON.stringify({ userId: userId, guess: guess });
     try {
+        //console.log(us)
+        console.log(requestBody)
       await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+        console.log("here")
     } catch (error) {
       console.log(error);
     }
