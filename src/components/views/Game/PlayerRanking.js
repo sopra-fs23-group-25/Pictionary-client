@@ -5,6 +5,7 @@ import brush from "images/paintbrush.png";
 import textbox from "images/textbox.png";
 
 const PlayerRanking = ({ players }) => {
+  const userId = parseInt(sessionStorage.getItem("userId"));
   return (
     <div className="ranking-container">
       <div className="ranking-header">
@@ -15,16 +16,23 @@ const PlayerRanking = ({ players }) => {
         {players.map((player, index) => (
           <div className="ranking-row" key={index}>
             <div className="ranking-element rank">#{index + 1}</div>
-            <div className="ranking-element name">{player.name}</div>
+            <div
+              className={
+                "ranking-element name" +
+                (player.userId === userId ? "-personal" : "")
+              }
+            >
+              {player.username}
+            </div>
             <div className="ranking-element role">
-              {player.role === "painter" ? (
+              {player.currentRole === "PAINTER" ? (
                 <img src={brush} alt="brush"></img>
               ) : null}
-              {player.role === "guesser" ? (
+              {player.currentRole === "GUESSER" ? (
                 <img src={textbox} alt="textbox"></img>
               ) : null}
             </div>
-            <div className="ranking-element points">{player.score}</div>
+            <div className="ranking-element points">{player.totalScore}</div>
           </div>
         ))}
       </div>

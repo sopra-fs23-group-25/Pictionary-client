@@ -1,0 +1,6 @@
+@import "styles/theme";
+
+.countdown-timer {
+  @include center;
+  flex-direction: row;
+}

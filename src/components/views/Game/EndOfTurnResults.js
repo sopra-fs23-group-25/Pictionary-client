@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import "styles/views/EndOfTurnResults.scss";
+import "styles/views/Game/EndOfTurnResults.scss";
 import "styles/views/Login.scss";
-import { handleError } from "../../helpers/api";
-import { Spinner } from "../ui/Spinner";
+import { handleError } from "../../../helpers/api";
+import { Spinner } from "../../ui/Spinner";
 //import { setTimeout } from "timers/promises";
 
 /*
@@ -128,7 +128,8 @@ MOCKS
   }
 
   return (
-    <BaseContainer id="base-container">
+    <div id="base-container-end-of-turn"
+    className="base-container-end-of-turn">
       <div className="popup">
         <div className="sub-container-players">
           <div className="sub-container-players header-container">
@@ -163,7 +164,7 @@ MOCKS
           </div>
         </div>
       </div>
-    </BaseContainer>
+    </div>
   );
 };
 

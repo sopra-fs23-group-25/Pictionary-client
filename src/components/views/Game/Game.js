@@ -8,19 +8,29 @@ import DrawingBoard, { drawOnBoard } from "./DrawingBoard";
 import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
-
+import { api } from "helpers/api";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
+import CountDownTimer from "./CountDownTimer";
+import BeforeGameStart from "./BeforeGameStart";
+import EndOfGame from "./EndOfGame";
+import EndOfTurn from "./EndOfTurnResults";
 
 const GameView = (props) => {
   //Refs
-  const canvasRef = useRef(null);
-  const clientRef = useRef(null);
+  const canvasRef = useRef(null); //reference of Drawing Canvas
+  const clientRef = useRef(null); //reference of Socket Client
+  const timerRef = useRef(null); // reference of CountDown Timer
 
   //Drawing Board
   const [color, setColor] = useState("black");
   const [lineWidth, setLineWidth] = useState(5);
+
+  //Word
+  const [currentWord, setCurrentWord] = useState("");
+  const [currentGuess, setCurrentGuess] = useState("");
+  const [guessSubmitted, setGuessSubmitted] = useState(false);
 
   //Roles
   const [isPainter, setIsPainter] = useState(true);
@@ -28,40 +38,48 @@ const GameView = (props) => {
 
   const location = useLocation();
 
+  //Lobby-Information
+  const userId = sessionStorage.getItem("userId");
+  const [lobbyId, setLobbyId] = useState(1);
+  const [players, setPlayers] = useState([]);
+  const [nrOfRounds, setNrOfRounds] = useState(null);
+  const [timePerRound, setTimePerRound] = useState(null);
+  const [currentRound, setCurrentRound] = useState(0);
+
+  const [roundResult, setRoundResult] = useState([]);
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
     const isHost = location?.state?.isHost || false;
+    const lobbyId = location?.state?.lobbyId || 1;
     console.log("HOST: ", isHost);
+    setLobbyId(lobbyId);
     setIsHost(isHost);
+
+    async function fetchLobbyInformation() {
+      try {
+        const response = await api.get(`/lobbies/${lobbyId}`);
+        console.log(response);
+        setTimePerRound(response.data.timePerRound);
+        setNrOfRounds(response.data.nrOfRounds);
+        setPlayers(response.data.players);
+      } catch (error) {
+        alert(`Could not fetch Lobby`);
+      }
+    }
+
+    fetchLobbyInformation();
   }, [props, location]);
 
-  // get players from Server and Sort
-  const players = [
-    { name: "Player 2", score: 90, role: "guesser" },
-    { name: "Player 1", score: 100, role: "guesser" },
-    { name: "Player 3", score: 80, role: "painter" },
-    { name: "Player 4", score: 70, role: "guesser" },
-  ].sort((a, b) => b.score - a.score);
-
   //Game Logic - Timer
-  // const [remainingTime, setRemainingTime] = useState(0);
-  // const [isRunning, setIsRunning] = useState(false);
-  const [isEndOfRound, setIsEndOfRound] = useState(true);
+  const [gameState, setGameState] = useState("end game");
+  const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
-  const nrOfRounds = 3;
-  const [round, setRound] = useState(0);
 
   // Information Needed on render page:
-  // lobbysettings(time, rounds, ), lobbyId, userId,
-
-  const lobbyId = 1;
-  const userId = sessionStorage.getItem("userId");
-  // const timePerRound = 5;
-
   //setting Default Values on Render
   useEffect(() => {
-    setRound(0);
-    setIsEndOfRound(true);
+    setGameOver(false);
     setIsPainter(true);
     console.log("default value");
   }, []);
@@ -75,17 +93,6 @@ const GameView = (props) => {
   }
 
   // WebSocket functions - TODO: refactor and extract
-
-  /*
-  const sendStartGameMessage = () => {
-    const requestBody = JSON.stringify({ task: "start game" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).start_game,
-      requestBody
-    );
-  };
-
-  */
 
   const sendDrawingMessage = (x1, y1, x2, y2, color, lineWidth) => {
     const requestBody = JSON.stringify({
@@ -119,8 +126,17 @@ const GameView = (props) => {
     );
   };
 
+  const sendGameStateMessage = (message) => {
+    const requestBody = JSON.stringify({ task: message });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).game_state,
+      requestBody
+    );
+  };
+
   // handle websocket (incoming) messages
   const onMessage = (msg, topic) => {
+    console.log(msg);
     if (topic === websocket_topics(lobbyId).drawing) {
       drawOnBoard(
         canvasRef,
@@ -139,59 +155,248 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
       console.log(msg);
+    } else if (topic === websocket_topics(lobbyId).game_state) {
+      if (msg.task === "start game") {
+        setGameState(msg.task);
+      } else if (msg.task === "start round") {
+        setGameState(msg.task);
+      } else if (msg.task === "end round") {
+        setGameState(msg.task);
+      } else if (msg.task === "end game") {
+        setGameState(msg.task);
+      }
     }
   };
 
-  return (
+  async function createGame() {
+    const response = await api.post(`/lobbies/${lobbyId}/game`);
+    return response;
+  }
+
+  async function fetchGame() {
+    const response = await api.get(`/lobbies/${lobbyId}/game`);
+    return response;
+  }
+
+  async function updateGame() {
+    await api.put(`/lobbies/${lobbyId}/game`);
+  }
+
+  async function deleteTurn() {
+    await api.delete(`/lobbies/${lobbyId}/game/turn`);
+  }
+
+  async function createTurn() {
+    const response = await api.post(`/lobbies/${lobbyId}/game/turn`);
+    return response;
+  }
+
+  async function fetchTurn() {
+    const response = await api.get(`/lobbies/${lobbyId}/game/turn`);
+    return response;
+  }
+
+  function configurePainter() {
+    const userId = parseInt(sessionStorage.getItem("userId"));
+    if (
+      players.find((user) => user.currentRole === "PAINTER").userId === userId
+    ) {
+      console.log("set painter to true");
+      setIsPainter(true);
+    } else {
+      console.log("set painter to false");
+      setIsPainter(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log(gameState);
+    if (gameState === "start game") {
+      startGame();
+    } else if (gameState === "start round") {
+      startRound();
+    } else if (gameState === "end round") {
+      endRound();
+    } else if (gameState === "end game") {
+      endGame();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState /* intentionally excluding startGame, startRound, endRound */]);
+  // these functions will never change
+
+  //Game Logic - Sequence - Timer
+  async function handleClickStartGame() {
+    // POST game
+    await createGame();
+    //send start game over WS
+    sendGameStateMessage("start game");
+    //set started: true -> to hide button for host
+    // timerRef.current.endRound();
+  }
+
+  const startGame = async () => {
+    // show startGame Component
+    timerRef.current.startGame(10);
+    // GET Roles
+    const gameResponse = await fetchGame();
+    console.log("fetch game", gameResponse);
+    setPlayers(gameResponse.data.players);
+    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    configurePainter();
+    // setPlayers & setIsPainter
+    // update is Painter
+  };
+
+  async function startRound() {
+    timerRef.current.startRound(timePerRound);
+    if (isPainter) {
+      const response = await fetchTurn(); // to get word
+      console.log("turn response", response);
+      setCurrentWord(response.data.word);
+    }
+    setGuessSubmitted(false);
+    setCurrentGuess("");
+    // show Drawing Board
+  }
+
+  async function endRound() {
+    // isEndOfRound: true
+    //setIsEndOfRound(true);
+    timerRef.current.endRound(10);
+    // show Round Result
+    // GET ROUND RESULT (roles, word)
+    const turnResponse = await fetchTurn(); // to get Result
+    const gameResponse = await fetchGame(); // to get new Roles
+    console.log("turn response:", turnResponse);
+    console.log("game response:", gameResponse);
+    setRoundResult(
+      turnResponse.data.players.guesses((a, b) => b.score - a.score)
+    );
+    setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
+    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    //.sort((a, b) => b.score - a.score);
+    configurePainter();
+    // setWord, setPlayers
+    // isPainter check
+  }
+
+  function endGame() {
+    // render End Of Game
+  }
+
+  function enoughPlayersInLobby() {
+    return players.length >= 2;
+  }
+
+  return gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
         <div className="board container">
           <div className="board header-container">
-            <div className="board header-container sub-container1">
-              {isPainter ? (
-                <PaintToolbar
-                  selectedColor={color}
-                  setColor={setColor}
-                  lineWidth={lineWidth}
-                  setLineWidth={setLineWidth}
-                  sendClearMessage={sendClearMessage}
-                ></PaintToolbar>
-              ) : null}
-            </div>
+            {gameState === "start round" || gameState === "before game" ? (
+              <div className="board header-container sub-container1">
+                {isPainter ? (
+                  <PaintToolbar
+                    selectedColor={color}
+                    setColor={setColor}
+                    lineWidth={lineWidth}
+                    setLineWidth={setLineWidth}
+                    sendClearMessage={sendClearMessage}
+                  ></PaintToolbar>
+                ) : null}
+              </div>
+            ) : (
+              <div className="board header-container sub-container1" />
+            )}
             <div className="board header-container sub-container2">
-              Drawing Board
+              {(() => {
+                switch (gameState) {
+                  case "before game":
+                    return "Waiting Room";
+                  case "start game":
+                    return "GET READY";
+                  case "end round":
+                    return "Round Result";
+                  default:
+                    return "Drawing Board";
+                }
+              })()}
             </div>
             <div className="board header-container sub-container3">
-              <div className="clock-container"></div>
+              <div className="clock-container">
+                {gameState !== "before game" ? (
+                  <CountDownTimer
+                    gameState={gameState}
+                    gameOver={gameOver}
+                    isHost={isHost}
+                    sendGameStateMessage={sendGameStateMessage}
+                    updateGame={updateGame}
+                    deleteTurn={deleteTurn}
+                    createTurn={createTurn}
+                    ref={timerRef}
+                  ></CountDownTimer>
+                ) : null}
+              </div>
               <div className="rounds-container">
-                Round {round}/{nrOfRounds}
-                {isEndOfRound ? " Round Result" : " Drawing"}
+                Round {currentRound}/{nrOfRounds}
+                {gameState !== "start round" ? " Round Result" : " Drawing"}
               </div>
             </div>
           </div>
-          <DrawingBoard
-            color={color}
-            lineWidth={lineWidth}
-            ref={canvasRef}
-            isPainter={isPainter}
-            sendDrawingMessage={sendDrawingMessage}
-          ></DrawingBoard>
+          {(() => {
+            switch (gameState) {
+              case "start game":
+                return <BeforeGameStart></BeforeGameStart>;
+              case "end round":
+                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
+              default:
+                return (
+                  <DrawingBoard
+                    color={color}
+                    lineWidth={lineWidth}
+                    ref={canvasRef}
+                    isPainter={isPainter}
+                    sendDrawingMessage={sendDrawingMessage}
+                  ></DrawingBoard>
+                );
+            }
+          })()}
         </div>
       </div>
 
       <div className="game small-container">
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
-          {isHost ? <button>Start Game</button> : null}
+          {isHost && gameState === "before game" ? (
+            <button
+              disabled={!enoughPlayersInLobby()}
+              className="start-game-button"
+              onClick={handleClickStartGame}
+            >
+              Start Game
+            </button>
+          ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
-        <div className="game small-container sub-container2">
-          {isPainter ? (
-            <WordToDrawContainer></WordToDrawContainer>
-          ) : (
-            <GuessingContainer></GuessingContainer>
-          )}
-        </div>
+        {gameState === "start round" ? (
+          <div className="game small-container sub-container2">
+            {isPainter ? (
+              <WordToDrawContainer
+                currentWord={currentWord}
+              ></WordToDrawContainer>
+            ) : (
+              <GuessingContainer
+                currentGuess={currentGuess}
+                setCurrentGuess={setCurrentGuess}
+                guessSubmitted={guessSubmitted}
+                setGuessSubmitted={setGuessSubmitted}
+                lobbyId={lobbyId}
+              ></GuessingContainer>
+            )}
+          </div>
+        ) : (
+          <div className="game small-container sub-container2" />
+        )}
         <div className="game small-container sub-container3">
           <PlayerRanking players={players}></PlayerRanking>
         </div>
@@ -205,27 +410,58 @@ const GameView = (props) => {
         onMessage={onMessage}
       />
     </div>
+  ) : (
+    <EndOfGame></EndOfGame>
   );
 };
 
 export default GameView;
 
-const WordToDrawContainer = () => {
+const WordToDrawContainer = ({ currentWord }) => {
   return (
     <div className="guessing-container">
       <h1>Word to paint</h1>
-      <div className="guessing-container word">duck</div>
+      <div className="guessing-container word">{currentWord}</div>
     </div>
   );
 };
 
-const GuessingContainer = () => {
+const GuessingContainer = ({
+  currentGuess,
+  setCurrentGuess,
+  guessSubmitted,
+  setGuessSubmitted,
+  lobbyId,
+}) => {
+  async function submitGuess() {
+    console.log("submit guess", currentGuess);
+    const userId = sessionStorage.getItem("userId");
+    const requestBody = JSON.stringify({ userId, currentGuess });
+    await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+    setGuessSubmitted(true);
+  }
+
   return (
     <div className="guessing-container">
-      <h1>Type in your guess</h1>
+      <h1>
+        {!guessSubmitted ? "Type in your guess " : "Your submitted guess"}
+      </h1>
       <div className="word-input-container">
-        <input className="word-input"></input>
-        <button className="word-input-button">Submit</button>
+        <input
+          value={currentGuess}
+          onChange={(e) => setCurrentGuess(e.target.value)}
+          disabled={guessSubmitted}
+          className="word-input"
+        ></input>
+        {!guessSubmitted ? (
+          <button
+            disabled={!currentGuess || guessSubmitted}
+            onClick={() => submitGuess()}
+            className="word-input-button"
+          >
+            Submit
+          </button>
+        ) : null}
       </div>
     </div>
   );

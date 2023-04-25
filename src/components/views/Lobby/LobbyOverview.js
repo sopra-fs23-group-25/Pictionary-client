@@ -15,7 +15,7 @@ const LobbyItem = ({ lobby, handleClick }) => {
         {lobby.lobbyName}
       </div>
       <div className="sub-container sub-container-list list size">
-        {lobby.nrOfPlayers}
+        {lobby.players.length}/{lobby.maxNrOfPlayers}
       </div>
     </div>
   );
@@ -75,7 +75,7 @@ const LobbyOverview = () => {
   const navigateToGamePage = (lobbyId) => {
     history.push({
       pathname: `/game/${lobbyId}`,
-      state: { isHost: false },
+      state: { isHost: false, lobbyId: lobbyId },
     });
   };
 

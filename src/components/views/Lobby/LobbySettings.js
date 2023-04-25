@@ -39,7 +39,7 @@ const LobbySettings = () => {
   const navigateToGamePage = (lobbyId) => {
     history.push({
       pathname: `/game/${lobbyId}`,
-      state: { isHost: true },
+      state: { isHost: true, lobbyId: lobbyId },
     });
   };
 
