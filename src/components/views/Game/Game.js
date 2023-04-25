@@ -151,7 +151,8 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).clear) {
       clearCanvas(canvasRef.current);
     } else if (topic === websocket_topics(lobbyId).users) {
-      console.log(msg);
+      console.log("users-join", msg);
+      setPlayers(msg);
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
       console.log(msg);
@@ -226,7 +227,7 @@ const GameView = (props) => {
 
   useEffect(() => {
     console.log(gameState);
-    if (players.length > 0) {
+    if (players.length > 0 && gameState !== "before game") {
       configurePainter();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
