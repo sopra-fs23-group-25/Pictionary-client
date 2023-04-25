@@ -46,6 +46,12 @@
   &.name {
     width: 50%;
   }
+
+  &.name-personal {
+    width: 50%;
+    background-color: $accent-color;
+  }
+
   &.role {
     width: 10%;
   }

@@ -122,3 +122,20 @@
     background-color: $button-color * 0.8;
   }
 }
+
+.start-game-button {
+  width: 20%;
+  height: 15%;
+  border-radius: $box-radius;
+  background-color: $button-color;
+  border-color: $button-color;
+  color: $button-text-color;
+  cursor: pointer;
+  font-weight: 700;
+  &:hover {
+    background: $accent-color;
+  }
+  &:disabled {
+    background-color: $button-color * 0.8;
+  }
+}

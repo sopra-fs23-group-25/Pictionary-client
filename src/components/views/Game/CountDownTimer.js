@@ -20,31 +20,11 @@ const CountDownTimer = forwardRef((props, ref) => {
   const [duration, setDuration] = useState(0);
   const [key, setKey] = useState(0);
 
-  const { gameState, gameOver, isHost } = props;
+  const { gameState, isHost } = props;
   const { sendGameStateMessage } = props;
   const { updateGame, deleteTurn, createTurn } = props;
-  const { isEndOfRound } = props;
 
   async function handleTimerComplete() {
-    if (isHost) {
-      if (!gameOver) {
-        if (isEndOfRound) {
-          // DELETE/POST TURN
-          //await deleteTurn();
-          //await createTurn();
-          sendGameStateMessage("start round");
-        } else {
-          //await updateGame();
-          sendGameStateMessage("end round");
-        }
-      } else {
-        sendGameStateMessage("end game");
-      }
-    }
-    console.log("Timer Ended");
-  }
-
-  async function handleTimerCompleteNew() {
     if (isHost) {
       if (gameState === "start game") {
         await createTurn();
@@ -69,29 +49,29 @@ const CountDownTimer = forwardRef((props, ref) => {
     console.log("Timer Started");
   }
 
-  function startGame() {
-    startTimer(5);
+  function startGame(duration) {
+    startTimer(duration);
   }
 
-  function startRound() {
-    startTimer(10);
+  function startRound(duration) {
+    startTimer(duration);
   }
 
-  function endRound() {
+  function endRound(duration) {
     console.log("end round");
-    startTimer(5);
+    startTimer(duration);
   }
 
   // to be able to call function from parent
   useImperativeHandle(ref, () => ({
-    startGame() {
-      startGame();
+    startGame(duration) {
+      startGame(duration);
     },
-    startRound() {
-      startRound();
+    startRound(duration) {
+      startRound(duration);
     },
-    endRound() {
-      endRound();
+    endRound(duration) {
+      endRound(duration);
     },
     startTimer(duration) {
       startTimer(duration);
@@ -109,7 +89,7 @@ const CountDownTimer = forwardRef((props, ref) => {
         strokeLinecap="butt"
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
-        onComplete={() => handleTimerCompleteNew()}
+        onComplete={() => handleTimerComplete()}
       >
         {renderTime}
       </CountdownCircleTimer>

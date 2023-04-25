@@ -44,7 +44,7 @@ const GameView = (props) => {
   const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
-  const [currentRound, setCurrentRound] = useState(null);
+  const [currentRound, setCurrentRound] = useState(0);
 
   const [roundResult, setRoundResult] = useState([]);
 
@@ -75,13 +75,11 @@ const GameView = (props) => {
   const [gameState, setGameState] = useState("end game");
   const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
-  const [round, setRound] = useState(0);
 
   // Information Needed on render page:
   //setting Default Values on Render
   useEffect(() => {
     setGameOver(false);
-    setRound(0);
     setIsPainter(true);
     console.log("default value");
   }, []);
@@ -238,19 +236,19 @@ const GameView = (props) => {
 
   const startGame = async () => {
     // show startGame Component
-    timerRef.current.startGame();
+    timerRef.current.startGame(10);
     // GET Roles
-    const response = await fetchGame();
-    console.log("fetch game", response);
-    setPlayers(response.data.players);
+    const gameResponse = await fetchGame();
+    console.log("fetch game", gameResponse);
+    setPlayers(gameResponse.data.players);
+    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
     configurePainter();
-    console.log(response.data);
     // setPlayers & setIsPainter
     // update is Painter
   };
 
   async function startRound() {
-    timerRef.current.startRound();
+    timerRef.current.startRound(timePerRound);
     if (isPainter) {
       const response = await fetchTurn(); // to get word
       console.log("turn response", response);
@@ -264,7 +262,7 @@ const GameView = (props) => {
   async function endRound() {
     // isEndOfRound: true
     //setIsEndOfRound(true);
-    timerRef.current.endRound();
+    timerRef.current.endRound(10);
     // show Round Result
     // GET ROUND RESULT (roles, word)
     const turnResponse = await fetchTurn(); // to get Result
@@ -275,6 +273,7 @@ const GameView = (props) => {
       turnResponse.data.players.guesses((a, b) => b.score - a.score)
     );
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
+    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
     //.sort((a, b) => b.score - a.score);
     configurePainter();
     // setWord, setPlayers
@@ -285,40 +284,61 @@ const GameView = (props) => {
     // render End Of Game
   }
 
+  function enoughPlayersInLobby() {
+    return players.length >= 2;
+  }
+
   return gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
         <div className="board container">
           <div className="board header-container">
-            <div className="board header-container sub-container1">
-              {isPainter ? (
-                <PaintToolbar
-                  selectedColor={color}
-                  setColor={setColor}
-                  lineWidth={lineWidth}
-                  setLineWidth={setLineWidth}
-                  sendClearMessage={sendClearMessage}
-                ></PaintToolbar>
-              ) : null}
-            </div>
+            {gameState === "start round" || gameState === "before game" ? (
+              <div className="board header-container sub-container1">
+                {isPainter ? (
+                  <PaintToolbar
+                    selectedColor={color}
+                    setColor={setColor}
+                    lineWidth={lineWidth}
+                    setLineWidth={setLineWidth}
+                    sendClearMessage={sendClearMessage}
+                  ></PaintToolbar>
+                ) : null}
+              </div>
+            ) : (
+              <div className="board header-container sub-container1" />
+            )}
             <div className="board header-container sub-container2">
-              Drawing Board
+              {(() => {
+                switch (gameState) {
+                  case "before game":
+                    return "Waiting Room";
+                  case "start game":
+                    return "GET READY";
+                  case "end round":
+                    return "Round Result";
+                  default:
+                    return "Drawing Board";
+                }
+              })()}
             </div>
             <div className="board header-container sub-container3">
               <div className="clock-container">
-                <CountDownTimer
-                  gameState={gameState}
-                  gameOver={gameOver}
-                  isHost={isHost}
-                  sendGameStateMessage={sendGameStateMessage}
-                  updateGame={updateGame}
-                  deleteTurn={deleteTurn}
-                  createTurn={createTurn}
-                  ref={timerRef}
-                ></CountDownTimer>
+                {gameState !== "before game" ? (
+                  <CountDownTimer
+                    gameState={gameState}
+                    gameOver={gameOver}
+                    isHost={isHost}
+                    sendGameStateMessage={sendGameStateMessage}
+                    updateGame={updateGame}
+                    deleteTurn={deleteTurn}
+                    createTurn={createTurn}
+                    ref={timerRef}
+                  ></CountDownTimer>
+                ) : null}
               </div>
               <div className="rounds-container">
-                Round {round}/{nrOfRounds}
+                Round {currentRound}/{nrOfRounds}
                 {gameState !== "start round" ? " Round Result" : " Drawing"}
               </div>
             </div>
@@ -328,7 +348,7 @@ const GameView = (props) => {
               case "start game":
                 return <BeforeGameStart></BeforeGameStart>;
               case "end round":
-                return <EndOfTurn></EndOfTurn>;
+                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
               default:
                 return (
                   <DrawingBoard
@@ -347,8 +367,14 @@ const GameView = (props) => {
       <div className="game small-container">
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
-          {isHost ? (
-            <button onClick={handleClickStartGame}>Start Game</button>
+          {isHost && gameState === "before game" ? (
+            <button
+              disabled={!enoughPlayersInLobby()}
+              className="start-game-button"
+              onClick={handleClickStartGame}
+            >
+              Start Game
+            </button>
           ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
@@ -411,7 +437,7 @@ const GuessingContainer = ({
     console.log("submit guess", currentGuess);
     const userId = sessionStorage.getItem("userId");
     const requestBody = JSON.stringify({ userId, currentGuess });
-    //await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+    await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
     setGuessSubmitted(true);
   }
 
