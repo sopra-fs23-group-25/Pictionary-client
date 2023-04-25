@@ -7,17 +7,30 @@
 
   position: relative;
   //width: 916.48px;
-  width: 90%;
+  width: 100%;
   //height: 875px;
-  height: 700px;
-  left: 83px;
-  top: 69px;
-  -webkit-animation-duration: 30s;
-  animation-duration: 30s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-name: fadeOut;
-  animation-name: fadeOut;
+    height: 100%;
+  //height: 700px;
+  //left: 83px;
+  //top: 69px;
+  //-webkit-animation-duration: 30s;
+  //animation-duration: 30s;
+  //-webkit-animation-fill-mode: both;
+  //animation-fill-mode: both;
+  //-webkit-animation-name: fadeOut;
+  //animation-name: fadeOut;
+}
+
+.base-container-end-of-turn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    //margin-left: auto;
+    //padding-left: 15px;
+    //margin-right: auto;
+    //padding-right: 15px;
+    max-width: $DESKTOP_WIDTH;
+    color: $textColor;
 }
 
 @-webkit-keyframes fadeOut {
@@ -41,8 +54,9 @@
 .sub-container-players {
   //width: 100%;
   //height: 100%;
-  position: absolute;
-  width: 70%;
+  position: relative;
+  //width: 70%;
+    width: 100%;
   height: 100%;
   flex-direction: column;
   flex-grow: 0;
@@ -52,11 +66,12 @@
   &.header-container {
     margin-top: 10%;
     height: 15%;
-    width: 70%;
+    //width: 70%;
+      width: 80%;
     position: relative;
     //width: 391px;
     //height: 70px;
-    //left: 164px;
+    left: 164px;
     //top: 232px;
     //top: 100px;
     //left:100px;
@@ -65,7 +80,7 @@
     color: $accent-color;
     display: flex;
     align-items: flex-start;
-    margin-left: 15%;
+    //margin-left: 15%;
     flex-direction: column;
     justify-content: left;
 
@@ -77,14 +92,16 @@
   }
   &.sub-container-list {
     position: relative;
-    height: 50%;
-    width: 100%;
+    height: 100%;
+    width: 90%;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     font-weight: 600;
     overflow-x: hidden;
     margin-block-end: 7px;
+      justify-content: left;
+      right: 10px;
 
     &.header {
       margin-left: 5%;
@@ -223,9 +240,10 @@
   &.flag-container {
     position: absolute;
     max-width: 400px;
-    height: 100%;
-    top: 72%;
-    left: 72%;
+    //height: 10%;
+    top: 50%;
+    left: 50%;
+      height: 40%;
     transform: translateX(-50%);
 
     background-repeat: no-repeat;
@@ -239,10 +257,10 @@
     //margin-top: 10%;
     //justify-content: right;
     //width: 280.28px;
-    width: 40%;
+    width: 35%;
     height: 34.36px;
     left: 600px;
-    top: 20%;
+    top: 1%;
     //font-family: 'Outfit';
     font-style: normal;
     font-weight: 600;
@@ -260,13 +278,13 @@
 
   &.header-nextPainter {
     position: absolute;
-    //margin-top: 10%;
+    margin-top: 10%;
     //justify-content: right;
-    //width: 300.28px;
-    width: 45%;
+    width: 300.28px;
+    //width: 45%;
     height: 34.36px;
-    left: 600px;
-    top: 30%;
+    right: 5%;
+    top: 1%;
     text-align: center;
     font-style: normal;
 
@@ -281,11 +299,11 @@
 
   &.header-correct-word {
     position: absolute;
-    width: 40%;
+    width: 35%;
     //height: 34.36px;
     height: 5%;
-    left: 602.22px;
-    top: 50%;
+    right: 1%;
+    top: 30%;
     color: black;
 
     font-weight: 600;

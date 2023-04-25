@@ -72,7 +72,7 @@ const GameView = (props) => {
   }, [props, location]);
 
   //Game Logic - Timer
-  const [gameState, setGameState] = useState("before game");
+  const [gameState, setGameState] = useState("end round");
   const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
   const [round, setRound] = useState(0);

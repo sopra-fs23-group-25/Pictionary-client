@@ -128,7 +128,8 @@ MOCKS
   }
 
   return (
-    <BaseContainer id="base-container">
+    <div id="base-container-end-of-turn"
+    className="base-container-end-of-turn">
       <div className="popup">
         <div className="sub-container-players">
           <div className="sub-container-players header-container">
@@ -163,7 +164,7 @@ MOCKS
           </div>
         </div>
       </div>
-    </BaseContainer>
+    </div>
   );
 };
 
