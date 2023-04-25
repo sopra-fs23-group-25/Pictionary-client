@@ -224,6 +224,14 @@ const GameView = (props) => {
   }, [gameState /* intentionally excluding startGame, startRound, endRound */]);
   // these functions will never change
 
+  useEffect(() => {
+    console.log(gameState);
+    if (players.length > 0) {
+      configurePainter();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players]);
+
   //Game Logic - Sequence - Timer
   async function handleClickStartGame() {
     // POST game
@@ -242,7 +250,7 @@ const GameView = (props) => {
     console.log("fetch game", gameResponse);
     setPlayers(gameResponse.data.players);
     setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
-    configurePainter();
+    //configurePainter();
     // setPlayers & setIsPainter
     // update is Painter
   };
@@ -273,7 +281,7 @@ const GameView = (props) => {
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
     //.sort((a, b) => b.score - a.score);
-    configurePainter();
+    //configurePainter();
     // setWord, setPlayers
     // isPainter check
   }
@@ -437,10 +445,10 @@ const GuessingContainer = ({
     const guess = currentGuess;
     const requestBody = JSON.stringify({ userId: userId, guess: guess });
     try {
-        //console.log(us)
-        console.log(requestBody)
+      //console.log(us)
+      console.log(requestBody);
       await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
-        console.log("here")
+      console.log("here");
     } catch (error) {
       console.log(error);
     }
