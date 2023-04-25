@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import "styles/views/EndOfTurnResults.scss";
+import "styles/views/Game/EndOfTurnResults.scss";
 import "styles/views/Login.scss";
-import { handleError } from "../../helpers/api";
-import { Spinner } from "../ui/Spinner";
+import { handleError } from "../../../helpers/api";
+import { Spinner } from "../../ui/Spinner";
 //import { setTimeout } from "timers/promises";
 
 /*

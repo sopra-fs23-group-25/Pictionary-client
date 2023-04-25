@@ -6,8 +6,8 @@ import Registration from "components/views/Registration";
 import LobbyOverview from "components/views/Lobby/LobbyOverview";
 import LobbySettings from "components/views/Lobby/LobbySettings";
 import Game from "components/views/Game/Game";
-import EndOfTurnResults from "../../views/EndOfTurnResults";
-import EndOfGame from "../../views/EndOfGame";
+import EndOfTurnResults from "../../views/Game/EndOfTurnResults";
+import EndOfGame from "../../views/Game/EndOfGame";
 
 /**
  * Main router of your application.

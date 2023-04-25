@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import "styles/views/EndOfGame.scss";
+import "styles/views/Game/EndOfGame.scss";
 //import "styles/views/Login.scss"
-import { handleError } from "../../helpers/api";
-import { Spinner } from "../ui/Spinner";
+import { handleError } from "../../../helpers/api";
+import { Spinner } from "../../ui/Spinner";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -122,7 +122,7 @@ MOCKS
   };
 
   const exit = () => {
-      //api.delete("/lobbies/{lobbyId}/game");
+    //api.delete("/lobbies/{lobbyId}/game");
     //api.delete("/lobbies/{lobbyId}");
     history.push("/endofturn");
   };

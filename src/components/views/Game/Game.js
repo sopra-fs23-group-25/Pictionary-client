@@ -13,12 +13,15 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 import CountDownTimer from "./CountDownTimer";
+import BeforeGameStart from "./BeforeGameStart";
+import EndOfGame from "./EndOfGame";
+import EndOfTurn from "./EndOfTurnResults";
 
 const GameView = (props) => {
   //Refs
-  const canvasRef = useRef(null);
-  const clientRef = useRef(null);
-  const timerRef = useRef(null);
+  const canvasRef = useRef(null); //reference of Drawing Canvas
+  const clientRef = useRef(null); //reference of Socket Client
+  const timerRef = useRef(null); // reference of CountDown Timer
 
   //Drawing Board
   const [color, setColor] = useState("black");
@@ -36,11 +39,14 @@ const GameView = (props) => {
   const location = useLocation();
 
   //Lobby-Information
+  const userId = sessionStorage.getItem("userId");
   const [lobbyId, setLobbyId] = useState(1);
   const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
   const [currentRound, setCurrentRound] = useState(null);
+
+  const [roundResult, setRoundResult] = useState([]);
 
   useEffect(() => {
     // this information was passed while creating/joining lobby
@@ -66,23 +72,16 @@ const GameView = (props) => {
   }, [props, location]);
 
   //Game Logic - Timer
-  const [gameState, setGameState] = useState("default");
-  const [isEndOfRound, setIsEndOfRound] = useState(true);
+  const [gameState, setGameState] = useState("before game");
   const [gameOver, setGameOver] = useState(false);
   // const [isGameOver, setIsGameOver] = useState(false);
   const [round, setRound] = useState(0);
 
   // Information Needed on render page:
-  // lobbysettings(time, rounds, ), lobbyId, userId,
-
-  const userId = sessionStorage.getItem("userId");
-  // const timePerRound = 5;
-
   //setting Default Values on Render
   useEffect(() => {
     setGameOver(false);
     setRound(0);
-    setIsEndOfRound(true);
     setIsPainter(true);
     console.log("default value");
   }, []);
@@ -96,17 +95,6 @@ const GameView = (props) => {
   }
 
   // WebSocket functions - TODO: refactor and extract
-
-  /*
-  const sendStartGameMessage = () => {
-    const requestBody = JSON.stringify({ task: "start game" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).start_game,
-      requestBody
-    );
-  };
-
-  */
 
   const sendDrawingMessage = (x1, y1, x2, y2, color, lineWidth) => {
     const requestBody = JSON.stringify({
@@ -136,6 +124,14 @@ const GameView = (props) => {
     const requestBody = JSON.stringify({ task: "joined Game" });
     clientRef.current.sendMessage(
       websocket_endpoints(lobbyId).user_join,
+      requestBody
+    );
+  };
+
+  const sendGameStateMessage = (message) => {
+    const requestBody = JSON.stringify({ task: message });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).game_state,
       requestBody
     );
   };
@@ -223,23 +219,25 @@ const GameView = (props) => {
       startRound();
     } else if (gameState === "end round") {
       endRound();
+    } else if (gameState === "end game") {
+      endGame();
     }
-  }, [gameState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState /* intentionally excluding startGame, startRound, endRound */]);
+  // these functions will never change
 
   //Game Logic - Sequence - Timer
   async function handleClickStartGame() {
     // POST game
-    const response = await createGame();
+    await createGame();
     //send start game over WS
     sendGameStateMessage("start game");
-    // sendGameStateMessage("start game");
     //set started: true -> to hide button for host
     // timerRef.current.endRound();
   }
 
-  async function startGame() {
+  const startGame = async () => {
     // show startGame Component
-    //setIsEndOfRound(true);
     timerRef.current.startGame();
     // GET Roles
     const response = await fetchGame();
@@ -249,7 +247,7 @@ const GameView = (props) => {
     console.log(response.data);
     // setPlayers & setIsPainter
     // update is Painter
-  }
+  };
 
   async function startRound() {
     timerRef.current.startRound();
@@ -273,6 +271,9 @@ const GameView = (props) => {
     const gameResponse = await fetchGame(); // to get new Roles
     console.log("turn response:", turnResponse);
     console.log("game response:", gameResponse);
+    setRoundResult(
+      turnResponse.data.players.guesses((a, b) => b.score - a.score)
+    );
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     //.sort((a, b) => b.score - a.score);
     configurePainter();
@@ -284,16 +285,7 @@ const GameView = (props) => {
     // render End Of Game
   }
 
-  //Websocket Sending Message
-  const sendGameStateMessage = (message) => {
-    const requestBody = JSON.stringify({ task: message });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).game_state,
-      requestBody
-    );
-  };
-
-  return (
+  return gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
         <div className="board container">
@@ -331,13 +323,24 @@ const GameView = (props) => {
               </div>
             </div>
           </div>
-          <DrawingBoard
-            color={color}
-            lineWidth={lineWidth}
-            ref={canvasRef}
-            isPainter={isPainter}
-            sendDrawingMessage={sendDrawingMessage}
-          ></DrawingBoard>
+          {(() => {
+            switch (gameState) {
+              case "start game":
+                return <BeforeGameStart></BeforeGameStart>;
+              case "end round":
+                return <EndOfTurn></EndOfTurn>;
+              default:
+                return (
+                  <DrawingBoard
+                    color={color}
+                    lineWidth={lineWidth}
+                    ref={canvasRef}
+                    isPainter={isPainter}
+                    sendDrawingMessage={sendDrawingMessage}
+                  ></DrawingBoard>
+                );
+            }
+          })()}
         </div>
       </div>
 
@@ -349,21 +352,25 @@ const GameView = (props) => {
           ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
-        <div className="game small-container sub-container2">
-          {isPainter ? (
-            <WordToDrawContainer
-              currentWord={currentWord}
-            ></WordToDrawContainer>
-          ) : (
-            <GuessingContainer
-              currentGuess={currentGuess}
-              setCurrentGuess={setCurrentGuess}
-              guessSubmitted={guessSubmitted}
-              setGuessSubmitted={setGuessSubmitted}
-              lobbyId={lobbyId}
-            ></GuessingContainer>
-          )}
-        </div>
+        {gameState === "start round" ? (
+          <div className="game small-container sub-container2">
+            {isPainter ? (
+              <WordToDrawContainer
+                currentWord={currentWord}
+              ></WordToDrawContainer>
+            ) : (
+              <GuessingContainer
+                currentGuess={currentGuess}
+                setCurrentGuess={setCurrentGuess}
+                guessSubmitted={guessSubmitted}
+                setGuessSubmitted={setGuessSubmitted}
+                lobbyId={lobbyId}
+              ></GuessingContainer>
+            )}
+          </div>
+        ) : (
+          <div className="game small-container sub-container2" />
+        )}
         <div className="game small-container sub-container3">
           <PlayerRanking players={players}></PlayerRanking>
         </div>
@@ -377,6 +384,8 @@ const GameView = (props) => {
         onMessage={onMessage}
       />
     </div>
+  ) : (
+    <EndOfGame></EndOfGame>
   );
 };
 
