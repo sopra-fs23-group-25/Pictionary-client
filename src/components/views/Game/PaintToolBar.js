@@ -6,9 +6,9 @@ const colors = [
   "green",
   "turquoise",
   "blue",
-  "purple",
   "red",
   "brown",
+  "white",
   "gray",
   "black",
 ];
@@ -48,7 +48,7 @@ const PaintToolbar = (props) => {
           step={"2"}
         ></RangeSelection>
         <button className="clear-button" onClick={handleClearCanvas}>
-          Clear Canvas
+          Clear Board
         </button>
       </div>
     </div>
