@@ -47,6 +47,7 @@ const GameView = (props) => {
   const [currentRound, setCurrentRound] = useState(0);
 
   const [roundResult, setRoundResult] = useState([]);
+  const [word, setWord] = useState("");
 
   useEffect(() => {
     // this information was passed while creating/joining lobby
@@ -246,6 +247,7 @@ const GameView = (props) => {
   const startGame = async () => {
     // show startGame Component
     timerRef.current.startGame(10);
+      //timerRef.current.startGame(5);
     // GET Roles
     const gameResponse = await fetchGame();
     console.log("fetch game", gameResponse);
@@ -258,6 +260,7 @@ const GameView = (props) => {
 
   async function startRound() {
     timerRef.current.startRound(timePerRound);
+    //  timerRef.current.startRound(5);
     if (isPainter) {
       const response = await fetchTurn(); // to get word
       console.log("turn response", response);
@@ -272,15 +275,18 @@ const GameView = (props) => {
     // isEndOfRound: true
     //setIsEndOfRound(true);
     timerRef.current.endRound(10);
+    //  timerRef.current.endRound(30);
     // show Round Result
     // GET ROUND RESULT (roles, word)
     const turnResponse = await fetchTurn(); // to get Result
     const gameResponse = await fetchGame(); // to get new Roles
     console.log("turn response:", turnResponse);
     console.log("game response:", gameResponse);
+    //setRoundResult(turnResponse.data);
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    setWord(turnResponse.data.word);
     //.sort((a, b) => b.score - a.score);
     //configurePainter();
     // setWord, setPlayers
@@ -355,7 +361,12 @@ const GameView = (props) => {
               case "start game":
                 return <BeforeGameStart></BeforeGameStart>;
               case "end round":
-                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
+                return <EndOfTurn
+                        roundResult={roundResult}
+                        players={players}
+                        currentRound={currentRound}
+                        word={word}
+                ></EndOfTurn>;
               default:
                 return (
                   <DrawingBoard
