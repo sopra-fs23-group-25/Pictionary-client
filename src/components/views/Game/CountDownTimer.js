@@ -20,7 +20,7 @@ const CountDownTimer = forwardRef((props, ref) => {
   const [duration, setDuration] = useState(0);
   const [key, setKey] = useState(0);
 
-  const { gameState, isHost, gameOver } = props;
+  const { gameState, isHost } = props;
   const { sendGameStateMessage } = props;
   const { updateGame, deleteTurn, createTurn, fetchGame } = props;
 
