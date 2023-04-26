@@ -355,14 +355,19 @@ const GameView = (props) => {
               </div>
               <div className="rounds-container">
                 Round {currentRound}/{nrOfRounds}
-                {gameState !== "start round" ? " Round Result" : " Drawing"}
               </div>
             </div>
           </div>
           {(() => {
             switch (gameState) {
               case "start game":
-                return <BeforeGameStart></BeforeGameStart>;
+                return (
+                  <BeforeGameStart
+                    timePerRound={timePerRound}
+                    nrOfRounds={nrOfRounds}
+                    players={players}
+                  ></BeforeGameStart>
+                );
               case "end round":
                 return (
                   <EndOfTurn
@@ -443,9 +448,7 @@ const GameView = (props) => {
       />
     </div>
   ) : (
-    <EndOfGame
-    players={players}
-    ></EndOfGame>
+    <EndOfGame players={players}></EndOfGame>
   );
 };
 

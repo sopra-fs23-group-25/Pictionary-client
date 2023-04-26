@@ -1,0 +1,17 @@
+@import "styles/theme";
+
+.before-game-container {
+  height: 640px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.before-game-span {
+  color: $accent-color;
+  font-weight: 800;
+}

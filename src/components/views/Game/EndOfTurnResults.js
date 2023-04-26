@@ -45,9 +45,11 @@ const EndOfTurn = ({ players, roundResult, currentRound, word }) => {
     ));
   }
 
-  const painter = players.find(
-    (user) => user.currentRole === "PAINTER"
-  ).username;
+  const painter =
+    players.length > 0
+      ? players.find((user) => user.currentRole === "PAINTER")?.username
+      : null;
+
   //const word = word;
   //const nextRound = currentRound + 1;
 
@@ -83,7 +85,7 @@ const EndOfTurn = ({ players, roundResult, currentRound, word }) => {
             New Painter: {painter}
           </div>
           <div className="sub-container-players header-correct-word">
-            The word was: {word}.
+            The word was: {word}
           </div>
         </div>
       </div>

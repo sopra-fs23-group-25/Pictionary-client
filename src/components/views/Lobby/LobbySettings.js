@@ -9,7 +9,7 @@ const LobbySettings = () => {
 
   const [lobbyName, setLobbyName] = useState("");
   const [selectedTime, setSelectedTime] = useState(30);
-  const [selectedRounds, setSelectedRound] = useState(1);
+  const [selectedRounds, setSelectedRound] = useState(2);
   const [selectedNrOfPlayers, setSelectedNrOfPlayers] = useState(5);
 
   async function createLobby() {
