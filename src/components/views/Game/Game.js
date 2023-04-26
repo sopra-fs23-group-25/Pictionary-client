@@ -47,6 +47,7 @@ const GameView = (props) => {
   const [currentRound, setCurrentRound] = useState(0);
 
   const [roundResult, setRoundResult] = useState([]);
+  const [word, setWord] = useState("");
 
   useEffect(() => {
     // this information was passed while creating/joining lobby
@@ -73,13 +74,10 @@ const GameView = (props) => {
 
   //Game Logic - Timer
   const [gameState, setGameState] = useState("before game");
-  const [gameOver, setGameOver] = useState(false);
-  // const [isGameOver, setIsGameOver] = useState(false);
 
   // Information Needed on render page:
   //setting Default Values on Render
   useEffect(() => {
-    setGameOver(false);
     setIsPainter(true);
     console.log("default value");
   }, []);
@@ -163,6 +161,8 @@ const GameView = (props) => {
         setGameState(msg.task);
       } else if (msg.task === "end round") {
         setGameState(msg.task);
+      } else if (msg.task === "end last round") {
+        setGameState(msg.task);
       } else if (msg.task === "end game") {
         setGameState(msg.task);
       }
@@ -218,6 +218,8 @@ const GameView = (props) => {
       startRound();
     } else if (gameState === "end round") {
       endRound();
+    } else if (gameState === "end last round") {
+      endRound();
     } else if (gameState === "end game") {
       endGame();
     }
@@ -246,6 +248,7 @@ const GameView = (props) => {
   const startGame = async () => {
     // show startGame Component
     timerRef.current.startGame(10);
+    //timerRef.current.startGame(5);
     // GET Roles
     const gameResponse = await fetchGame();
     console.log("fetch game", gameResponse);
@@ -258,6 +261,7 @@ const GameView = (props) => {
 
   async function startRound() {
     timerRef.current.startRound(timePerRound);
+    //  timerRef.current.startRound(5);
     if (isPainter) {
       const response = await fetchTurn(); // to get word
       console.log("turn response", response);
@@ -272,15 +276,18 @@ const GameView = (props) => {
     // isEndOfRound: true
     //setIsEndOfRound(true);
     timerRef.current.endRound(10);
+    //  timerRef.current.endRound(30);
     // show Round Result
     // GET ROUND RESULT (roles, word)
     const turnResponse = await fetchTurn(); // to get Result
     const gameResponse = await fetchGame(); // to get new Roles
     console.log("turn response:", turnResponse);
     console.log("game response:", gameResponse);
+    //setRoundResult(turnResponse.data);
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    setWord(turnResponse.data.word);
     //.sort((a, b) => b.score - a.score);
     //configurePainter();
     // setWord, setPlayers
@@ -324,6 +331,8 @@ const GameView = (props) => {
                     return "GET READY";
                   case "end round":
                     return "Round Result";
+                  case "end last round":
+                    return "Round Result";
                   default:
                     return "Drawing Board";
                 }
@@ -334,9 +343,9 @@ const GameView = (props) => {
                 {gameState !== "before game" ? (
                   <CountDownTimer
                     gameState={gameState}
-                    gameOver={gameOver}
                     isHost={isHost}
                     sendGameStateMessage={sendGameStateMessage}
+                    fetchGame={fetchGame}
                     updateGame={updateGame}
                     deleteTurn={deleteTurn}
                     createTurn={createTurn}
@@ -355,7 +364,23 @@ const GameView = (props) => {
               case "start game":
                 return <BeforeGameStart></BeforeGameStart>;
               case "end round":
-                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
+                return (
+                  <EndOfTurn
+                    roundResult={roundResult}
+                    players={players}
+                    currentRound={currentRound}
+                    word={word}
+                  ></EndOfTurn>
+                );
+              case "end last round":
+                return (
+                  <EndOfTurn
+                    roundResult={roundResult}
+                    players={players}
+                    currentRound={currentRound}
+                    word={word}
+                  ></EndOfTurn>
+                );
               default:
                 return (
                   <DrawingBoard

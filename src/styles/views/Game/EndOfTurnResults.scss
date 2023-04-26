@@ -9,7 +9,7 @@
   //width: 916.48px;
   width: 100%;
   //height: 875px;
-    height: 100%;
+  height: 100%;
   //height: 700px;
   //left: 83px;
   //top: 69px;
@@ -22,15 +22,15 @@
 }
 
 .base-container-end-of-turn {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    //margin-left: auto;
-    //padding-left: 15px;
-    //margin-right: auto;
-    //padding-right: 15px;
-    max-width: $DESKTOP_WIDTH;
-    color: $textColor;
+  position: relative;
+  width: 100%;
+  height: 640px;
+  //margin-left: auto;
+  //padding-left: 15px;
+  //margin-right: auto;
+  //padding-right: 15px;
+  max-width: $DESKTOP_WIDTH;
+  color: $textColor;
 }
 
 @-webkit-keyframes fadeOut {
@@ -56,7 +56,7 @@
   //height: 100%;
   position: relative;
   //width: 70%;
-    width: 100%;
+  width: 100%;
   height: 100%;
   flex-direction: column;
   flex-grow: 0;
@@ -67,7 +67,7 @@
     margin-top: 10%;
     height: 15%;
     //width: 70%;
-      width: 80%;
+    width: 80%;
     position: relative;
     //width: 391px;
     //height: 70px;
@@ -100,8 +100,8 @@
     font-weight: 600;
     overflow-x: hidden;
     margin-block-end: 7px;
-      justify-content: left;
-      right: 10px;
+    justify-content: left;
+    right: 10px;
 
     &.header {
       margin-left: 5%;
@@ -243,7 +243,7 @@
     //height: 10%;
     top: 50%;
     left: 50%;
-      height: 40%;
+    height: 40%;
     transform: translateX(-50%);
 
     background-repeat: no-repeat;
