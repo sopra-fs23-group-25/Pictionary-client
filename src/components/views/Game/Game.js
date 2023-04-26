@@ -73,13 +73,10 @@ const GameView = (props) => {
 
   //Game Logic - Timer
   const [gameState, setGameState] = useState("before game");
-  const [gameOver, setGameOver] = useState(false);
-  // const [isGameOver, setIsGameOver] = useState(false);
 
   // Information Needed on render page:
   //setting Default Values on Render
   useEffect(() => {
-    setGameOver(false);
     setIsPainter(true);
     console.log("default value");
   }, []);
@@ -163,6 +160,8 @@ const GameView = (props) => {
         setGameState(msg.task);
       } else if (msg.task === "end round") {
         setGameState(msg.task);
+      } else if (msg.task === "end last round") {
+        setGameState(msg.task);
       } else if (msg.task === "end game") {
         setGameState(msg.task);
       }
@@ -217,6 +216,8 @@ const GameView = (props) => {
     } else if (gameState === "start round") {
       startRound();
     } else if (gameState === "end round") {
+      endRound();
+    } else if (gameState === "end last round") {
       endRound();
     } else if (gameState === "end game") {
       endGame();
@@ -324,6 +325,8 @@ const GameView = (props) => {
                     return "GET READY";
                   case "end round":
                     return "Round Result";
+                  case "end last round":
+                    return "Round Result";
                   default:
                     return "Drawing Board";
                 }
@@ -334,9 +337,9 @@ const GameView = (props) => {
                 {gameState !== "before game" ? (
                   <CountDownTimer
                     gameState={gameState}
-                    gameOver={gameOver}
                     isHost={isHost}
                     sendGameStateMessage={sendGameStateMessage}
+                    fetchGame={fetchGame}
                     updateGame={updateGame}
                     deleteTurn={deleteTurn}
                     createTurn={createTurn}
@@ -355,6 +358,8 @@ const GameView = (props) => {
               case "start game":
                 return <BeforeGameStart></BeforeGameStart>;
               case "end round":
+                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
+              case "end last round":
                 return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
               default:
                 return (

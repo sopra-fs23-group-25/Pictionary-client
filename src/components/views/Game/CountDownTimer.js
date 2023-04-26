@@ -20,9 +20,9 @@ const CountDownTimer = forwardRef((props, ref) => {
   const [duration, setDuration] = useState(0);
   const [key, setKey] = useState(0);
 
-  const { gameState, isHost } = props;
+  const { gameState, isHost, gameOver } = props;
   const { sendGameStateMessage } = props;
-  const { updateGame, deleteTurn, createTurn } = props;
+  const { updateGame, deleteTurn, createTurn, fetchGame } = props;
 
   async function handleTimerComplete() {
     if (isHost) {
@@ -32,14 +32,21 @@ const CountDownTimer = forwardRef((props, ref) => {
       } else if (gameState === "start round") {
         console.log("befor put game");
         await updateGame();
-        sendGameStateMessage("end round");
+        const response = await fetchGame();
+        if (response.data.gameOver === false) {
+          sendGameStateMessage("end round");
+        } else {
+          sendGameStateMessage("end last round");
+        }
       } else if (gameState === "end round") {
         await deleteTurn();
         await createTurn();
         sendGameStateMessage("start round");
+      } else if (gameState === "end last round") {
+        sendGameStateMessage("end game");
       }
+      console.log("Timer Ended");
     }
-    console.log("Timer Ended");
   }
 
   function startTimer(duration) {
