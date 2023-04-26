@@ -248,6 +248,7 @@
     //margin-top: 25%;
     margin-bottom: 20%;
     cursor: pointer;
+      visibility: hidden;
   }
   &.button-game-again:hover {
     background-color: $list-hover-color;

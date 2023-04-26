@@ -443,7 +443,9 @@ const GameView = (props) => {
       />
     </div>
   ) : (
-    <EndOfGame></EndOfGame>
+    <EndOfGame
+    players={players}
+    ></EndOfGame>
   );
 };
 
