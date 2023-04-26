@@ -364,7 +364,14 @@ const GameView = (props) => {
               case "start game":
                 return <BeforeGameStart></BeforeGameStart>;
               case "end round":
-                return <EndOfTurn roundResult={roundResult}></EndOfTurn>;
+                return (
+                  <EndOfTurn
+                    roundResult={roundResult}
+                    players={players}
+                    currentRound={currentRound}
+                    word={word}
+                  ></EndOfTurn>
+                );
               case "end last round":
                 return (
                   <EndOfTurn
