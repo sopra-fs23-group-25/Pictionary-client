@@ -253,7 +253,7 @@ const GameView = (props) => {
     const gameResponse = await fetchGame();
     console.log("fetch game", gameResponse);
     setPlayers(gameResponse.data.players);
-    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    setCurrentRound(gameResponse.data.currentRound);
     //configurePainter();
     // setPlayers & setIsPainter
     // update is Painter
@@ -286,7 +286,7 @@ const GameView = (props) => {
     //setRoundResult(turnResponse.data);
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
-    setCurrentRound(gameResponse.data.nrOfRoundsPlayed);
+    setCurrentRound(gameResponse.data.currentRound);
     setWord(turnResponse.data.word);
     //.sort((a, b) => b.score - a.score);
     //configurePainter();

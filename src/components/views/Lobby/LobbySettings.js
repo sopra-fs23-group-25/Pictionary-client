@@ -27,9 +27,6 @@ const LobbySettings = () => {
       const token = sessionStorage.getItem("token");
       const response = await apiWithAuth(token).post("/lobbies", requestBody);
 
-      alert(
-        `you created a new lobby: ${lobbyName} \n --> Redirect to Game-Page`
-      );
       navigateToGamePage(response.data.lobbyId);
     } catch (error) {
       alert("Something went wrong while creating a new lobby! See console");
@@ -69,7 +66,7 @@ const LobbySettings = () => {
           min={"1"}
           max={"10"}
           step={"1"}
-          disabled={true}
+          disabled={false}
         ></RangeSelection>
         number of rounds: <span>{selectedRounds}</span>
       </label>

@@ -18,11 +18,11 @@ specific components that belong to the main one in the same file.
 MOCKS
  */
 
-const UserItem = ({ guess , index}) => {
+const UserItem = ({ guess, index }) => {
   return (
     <div className="sub-container-players sub-container-list list">
       <div className="sub-container-players sub-container-list list position">
-        #{index+1}
+        #{index + 1}
       </div>
       <div className="sub-container-players sub-container-list list name">
         {guess.username}
@@ -37,32 +37,26 @@ const UserItem = ({ guess , index}) => {
   );
 };
 
-const EndOfTurn = ({players, roundResult, currentRound, word}) => {
-
-    let users = <Spinner></Spinner>;
+const EndOfTurn = ({ players, roundResult, currentRound, word }) => {
+  let users = <Spinner></Spinner>;
   if (roundResult.length > 0) {
     users = roundResult.map((guess, index) => (
-      <UserItem
-        guess={guess}
-        index={index}
-      ></UserItem>
+      <UserItem guess={guess} index={index}></UserItem>
     ));
   }
 
-
-
-
-    const painter = players.find((user) => user.currentRole === "PAINTER").username;
-    //const word = word;
-    //const nextRound = currentRound + 1;
+  const painter = players.find(
+    (user) => user.currentRole === "PAINTER"
+  ).username;
+  //const word = word;
+  //const nextRound = currentRound + 1;
 
   return (
-    <div id="base-container-end-of-turn"
-    className="base-container-end-of-turn">
+    <div id="base-container-end-of-turn" className="base-container-end-of-turn">
       <div className="popup">
         <div className="sub-container-players">
           <div className="sub-container-players header-container">
-            <h1>Results of Round {currentRound+1}</h1>
+            <h1>Results of last Round</h1>
           </div>
           <div className="sub-container-players sub-container-list">
             <div className="sub-container-players sub-container-list header">
@@ -79,11 +73,11 @@ const EndOfTurn = ({players, roundResult, currentRound, word}) => {
                 Guessed Word
               </div>
             </div>
-              {users}
+            {users}
           </div>
           <div className="sub-container-players flag-container"></div>
           <div className="sub-container-players header-nextRound">
-            Get ready for Round {currentRound+2}!!!
+            Get ready for next Round!!!
           </div>
           <div className="sub-container-players header-nextPainter">
             New Painter: {painter}

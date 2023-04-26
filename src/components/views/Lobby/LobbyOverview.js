@@ -66,10 +66,7 @@ const LobbyOverview = () => {
   }
 
   function handleClickOnLobby(lobby) {
-    if (window.confirm(`join ${lobby.lobbyName} ?`)) {
-      joinLobby(lobby.lobbyId);
-      // Perform the action here
-    }
+    joinLobby(lobby.lobbyId);
   }
 
   const navigateToGamePage = (lobbyId) => {
