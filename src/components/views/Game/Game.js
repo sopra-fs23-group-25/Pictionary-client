@@ -8,7 +8,7 @@ import DrawingBoard, { drawOnBoard } from "./DrawingBoard";
 import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
-import { api } from "helpers/api";
+import { api, apiWithUserId } from "helpers/api";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
@@ -195,12 +195,8 @@ const GameView = (props) => {
   async function fetchTurn() {
     const userId = sessionStorage.getItem("userId");
 
-    const requestBody = JSON.stringify({
-      userId: userId,
-    });
-    const response = await api.get(
-      `/lobbies/${lobbyId}/game/turn`,
-      requestBody
+    const response = await apiWithUserId(userId).get(
+      `/lobbies/${lobbyId}/game/turn`
     );
     return response;
   }
