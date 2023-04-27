@@ -4,6 +4,8 @@ import { api, apiWithAuth, handleError } from "helpers/api";
 
 import "styles/views/Lobby/LobbyOverview.scss";
 import { Spinner } from "components/ui/Spinner";
+import { useTranslation } from "react-i18next";
+import "locales/index";
 
 const LobbyItem = ({ lobby, handleClick }) => {
   return (
@@ -23,6 +25,7 @@ const LobbyItem = ({ lobby, handleClick }) => {
 
 const LobbyOverview = () => {
   const history = useHistory();
+  const { t } = useTranslation();
   const [lobbies, setLobbies] = useState(null);
 
   const fetchData = async () => {
@@ -106,8 +109,8 @@ const LobbyOverview = () => {
   return (
     <div className="main-container">
       <div className="sub-container sub-container-header">
-        <h1>Lobby Overview</h1>
-        <h2>Join a lobby by clicking on the name</h2>
+        <h1>{t("lobbyOverview.lobbyOverview")}</h1>
+        <h2>{t("lobbyOverview.joinLobby")}</h2>
       </div>
       <div className="sub-container sub-container-list">
         <div className="sub-container sub-container-list header">
@@ -115,7 +118,7 @@ const LobbyOverview = () => {
             Lobbies
           </div>
           <div className="sub-container sub-container-list header size">
-            Group Size
+            {t("lobbyOverview.lobbySize")}
           </div>
         </div>
         {lobbyListContent}
@@ -125,19 +128,19 @@ const LobbyOverview = () => {
           onClick={() => refreshLobby()}
           className="sub-container sub-container-buttons button one"
         >
-          REFRESH
+          {t("lobbyOverview.refresh")}
         </button>
         <button
           onClick={navigateToLobbySettings}
           className="sub-container sub-container-buttons button two"
         >
-          CREATE A NEW LOBBY
+          {t("lobbyOverview.createLobby")}
         </button>
         <button
           onClick={() => logout()}
           className="sub-container sub-container-buttons button three"
         >
-          LOGOUT
+          {t("lobbyOverview.logout")}
         </button>
       </div>
     </div>
