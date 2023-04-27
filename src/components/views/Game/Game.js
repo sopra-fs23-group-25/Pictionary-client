@@ -193,7 +193,15 @@ const GameView = (props) => {
   }
 
   async function fetchTurn() {
-    const response = await api.get(`/lobbies/${lobbyId}/game/turn`);
+    const userId = sessionStorage.getItem("userId");
+
+    const requestBody = JSON.stringify({
+      userId: userId,
+    });
+    const response = await api.get(
+      `/lobbies/${lobbyId}/game/turn`,
+      requestBody
+    );
     return response;
   }
 
