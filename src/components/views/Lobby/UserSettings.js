@@ -80,7 +80,6 @@ const UserSettings = () => {
                 // Login successfully worked --> navigate to the route /game in the GameRouter
                 // const requestBody = JSON.stringify({username, password, birthday});
 
-                //history.push(`/game`);
             } catch (error) {
                 alert(`Something went wrong during the profile loading: \n${handleError(error)}`);
                 history.push('/lobbies')
