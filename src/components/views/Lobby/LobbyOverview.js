@@ -54,7 +54,6 @@ const LobbyOverview = () => {
   async function joinLobby(lobbyId) {
     try {
       const userId = sessionStorage.getItem("userId");
-
       const requestBody = JSON.stringify({
         userId: userId,
       });
@@ -103,6 +102,11 @@ const LobbyOverview = () => {
     }
   };
 
+    const navigateToUserSettings = () => {
+        const userId = sessionStorage.getItem("userId");
+        history.push("/users/" + userId.toString());
+    };
+
   return (
     <div className="main-container">
       <div className="sub-container sub-container-header">
@@ -133,9 +137,15 @@ const LobbyOverview = () => {
         >
           CREATE A NEW LOBBY
         </button>
+          <button
+                  onClick={navigateToUserSettings}
+                  className="sub-container sub-container-buttons button three"
+          >
+              SETTINGS
+          </button>
         <button
           onClick={() => logout()}
-          className="sub-container sub-container-buttons button three"
+          className="sub-container sub-container-buttons button four"
         >
           LOGOUT
         </button>
