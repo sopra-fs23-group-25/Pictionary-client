@@ -125,8 +125,15 @@
   }
 }
 
-.start-game-button {
+.host-button-container {
   width: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.start-game-button {
+  width: 100%;
   height: 15%;
   border-radius: $box-radius;
   background-color: $button-color;

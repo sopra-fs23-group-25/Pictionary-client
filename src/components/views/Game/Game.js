@@ -10,7 +10,7 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 import { api, apiWithUserId } from "helpers/api";
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 import CountDownTimer from "./CountDownTimer";
 import BeforeGameStart from "./BeforeGameStart";
@@ -37,6 +37,7 @@ const GameView = (props) => {
   const [isHost, setIsHost] = useState(false);
 
   const location = useLocation();
+  const history = useHistory();
 
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
@@ -124,6 +125,14 @@ const GameView = (props) => {
     );
   };
 
+  const sendCloseLobbyMessage = () => {
+    const requestBody = JSON.stringify({ task: "lobby closed" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).lobby_closed,
+      requestBody
+    );
+  };
+
   const sendGameStateMessage = (message) => {
     const requestBody = JSON.stringify({ task: message });
     clientRef.current.sendMessage(
@@ -154,6 +163,8 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
       console.log(msg);
+    } else if (topic === websocket_topics(lobbyId).lobby_closed) {
+      history.push("/lobbies");
     } else if (topic === websocket_topics(lobbyId).game_state) {
       if (msg.task === "start game") {
         setGameState(msg.task);
@@ -306,6 +317,20 @@ const GameView = (props) => {
     return players.length >= 2;
   }
 
+  async function handleClickCloseLobby() {
+    //DELETE LOBBY
+    try {
+      await api.delete(`/lobbies/${lobbyId}`);
+
+      // sendOverWebsocket to all players that lobby closed
+      console.log("close lobby");
+      sendCloseLobbyMessage();
+    } catch (error) {
+      alert("could not delete lobby");
+    }
+    //-> redirect to lobby overview
+  }
+
   return gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
@@ -409,13 +434,21 @@ const GameView = (props) => {
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
           {isHost && gameState === "before game" ? (
-            <button
-              disabled={!enoughPlayersInLobby()}
-              className="start-game-button"
-              onClick={handleClickStartGame}
-            >
-              Start Game
-            </button>
+            <div className="host-button-container">
+              <button
+                disabled={!enoughPlayersInLobby()}
+                className="start-game-button"
+                onClick={handleClickStartGame}
+              >
+                Start Game
+              </button>
+              <button
+                className="start-game-button"
+                onClick={handleClickCloseLobby}
+              >
+                Close Lobby
+              </button>
+            </div>
           ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>

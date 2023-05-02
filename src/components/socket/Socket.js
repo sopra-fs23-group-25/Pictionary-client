@@ -50,6 +50,7 @@ export const websocket_topics = (lobbyId) => {
     clear: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/drawing-clear`,
     users: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/users`,
     game_state: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/game-state`,
+    lobby_closed: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/lobby-closed`,
   };
 };
 
@@ -60,5 +61,6 @@ export const websocket_endpoints = (lobbyId) => {
     user_join: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/user-join`,
     user_leave: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/user-leave`,
     game_state: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/game-state`,
+    lobby_closed: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/lobby-closed`,
   };
 };
