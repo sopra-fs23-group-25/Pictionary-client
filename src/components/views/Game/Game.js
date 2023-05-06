@@ -331,6 +331,18 @@ const GameView = (props) => {
     //-> redirect to lobby overview
   }
 
+  async function handleClickLeaveLobby() {
+    try {
+      // REMOVE PLAYER FROM LOBBY
+      // await api.put(`/lobbies/${lobbyId}`);
+      // sendOverWebsocket to all players that user left lobby
+      sendJoinGameMessage();
+    } catch (error) {
+      alert("could not leave lobby");
+    }
+    history.push("/lobbies");
+  }
+
   return gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
@@ -447,6 +459,16 @@ const GameView = (props) => {
                 onClick={handleClickCloseLobby}
               >
                 Close Lobby
+              </button>
+            </div>
+          ) : null}
+          {!isHost && gameState === "before game" ? (
+            <div className="host-button-container">
+              <button
+                className="start-game-button"
+                onClick={handleClickLeaveLobby}
+              >
+                Leave Lobby
               </button>
             </div>
           ) : null}
