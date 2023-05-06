@@ -53,9 +53,6 @@ const DropDown = ({ label, value, options, onChange }) => {
 const Register = (props) => {
   const history = useHistory();
   const { i18n } = useTranslation(); // destructure i18n here
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [language, setLanguage] = useState("");
 
   const languageOptions = [
     { value: "en", label: "English" },
@@ -63,9 +60,14 @@ const Register = (props) => {
     { value: "fr", label: "French" },
   ];
 
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [language, setLanguage] = useState(languageOptions[0].value);
+
   const doRegister = async () => {
     try {
       const requestBody = JSON.stringify({ username, password, language });
+      console.log(requestBody);
       await api.post("/users", requestBody);
 
       const requestBodyForLogin = JSON.stringify({ username, password });
@@ -74,15 +76,17 @@ const Register = (props) => {
         requestBodyForLogin
       );
 
+      console.log(responseFromLogin);
       // Get the returned user and update a new object.
       const user = new User(responseFromLogin.data);
 
       // Store the token into the local storage.
       sessionStorage.setItem("token", user.token);
       sessionStorage.setItem("userId", user.userId);
-      sessionStorage.setItem("language", "de");
+      sessionStorage.setItem("language", user.language);
+      console.log("pref lang:", user.language);
 
-      i18n.changeLanguage("de");
+      i18n.changeLanguage(user.language);
 
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);
