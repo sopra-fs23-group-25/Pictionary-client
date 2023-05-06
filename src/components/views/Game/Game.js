@@ -16,6 +16,7 @@ import CountDownTimer from "./CountDownTimer";
 import BeforeGameStart from "./BeforeGameStart";
 import EndOfGame from "./EndOfGame";
 import EndOfTurn from "./EndOfTurnResults";
+import LobbyClosedComponent from "./LobbyClosedComponent";
 
 const GameView = (props) => {
   //Refs
@@ -35,6 +36,7 @@ const GameView = (props) => {
   //Roles
   const [isPainter, setIsPainter] = useState(true);
   const [isHost, setIsHost] = useState(false);
+  const [disconnectedType, setDisconnectedType] = useState(null);
 
   const location = useLocation();
   const history = useHistory();
@@ -172,7 +174,8 @@ const GameView = (props) => {
       //startGame();
       console.log(msg);
     } else if (topic === websocket_topics(lobbyId).lobby_closed) {
-      history.push("/lobbies");
+      console.log("lobby closed from host");
+      setDisconnectedType(DisconnectionType.HOST_CLOSED_LOBBY);
     } else if (topic === websocket_topics(lobbyId).game_state) {
       if (msg.task === "start game") {
         setGameState(msg.task);
@@ -187,7 +190,7 @@ const GameView = (props) => {
       }
     } else if (topic === websocket_topics(lobbyId).host_disconnected) {
       console.log("host disconnected");
-      history.push("/lobbies");
+      setDisconnectedType(DisconnectionType.HOST_DISCONNECTED);
     }
   };
 
@@ -339,7 +342,6 @@ const GameView = (props) => {
     } catch (error) {
       alert("could not delete lobby");
     }
-    //-> redirect to lobby overview
   }
 
   async function handleClickLeaveLobby() {
@@ -357,7 +359,22 @@ const GameView = (props) => {
     history.push("/lobbies");
   }
 
-  return gameState !== "end game" ? (
+  useEffect(() => {
+    // Wait for 2.5 seconds before redirecting to the overview page
+    if (disconnectedType) {
+      const timer = setTimeout(() => {
+        history.push("/lobbies");
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [disconnectedType, history]);
+
+  return disconnectedType ? (
+    <LobbyClosedComponent
+      disconnectedType={disconnectedType}
+    ></LobbyClosedComponent>
+  ) : gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
         <div className="board container">
@@ -583,4 +600,9 @@ const GuessingContainer = ({
       </div>
     </div>
   );
+};
+
+export const DisconnectionType = {
+  HOST_DISCONNECTED: "host-disconnected",
+  HOST_CLOSED_LOBBY: "host-closed-lobby",
 };
