@@ -343,8 +343,8 @@ const GameView = (props) => {
     try {
       // REMOVE PLAYER FROM LOBBY
       const userId = sessionStorage.getItem("userId");
-      requestBody = JSON.stringify({ userId: userId });
-      await api.put(`/lobbies/${lobbyId}`, requestBody);
+      const requestBody = JSON.stringify({ userId: userId });
+      await api.put(`/lobbies/${lobbyId}/leave`, requestBody);
 
       // sendOverWebsocket to all players that user left lobby
       sendLeaveGameMessage();
