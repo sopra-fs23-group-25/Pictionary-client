@@ -120,7 +120,15 @@ const GameView = (props) => {
   const sendJoinGameMessage = () => {
     const requestBody = JSON.stringify({ task: "joined Game" });
     clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).user_join,
+      websocket_endpoints(lobbyId).users,
+      requestBody
+    );
+  };
+
+  const sendLeaveGameMessage = () => {
+    const requestBody = JSON.stringify({ task: "left Game" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).users,
       requestBody
     );
   };
@@ -158,7 +166,7 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).clear) {
       clearCanvas(canvasRef.current);
     } else if (topic === websocket_topics(lobbyId).users) {
-      console.log("users-join", msg);
+      console.log("users updated", msg);
       setPlayers(msg);
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
@@ -334,9 +342,12 @@ const GameView = (props) => {
   async function handleClickLeaveLobby() {
     try {
       // REMOVE PLAYER FROM LOBBY
-      // await api.put(`/lobbies/${lobbyId}`);
+      const userId = sessionStorage.getItem("userId");
+      requestBody = JSON.stringify({ userId: userId });
+      await api.put(`/lobbies/${lobbyId}`, requestBody);
+
       // sendOverWebsocket to all players that user left lobby
-      sendJoinGameMessage();
+      sendLeaveGameMessage();
     } catch (error) {
       alert("could not leave lobby");
     }
