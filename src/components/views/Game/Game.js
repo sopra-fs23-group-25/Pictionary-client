@@ -185,6 +185,9 @@ const GameView = (props) => {
       } else if (msg.task === "end game") {
         setGameState(msg.task);
       }
+    } else if (topic === websocket_topics(lobbyId).host_disconnected) {
+      console.log("host disconnected");
+      history.push("/lobbies");
     }
   };
 
