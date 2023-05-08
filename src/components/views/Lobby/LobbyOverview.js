@@ -28,6 +28,7 @@ const LobbyOverview = () => {
   const { t } = useTranslation();
   const [lobbies, setLobbies] = useState(null);
 
+
   const fetchData = async () => {
     try {
       const response = await api.get("/lobbies");
@@ -107,6 +108,7 @@ const LobbyOverview = () => {
 
     const navigateToUserSettings = () => {
         const userId = sessionStorage.getItem("userId");
+        //console.log("sessionStorage ID", userId);
         history.push("/users/" + userId.toString());
     };
 

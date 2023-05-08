@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {apiWithAuth, handleError} from "helpers/api";
-import User from "models/User";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import "styles/views//Lobby/UserSettings.scss";
 import "styles/ui/DropDownMenu.scss";
 
@@ -54,7 +53,10 @@ const UserSettings = () => {
     const [username, setUsername] = useState("");
     const [language, setLanguage] = useState("");
     const token = sessionStorage.getItem("token");
-    const userId = sessionStorage.getItem("userId");
+    //const params = useParams();
+    let {id} = useParams();
+    const userId = id;
+
 
     const languageOptions = [
         { value: "en", label: "English" },
@@ -63,30 +65,14 @@ const UserSettings = () => {
     ];
 
     useEffect(() => {
-        async function fetchData() {
-
-            try {
-                const response = await apiWithAuth(token).get('/users/' + userId.toString());
-                // Get the returned user and update a new object.
-                const user = new User(response.data);
-
-                if (user.token === sessionStorage.getItem("token")){
-                    //token missing from backend
-                    //console.log("usertoken:", user.token);
-                    console.log("localstorage and user token:", sessionStorage.getItem("token"));
-                }
-
-                console.log("usertoken:", user.token);
-                // Login successfully worked --> navigate to the route /game in the GameRouter
-                // const requestBody = JSON.stringify({username, password, birthday});
-
-            } catch (error) {
-                alert(`Something went wrong during the profile loading: \n${handleError(error)}`);
-                history.push('/lobbies')
-            }
+        const storedUserId = sessionStorage.getItem("userId");
+        console.log("path variable ID", userId);
+        console.log("storedUserId", storedUserId);
+        if (parseFloat(userId) !== parseFloat(storedUserId)){
+            history.push("/lobbies");
         }
-        fetchData();
-    }, [token, userId, history]);
+
+    }, [ userId, history]);
 
     const save = async () => {
         try {
