@@ -92,6 +92,22 @@
     }
 }
 
+.save-button.disabled {
+    align-self: center;
+    border-radius: $box-radius;
+    height: 35px;
+    box-shadow: $box-shadow;
+
+    background-color: rgba(149, 195, 255, 0.25);
+    border-color: $button-color;
+    color: $button-text-color;
+
+    width: 25%;
+    margin-right: 5%;
+    margin-left: auto;
+    cursor: default;
+}
+
 .back-to-lobby-button {
     align-self: center;
     border-radius: $box-radius;

@@ -3,6 +3,7 @@ import {apiWithAuth, handleError} from "helpers/api";
 import { useHistory, useParams } from "react-router-dom";
 import "styles/views//Lobby/UserSettings.scss";
 import "styles/ui/DropDownMenu.scss";
+import User from "../../../models/User";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -52,31 +53,59 @@ const UserSettings = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [language, setLanguage] = useState("");
+    const [isFormDirty, setIsFormDirty] = useState(false);
     const token = sessionStorage.getItem("token");
     //const params = useParams();
     let {id} = useParams();
     const userId = id;
+    //const response = await apiWithAuth(token).get("/users/" + userId.toString());
+    //const user = new User(response.data);
+    //setUsername(user.username);
+    //setLanguage(user.language);
 
 
     const languageOptions = [
-        { value: "en", label: "English" },
-        { value: "de", label: "German" },
-        { value: "fr", label: "French" },
+        {value: "en", label: "English"},
+        {value: "de", label: "German"},
+        {value: "fr", label: "French"},
     ];
 
-    useEffect(() => {
-        const storedUserId = sessionStorage.getItem("userId");
-        console.log("path variable ID", userId);
-        console.log("storedUserId", storedUserId);
-        if (parseFloat(userId) !== parseFloat(storedUserId)){
-            history.push("/lobbies");
-        }
+    const handleUsernameChange = (value) => {
+        setUsername(value);
+        setIsFormDirty(true);
+    };
 
-    }, [ userId, history]);
+    const handlePasswordChange = (value) => {
+        setPassword(value);
+        setIsFormDirty(true);
+    };
+
+    const handleLanguageChange = (value) => {
+        setLanguage(value);
+        setIsFormDirty(true);
+    };
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await apiWithAuth(token).get("/users/" + userId.toString());
+            const user = new User(response.data);
+            setLanguage(user.language);
+            setUsername(user.username);
+            //setPassword(user.password);
+            const storedUserId = sessionStorage.getItem("userId");
+            console.log("path variable ID", userId);
+            console.log("storedUserId", storedUserId);
+            if (parseFloat(userId) !== parseFloat(storedUserId)) {
+                history.push("/lobbies");
+            }
+        }
+        fetchData();
+
+    }, [token, userId, history]);
 
     const save = async () => {
         try {
-            const requestBody = JSON.stringify({ username, password, language });
+            const requestBody = JSON.stringify({username, password, language});
             await apiWithAuth(token).put("/users/" + userId.toString(), requestBody);
             alert(`User settings saved.`);
             // Login successfully worked --> navigate to the lobby overview
@@ -92,49 +121,48 @@ const UserSettings = () => {
     };
 
 
-
-
     return (
             <div className="usersettings-main-container">
-                    <div className="usersettings-subcontainer header-container">
-                        <h1>User Settings</h1>
-                    </div>
-                    <div className="usersettings-subcontainer form-container">
-                        <FormField
-                                label="new username"
-                                value={username}
-                                onChange={(un) => setUsername(un)}
-                        ></FormField>
-                        <FormField
-                                label="new password"
-                                value={password}
-                                type="password"
-                                onChange={(n) => setPassword(n)}
-                        ></FormField>
-                        <DropDown
-                                label={"New preferred language"}
-                                value={language}
-                                options={languageOptions}
-                                onChange={(l) => setLanguage(l)}
-                        ></DropDown>
-                    </div>
-                    <div className="usersettings-subcontainer button-container">
-                        <button
-                                //disabled={isDisabled}
-                                className="save-button"
-                                onClick={() => save()}
-                        >
-                            Save
-                        </button>
-                        <button
-                                //disabled={isDisabled()}
-                                className="back-to-lobby-button"
-                                onClick={() => navigateToLobbyOverview()}
-                        >
-                            Back to Lobby Overview
-                        </button>
+                <div className="usersettings-subcontainer header-container">
+                    <h1>User Settings</h1>
+                </div>
+                <div className="usersettings-subcontainer form-container">
+                    <FormField
+                            label="new username"
+                            value={username}
+                            onChange={handleUsernameChange}
+                    ></FormField>
+                    <FormField
+                            label="new password"
+                            value={password}
+                            type="password"
+                            onChange={handlePasswordChange}
+                    ></FormField>
+                    <DropDown
+                            label={"New preferred language"}
+                            value={language}
+                            options={languageOptions}
+                            onChange={handleLanguageChange}
+                    ></DropDown>
+                </div>
+                <div className="usersettings-subcontainer button-container">
+                    <button
+                            disabled={!isFormDirty}
+                            className={`save-button ${!isFormDirty ? 'disabled' : ''}`}
+                            //className="save-button"
+                            onClick={() => save()}
+                    >
+                        Save
+                    </button>
+                    <button
+                            //disabled={isDisabled()}
+                            className="back-to-lobby-button"
+                            onClick={() => navigateToLobbyOverview()}
+                    >
+                        Back to Lobby Overview
+                    </button>
 
-                    </div>
+                </div>
             </div>
     );
 };
