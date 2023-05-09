@@ -4,8 +4,12 @@ import RangeSelection from "components/ui/RangeSelection";
 import { apiWithAuth } from "helpers/api";
 import "styles/views/Lobby/LobbySettings.scss";
 
+import { useTranslation } from "react-i18next";
+import "locales/index";
+
 const LobbySettings = () => {
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [lobbyName, setLobbyName] = useState("");
   const [selectedTime, setSelectedTime] = useState(30);
@@ -42,8 +46,9 @@ const LobbySettings = () => {
 
   return (
     <div className="lobbysettings">
-      <h2>Lobby Settings</h2>
+      <h2>{t("lobbySettings.lobbySettings")}</h2>
       <EntryField
+        t={t}
         type={"text"}
         label={"Lobby Name"}
         value={lobbyName}
@@ -57,7 +62,7 @@ const LobbySettings = () => {
           max={"60"}
           step={"5"}
         ></RangeSelection>
-        seconds per round: <span>{selectedTime}</span>
+        {t("lobbySettings.secPerRound")}: <span>{selectedTime}</span>
       </label>
       <label>
         <RangeSelection
@@ -68,7 +73,7 @@ const LobbySettings = () => {
           step={"1"}
           disabled={false}
         ></RangeSelection>
-        number of rounds: <span>{selectedRounds}</span>
+        {t("lobbySettings.nrOfRounds")}: <span>{selectedRounds}</span>
       </label>
       <label>
         <RangeSelection
@@ -78,21 +83,21 @@ const LobbySettings = () => {
           max={"5"}
           step={"1"}
         ></RangeSelection>
-        max number of players: <span>{selectedNrOfPlayers}</span>
+        {t("lobbySettings.nrOfPlayers")}: <span>{selectedNrOfPlayers}</span>
       </label>
       <div className="lobbysettings button-container">
         <button
           className="lobbysettings button-container button cancel"
           onClick={() => history.push("/lobbies")}
         >
-          CANCEL
+          {t("lobbySettings.cancel")}
         </button>
         <button
           onClick={() => createLobby()}
           className="lobbysettings button-container button confirm"
           disabled={!lobbyName}
         >
-          CONFIRM
+          {t("lobbySettings.confirm")}
         </button>
       </div>
     </div>
@@ -101,7 +106,7 @@ const LobbySettings = () => {
 
 export default LobbySettings;
 
-const EntryField = ({ type, value, onChange }) => {
+const EntryField = ({ type, value, onChange, t }) => {
   return (
     <div className="lobbyname">
       <label className="lobbyname label">
@@ -109,7 +114,7 @@ const EntryField = ({ type, value, onChange }) => {
       </label>
       <input
         className="lobbyname input"
-        placeholder="enter here ..."
+        placeholder={t("lobbySettings.placeHolder")}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}

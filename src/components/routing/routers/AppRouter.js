@@ -8,6 +8,7 @@ import LobbySettings from "components/views/Lobby/LobbySettings";
 import Game from "components/views/Game/Game";
 import EndOfTurnResults from "../../views/Game/EndOfTurnResults";
 import EndOfGame from "../../views/Game/EndOfGame";
+import UserSettings from "../../views/Lobby/UserSettings";
 
 /**
  * Main router of your application.
@@ -49,6 +50,12 @@ const AppRouter = () => {
             <LobbySettings />
           </LobbyGuard>
         </Route>
+
+          <Route exact path="/users/:id">
+              <LobbyGuard>
+                  <UserSettings />
+              </LobbyGuard>
+          </Route>
 
         <Route exact path="/endofturn">
           <EndOfTurnResults />

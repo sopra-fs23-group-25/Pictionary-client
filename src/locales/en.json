@@ -1,0 +1,19 @@
+{
+  "lobbyOverview": {
+    "lobbyOverview": "Lobby Overview",
+    "joinLobby": "Join a lobby by clicking on the name",
+    "lobbySize": "Group Size",
+    "refresh": "REFRESH",
+    "createLobby": "CREATE A NEW LOBBY",
+    "logout": "LOGOUT"
+  },
+  "lobbySettings": {
+    "lobbySettings": "Lobby Settings",
+    "secPerRound": "seconds per round",
+    "nrOfRounds": "number of rounds",
+    "nrOfPlayers": "max number of players",
+    "placeHolder": "enter here ...",
+    "cancel": "CANCEL",
+    "confirm": "CONFIRM"
+  }
+}

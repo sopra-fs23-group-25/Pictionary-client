@@ -10,12 +10,13 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 import { api, apiWithUserId } from "helpers/api";
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 import CountDownTimer from "./CountDownTimer";
 import BeforeGameStart from "./BeforeGameStart";
 import EndOfGame from "./EndOfGame";
 import EndOfTurn from "./EndOfTurnResults";
+import LobbyClosedComponent from "./LobbyClosedComponent";
 
 const GameView = (props) => {
   //Refs
@@ -35,8 +36,10 @@ const GameView = (props) => {
   //Roles
   const [isPainter, setIsPainter] = useState(true);
   const [isHost, setIsHost] = useState(false);
+  const [disconnectedType, setDisconnectedType] = useState(null);
 
   const location = useLocation();
+  const history = useHistory();
 
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
@@ -119,7 +122,23 @@ const GameView = (props) => {
   const sendJoinGameMessage = () => {
     const requestBody = JSON.stringify({ task: "joined Game" });
     clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).user_join,
+      websocket_endpoints(lobbyId).users,
+      requestBody
+    );
+  };
+
+  const sendLeaveGameMessage = () => {
+    const requestBody = JSON.stringify({ task: "left Game" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).users,
+      requestBody
+    );
+  };
+
+  const sendCloseLobbyMessage = () => {
+    const requestBody = JSON.stringify({ task: "lobby closed" });
+    clientRef.current.sendMessage(
+      websocket_endpoints(lobbyId).lobby_closed,
       requestBody
     );
   };
@@ -149,11 +168,14 @@ const GameView = (props) => {
     } else if (topic === websocket_topics(lobbyId).clear) {
       clearCanvas(canvasRef.current);
     } else if (topic === websocket_topics(lobbyId).users) {
-      console.log("users-join", msg);
+      console.log("users updated", msg);
       setPlayers(msg);
     } else if (topic === websocket_topics(lobbyId).start) {
       //startGame();
       console.log(msg);
+    } else if (topic === websocket_topics(lobbyId).lobby_closed) {
+      console.log("lobby closed from host");
+      setDisconnectedType(DisconnectionType.HOST_CLOSED_LOBBY);
     } else if (topic === websocket_topics(lobbyId).game_state) {
       if (msg.task === "start game") {
         setGameState(msg.task);
@@ -166,6 +188,9 @@ const GameView = (props) => {
       } else if (msg.task === "end game") {
         setGameState(msg.task);
       }
+    } else if (topic === websocket_topics(lobbyId).host_disconnected) {
+      console.log("host disconnected");
+      setDisconnectedType(DisconnectionType.HOST_DISCONNECTED);
     }
   };
 
@@ -306,7 +331,50 @@ const GameView = (props) => {
     return players.length >= 2;
   }
 
-  return gameState !== "end game" ? (
+  async function handleClickCloseLobby() {
+    //DELETE LOBBY
+    try {
+      await api.delete(`/lobbies/${lobbyId}`);
+
+      // sendOverWebsocket to all players that lobby closed
+      console.log("close lobby");
+      sendCloseLobbyMessage();
+    } catch (error) {
+      alert("could not delete lobby");
+    }
+  }
+
+  async function handleClickLeaveLobby() {
+    try {
+      // REMOVE PLAYER FROM LOBBY
+      const userId = sessionStorage.getItem("userId");
+      const requestBody = JSON.stringify({ userId: userId });
+      await api.put(`/lobbies/${lobbyId}/leave`, requestBody);
+
+      // sendOverWebsocket to all players that user left lobby
+      sendLeaveGameMessage();
+    } catch (error) {
+      alert("could not leave lobby");
+    }
+    history.push("/lobbies");
+  }
+
+  useEffect(() => {
+    // Wait for 2.5 seconds before redirecting to the overview page
+    if (disconnectedType) {
+      const timer = setTimeout(() => {
+        history.push("/lobbies");
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [disconnectedType, history]);
+
+  return disconnectedType ? (
+    <LobbyClosedComponent
+      disconnectedType={disconnectedType}
+    ></LobbyClosedComponent>
+  ) : gameState !== "end game" ? (
     <div className="game">
       <div className="game big-container">
         <div className="board container">
@@ -409,13 +477,31 @@ const GameView = (props) => {
         <div className="game small-container sub-container1">
           {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
           {isHost && gameState === "before game" ? (
-            <button
-              disabled={!enoughPlayersInLobby()}
-              className="start-game-button"
-              onClick={handleClickStartGame}
-            >
-              Start Game
-            </button>
+            <div className="host-button-container">
+              <button
+                disabled={!enoughPlayersInLobby()}
+                className="start-game-button"
+                onClick={handleClickStartGame}
+              >
+                Start Game
+              </button>
+              <button
+                className="start-game-button"
+                onClick={handleClickCloseLobby}
+              >
+                Close Lobby
+              </button>
+            </div>
+          ) : null}
+          {!isHost && gameState === "before game" ? (
+            <div className="host-button-container">
+              <button
+                className="start-game-button"
+                onClick={handleClickLeaveLobby}
+              >
+                Leave Lobby
+              </button>
+            </div>
           ) : null}
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
@@ -514,4 +600,9 @@ const GuessingContainer = ({
       </div>
     </div>
   );
+};
+
+export const DisconnectionType = {
+  HOST_DISCONNECTED: "host-disconnected",
+  HOST_CLOSED_LOBBY: "host-closed-lobby",
 };

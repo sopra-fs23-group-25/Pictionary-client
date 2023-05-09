@@ -1,0 +1,19 @@
+{
+  "lobbyOverview": {
+    "lobbyOverview": "Lobby Übersicht",
+    "joinLobby": "Drücke auf den Namen um einer Lobby beizutreten",
+    "lobbySize": "Anz. Spieler",
+    "refresh": "NEU LADEN",
+    "createLobby": "LOBBY ERSTELLEN",
+    "logout": "ABMELDEN"
+  },
+  "lobbySettings": {
+    "lobbySettings": "Lobby Einstellungen",
+    "secPerRound": "Sekunden pro Runde",
+    "nrOfRounds": "Anzahl Runden",
+    "nrOfPlayers": "maximale Anzahl Spieler",
+    "placeHolder": "hier eingeben ...",
+    "cancel": "ABBRECHEN",
+    "confirm": "BESTÄTIGEN"
+  }
+}

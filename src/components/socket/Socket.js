@@ -50,6 +50,8 @@ export const websocket_topics = (lobbyId) => {
     clear: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/drawing-clear`,
     users: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/users`,
     game_state: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/game-state`,
+    lobby_closed: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/lobby-closed`,
+    host_disconnected: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/host-disconnected`,
   };
 };
 
@@ -57,8 +59,9 @@ export const websocket_endpoints = (lobbyId) => {
   return {
     drawing_all: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/drawing-all`,
     drawing_clear: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/drawing-clear`,
-    user_join: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/user-join`,
-    user_leave: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/user-leave`,
+    users: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/users`,
     game_state: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/game-state`,
+    lobby_closed: `${WEBSOCKET_ENDPOINT_PREFIX}/lobbies/${lobbyId}/lobby-closed`,
+    host_disconnected: `${WEBSOCKET_PREFIX}/lobbies/${lobbyId}/host-disconnected`,
   };
 };
