@@ -5,6 +5,7 @@
     "lobbySize": "Group Size",
     "refresh": "REFRESH",
     "createLobby": "CREATE A NEW LOBBY",
+    "userSettings": "Settings",
     "logout": "LOGOUT"
   },
   "lobbySettings": {
@@ -15,5 +16,75 @@
     "placeHolder": "enter here ...",
     "cancel": "CANCEL",
     "confirm": "CONFIRM"
+  },
+  "userSettings": {
+    "userSettings": "User Settings",
+    "newUsername": "new username",
+    "newPassword": "new password",
+    "newPreferredLanguage": "Change your preferred language",
+    "save": "Save",
+    "backToLobbyOverview": "Back to Lobby Overview"
+  },
+  "gamePage": {
+    "buttons": {
+      "startGame": "Start Game",
+      "closeLobby": "Close Lobby",
+      "leaveLobby": "Leave Lobby"
+    },
+    "drawingBoardHeader": {
+      "waitingRoom": "WAITING ROOM",
+      "getReady": "GET READY",
+      "roundResult": "ROUND RESULT",
+      "drawingBoard": "DRAWING BOARD",
+      "round": "Round"
+    },
+    "gameStats": {
+      "rounds": "Rounds",
+      "firstRound": "First Round",
+      "lastRound": "Last Round"
+    },
+    "paintToolBar": {
+      "lineWidth": "Line Width",
+      "clearBoard": "Clear Board"
+    },
+    "guessingContainer": {
+      "wordToPaint": "Word to paint",
+      "typeInGuess": "Type in your guess",
+      "submittedGuess": "Your submitted guess",
+      "submit": "Submit"
+    },
+    "ranking": { "ranking": "Ranking" },
+    "beforeGameStart": {
+      "getReady": "Get ready for the game",
+      "gameConsists": "The game consists of ",
+      "rounds": " rounds",
+      "roundOver": "A round is over when each player painted one time",
+      "youHave": "You have ",
+      "secondsToPaint": " seconds to paint/guess the word",
+      "firstPainter": "The first painter is "
+    },
+    "lobbyClosed": {
+      "lobbyClosed": "Lobby Closed",
+      "hostDisconnected": "Host Disconnected",
+      "redirect": "you get redirected to the Lobby-Overview page..."
+    }
+  },
+  "endOfGamePage": {
+    "finalScores": "Final Scores",
+    "rank": "Rank",
+    "userName": "Username",
+    "finalPoints": "Final Points",
+    "gameAgain": "Game again?",
+    "backToLobbies": "Back to Lobbies"
+  },
+  "endOfTurn": {
+    "resultLastRound": "Results of last turn",
+    "rank": "Rank",
+    "userName": "Username",
+    "newPoints": "New Points",
+    "guessedWord": "Guessed Word",
+    "getReadyForNextTurn": "Get ready for the next turn !!!",
+    "newPainter": "New Painter: ",
+    "lastWord": "The word was: "
   }
 }

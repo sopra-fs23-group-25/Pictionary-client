@@ -17,6 +17,8 @@ import BeforeGameStart from "./BeforeGameStart";
 import EndOfGame from "./EndOfGame";
 import EndOfTurn from "./EndOfTurnResults";
 import LobbyClosedComponent from "./LobbyClosedComponent";
+import { useTranslation } from "react-i18next";
+import "locales/index";
 
 const GameView = (props) => {
   //Refs
@@ -40,6 +42,7 @@ const GameView = (props) => {
 
   const location = useLocation();
   const history = useHistory();
+  const { t } = useTranslation();
 
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
@@ -372,7 +375,7 @@ const GameView = (props) => {
 
   return disconnectedType ? (
     <LobbyClosedComponent
-      disconnectedType={disconnectedType}
+      disconnectedType={(disconnectedType, t)}
     ></LobbyClosedComponent>
   ) : gameState !== "end game" ? (
     <div className="game">
@@ -383,6 +386,7 @@ const GameView = (props) => {
               <div className="board header-container sub-container1">
                 {isPainter ? (
                   <PaintToolbar
+                    t={t}
                     selectedColor={color}
                     setColor={setColor}
                     lineWidth={lineWidth}
@@ -398,15 +402,15 @@ const GameView = (props) => {
               {(() => {
                 switch (gameState) {
                   case "before game":
-                    return "Waiting Room";
+                    return t("gamePage.drawingBoardHeader.waitingRoom");
                   case "start game":
-                    return "GET READY";
+                    return t("gamePage.drawingBoardHeader.getReady");
                   case "end round":
-                    return "Round Result";
+                    return t("gamePage.drawingBoardHeader.roundResult");
                   case "end last round":
-                    return "Round Result";
+                    return t("gamePage.drawingBoardHeader.roundResult");
                   default:
-                    return "Drawing Board";
+                    return t("gamePage.drawingBoardHeader.drawingBoard");
                 }
               })()}
             </div>
@@ -426,7 +430,8 @@ const GameView = (props) => {
                 ) : null}
               </div>
               <div className="rounds-container">
-                Round {currentRound}/{nrOfRounds}
+                {t("gamePage.drawingBoardHeader.round")} {currentRound}/
+                {nrOfRounds}
               </div>
             </div>
           </div>
@@ -435,6 +440,7 @@ const GameView = (props) => {
               case "start game":
                 return (
                   <BeforeGameStart
+                    t={t}
                     timePerRound={timePerRound}
                     nrOfRounds={nrOfRounds}
                     players={players}
@@ -443,6 +449,7 @@ const GameView = (props) => {
               case "end round":
                 return (
                   <EndOfTurn
+                    t={t}
                     roundResult={roundResult}
                     players={players}
                     currentRound={currentRound}
@@ -452,6 +459,7 @@ const GameView = (props) => {
               case "end last round":
                 return (
                   <EndOfTurn
+                    t={t}
                     roundResult={roundResult}
                     players={players}
                     currentRound={currentRound}
@@ -483,13 +491,13 @@ const GameView = (props) => {
                 className="start-game-button"
                 onClick={handleClickStartGame}
               >
-                Start Game
+                {t("gamePage.buttons.startGame")}
               </button>
               <button
                 className="start-game-button"
                 onClick={handleClickCloseLobby}
               >
-                Close Lobby
+                {t("gamePage.buttons.closeLobby")}
               </button>
             </div>
           ) : null}
@@ -499,7 +507,7 @@ const GameView = (props) => {
                 className="start-game-button"
                 onClick={handleClickLeaveLobby}
               >
-                Leave Lobby
+                {t("gamePage.buttons.leaveLobby")}
               </button>
             </div>
           ) : null}
@@ -509,10 +517,12 @@ const GameView = (props) => {
           <div className="game small-container sub-container2">
             {isPainter ? (
               <WordToDrawContainer
+                t={t}
                 currentWord={currentWord}
               ></WordToDrawContainer>
             ) : (
               <GuessingContainer
+                t={t}
                 currentGuess={currentGuess}
                 setCurrentGuess={setCurrentGuess}
                 guessSubmitted={guessSubmitted}
@@ -525,7 +535,7 @@ const GameView = (props) => {
           <div className="game small-container sub-container2" />
         )}
         <div className="game small-container sub-container3">
-          <PlayerRanking players={players}></PlayerRanking>
+          <PlayerRanking t={t} players={players}></PlayerRanking>
         </div>
       </div>
       <Socket
@@ -538,16 +548,16 @@ const GameView = (props) => {
       />
     </div>
   ) : (
-    <EndOfGame players={players}></EndOfGame>
+    <EndOfGame t={t} players={players}></EndOfGame>
   );
 };
 
 export default GameView;
 
-const WordToDrawContainer = ({ currentWord }) => {
+const WordToDrawContainer = ({ currentWord, t }) => {
   return (
     <div className="guessing-container">
-      <h1>Word to paint</h1>
+      <h1>{t("gamePage.guessingContainer.wordToPaint")} </h1>
       <div className="guessing-container word">{currentWord}</div>
     </div>
   );
@@ -559,17 +569,14 @@ const GuessingContainer = ({
   guessSubmitted,
   setGuessSubmitted,
   lobbyId,
+  t,
 }) => {
   async function submitGuess() {
-    console.log("submit guess", currentGuess);
     const userId = sessionStorage.getItem("userId");
     const guess = currentGuess;
     const requestBody = JSON.stringify({ userId: userId, guess: guess });
     try {
-      //console.log(us)
-      console.log(requestBody);
       await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
-      console.log("here");
     } catch (error) {
       console.log(error);
     }
@@ -579,7 +586,9 @@ const GuessingContainer = ({
   return (
     <div className="guessing-container">
       <h1>
-        {!guessSubmitted ? "Type in your guess " : "Your submitted guess"}
+        {!guessSubmitted
+          ? t("gamePage.guessingContainer.typeInGuess")
+          : t("gamePage.guessingContainer.submittedGuess")}
       </h1>
       <div className="word-input-container">
         <input
@@ -594,7 +603,7 @@ const GuessingContainer = ({
             onClick={() => submitGuess()}
             className="word-input-button"
           >
-            Submit
+            {t("gamePage.guessingContainer.submit")}
           </button>
         ) : null}
       </div>

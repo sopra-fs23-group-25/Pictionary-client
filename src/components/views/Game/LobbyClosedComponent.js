@@ -1,13 +1,13 @@
 import "styles/views/Login.scss";
 import { DisconnectionType } from "./Game";
 
-const LobbyClosedComponent = (disconnectedType) => {
+const LobbyClosedComponent = ({ disconnectedType, t }) => {
   return (
     <div className="login">
       <div className="subcontainer header-container">
         {disconnectedType.disconnectedType ===
         DisconnectionType.HOST_CLOSED_LOBBY ? (
-          <h1>Lobby Closed</h1>
+          <h1>{t("gamePage.lobbyClosed.lobbyClosed")}</h1>
         ) : (
           <h1>Host Disconnected</h1>
         )}

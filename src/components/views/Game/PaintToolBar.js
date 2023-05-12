@@ -14,8 +14,14 @@ const colors = [
 ];
 
 const PaintToolbar = (props) => {
-  const { selectedColor, setColor, lineWidth, setLineWidth, sendClearMessage } =
-    props;
+  const {
+    selectedColor,
+    setColor,
+    lineWidth,
+    setLineWidth,
+    sendClearMessage,
+    t,
+  } = props;
 
   const handleClearCanvas = () => {
     console.log("clear canvas");
@@ -39,7 +45,7 @@ const PaintToolbar = (props) => {
         ))}
       </div>
       <div className="width-picker">
-        <label>Line Width</label>
+        <label> {t("gamePage.paintToolBar.lineWidth")}</label>
         <RangeSelection
           setter={setLineWidth}
           state={lineWidth}
@@ -48,7 +54,7 @@ const PaintToolbar = (props) => {
           step={"2"}
         ></RangeSelection>
         <button className="clear-button" onClick={handleClearCanvas}>
-          Clear Board
+          {t("gamePage.paintToolBar.clearBoard")}
         </button>
       </div>
     </div>

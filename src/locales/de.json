@@ -5,6 +5,7 @@
     "lobbySize": "Anz. Spieler",
     "refresh": "NEU LADEN",
     "createLobby": "LOBBY ERSTELLEN",
+    "userSettings": "Einstellungen",
     "logout": "ABMELDEN"
   },
   "lobbySettings": {
@@ -15,5 +16,19 @@
     "placeHolder": "hier eingeben ...",
     "cancel": "ABBRECHEN",
     "confirm": "BESTÄTIGEN"
+  },
+  "gamePage": {
+    "buttons": {
+      "startGame": "Spiel starten",
+      "closeLobby": "Lobby schliessen",
+      "leaveLobby": "Lobby verlassen"
+    },
+    "drawingBoardHeader": {
+      "waitingRoom": "WARTE RAUM",
+      "getReady": "ACHTUNG SPIEL BEGINNT",
+      "roundResult": "RUNDEN RESULTAT",
+      "drawingBoard": "ZEICHNUNGS BRETT",
+      "round": "Runde"
+    }
   }
 }
