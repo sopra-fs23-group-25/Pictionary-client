@@ -37,7 +37,7 @@ const UserItem = ({ guess, index }) => {
   );
 };
 
-const EndOfTurn = ({ players, roundResult, currentRound, word }) => {
+const EndOfTurn = ({ players, roundResult, currentRound, word, t }) => {
   let users = <Spinner></Spinner>;
   if (roundResult.length > 0) {
     users = roundResult.map((guess, index) => (
@@ -58,34 +58,34 @@ const EndOfTurn = ({ players, roundResult, currentRound, word }) => {
       <div className="popup">
         <div className="sub-container-players">
           <div className="sub-container-players header-container">
-            <h1>Results of last Round</h1>
+            <h1>{t("endOfTurn.resultLastRound")}</h1>
           </div>
           <div className="sub-container-players sub-container-list">
             <div className="sub-container-players sub-container-list header">
               <div className="sub-container-players sub-container-list header position">
-                Position
+                {t("endOfTurn.rank")}
               </div>
               <div className="sub-container-players sub-container-list header name">
-                Username
+                {t("endOfTurn.userName")}
               </div>
               <div className="sub-container-players sub-container-list header points">
-                New Points
+                {t("endOfTurn.newPoints")}
               </div>
               <div className="sub-container-players sub-container-list header guessed-word">
-                Guessed Word
+                {t("endOfTurn.guessedWord")}
               </div>
             </div>
             {users}
           </div>
           <div className="sub-container-players flag-container"></div>
           <div className="sub-container-players header-nextRound">
-            Get ready for next Round!!!
+            {t("endOfTurn.getReadyForNextTurn")}
           </div>
           <div className="sub-container-players header-nextPainter">
-            New Painter: {painter}
+            {t("endOfTurn.newPainter")} {painter}
           </div>
           <div className="sub-container-players header-correct-word">
-            The word was: {word}
+            {t("endOfTurn.lastWord")} {word}
           </div>
         </div>
       </div>
