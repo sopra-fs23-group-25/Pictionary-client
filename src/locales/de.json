@@ -17,6 +17,14 @@
     "cancel": "ABBRECHEN",
     "confirm": "BESTÄTIGEN"
   },
+  "userSettings": {
+    "userSettings": "Benutzer Einstellungen",
+    "newUsername": "neuer Benutzernamen",
+    "newPassword": "neues Passwort",
+    "newPreferredLanguage": "Wechsle deine bevorzugte Sprache",
+    "save": "SPEICHERN",
+    "backToLobbyOverview": "ZURÜCK"
+  },
   "gamePage": {
     "buttons": {
       "startGame": "Spiel starten",

@@ -22,8 +22,8 @@
     "newUsername": "new username",
     "newPassword": "new password",
     "newPreferredLanguage": "Change your preferred language",
-    "save": "Save",
-    "backToLobbyOverview": "Back to Lobby Overview"
+    "save": "SAVE",
+    "backToLobbyOverview": "BACK"
   },
   "gamePage": {
     "buttons": {

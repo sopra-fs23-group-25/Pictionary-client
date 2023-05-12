@@ -53,18 +53,17 @@ const DropDown = ({ label, value, options, onChange }) => {
 const UserSettings = () => {
   const history = useHistory();
   const { t, i18n } = useTranslation();
-  const [password, setPassword] = useState("");
+  const password = "";
   const [username, setUsername] = useState("");
   const [language, setLanguage] = useState("");
-  const [isFormDirty, setIsFormDirty] = useState(false);
   const token = sessionStorage.getItem("token");
+
+  const [newPassword, setNewPassword] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [newLanguage, setNewLanguage] = useState("");
   //const params = useParams();
   let { id } = useParams();
   const userId = id;
-  //const response = await apiWithAuth(token).get("/users/" + userId.toString());
-  //const user = new User(response.data);
-  //setUsername(user.username);
-  //setLanguage(user.language);
 
   const languageOptions = [
     { value: "en", label: "English" },
@@ -72,53 +71,61 @@ const UserSettings = () => {
     { value: "fr", label: "French" },
   ];
 
-  const handleUsernameChange = (value) => {
-    setUsername(value);
-    setIsFormDirty(true);
-  };
-
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-    setIsFormDirty(true);
-  };
-
-  const handleLanguageChange = (value) => {
-    setLanguage(value);
-    setIsFormDirty(true);
-  };
-
   useEffect(() => {
+    const storedUserId = sessionStorage.getItem("userId");
+    if (parseFloat(userId) !== parseFloat(storedUserId)) {
+      history.push("/lobbies");
+    }
+
     async function fetchData() {
       const response = await apiWithAuth(token).get(
         "/users/" + userId.toString()
       );
       const user = new User(response.data);
       setLanguage(user.language);
+      setNewLanguage(user.language);
       setUsername(user.username);
-      const storedUserId = sessionStorage.getItem("userId");
-      if (parseFloat(userId) !== parseFloat(storedUserId)) {
-        history.push("/lobbies");
-      }
+      setNewUsername(user.username);
     }
     fetchData();
   }, [token, userId, history]);
 
   const save = async () => {
     try {
-      const requestBody = JSON.stringify({ username, password, language });
+      const requestBody = JSON.stringify({
+        username: newUsername,
+        password: newPassword,
+        language: newLanguage,
+      });
       await apiWithAuth(token).put("/users/" + userId.toString(), requestBody);
 
-      sessionStorage.setItem("language", language);
-      i18n.changeLanguage(language);
+      sessionStorage.setItem("language", newLanguage);
+      i18n.changeLanguage(newLanguage);
+
+      setUsername(newUsername);
+      setLanguage(newLanguage);
+      setNewPassword("");
+      setNewPassword("");
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
-      history.push("/register");
     }
   };
 
   const navigateToLobbyOverview = async () => {
     history.push("/lobbies");
   };
+
+  function saveButtonDisabled() {
+    return (
+      (newUsername !== username && !userNameNotWhiteSpaceOrEmpty()) ||
+      newPassword !== password ||
+      newLanguage !== language
+    );
+  }
+
+  function userNameNotWhiteSpaceOrEmpty() {
+    return newUsername.trim() === "";
+  }
 
   return (
     <div className="usersettings-main-container">
@@ -128,33 +135,31 @@ const UserSettings = () => {
       <div className="usersettings-subcontainer form-container">
         <FormField
           label={t("userSettings.newUsername")}
-          value={username}
-          onChange={handleUsernameChange}
+          value={newUsername}
+          onChange={(u) => setNewUsername(u)}
         ></FormField>
         <FormField
           label={t("userSettings.newPassword")}
-          value={password}
+          value={newPassword}
           type="password"
-          onChange={handlePasswordChange}
+          onChange={(p) => setNewPassword(p)}
         ></FormField>
         <DropDown
           label={t("userSettings.newPreferredLanguage")}
-          value={language}
+          value={newLanguage}
           options={languageOptions}
-          onChange={handleLanguageChange}
+          onChange={(l) => setNewLanguage(l)}
         ></DropDown>
       </div>
       <div className="usersettings-subcontainer button-container">
         <button
-          disabled={!isFormDirty}
-          className={`save-button ${!isFormDirty ? "disabled" : ""}`}
-          //className="save-button"
+          disabled={!saveButtonDisabled()}
+          className="save-button"
           onClick={() => save()}
         >
           {t("userSettings.save")}
         </button>
         <button
-          //disabled={isDisabled()}
           className="back-to-lobby-button"
           onClick={() => navigateToLobbyOverview()}
         >
