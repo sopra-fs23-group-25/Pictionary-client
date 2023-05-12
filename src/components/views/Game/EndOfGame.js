@@ -12,14 +12,11 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-
-
-
-const UserItem = ({ player , index}) => {
+const UserItem = ({ player, index }) => {
   return (
     <div className="sub-container-end-game sub-container-list list">
       <div className="sub-container-end-game sub-container-list list position">
-        #{index+1}
+        #{index + 1}
       </div>
       <div className="sub-container-end-game sub-container-list list username">
         {player.username}
@@ -31,18 +28,14 @@ const UserItem = ({ player , index}) => {
   );
 };
 
-const EndOfGame = ({players}) => {
+const EndOfGame = ({ players, t }) => {
   const history = useHistory();
   //const [users, setUsers] = useState(null);
 
   let userListContent = <Spinner></Spinner>;
-  if (players.length  > 0) {
+  if (players.length > 0) {
     userListContent = players.map((player, index) => (
-      <UserItem
-        player={player}
-        index={index}
-        key={player.userId}
-      ></UserItem>
+      <UserItem player={player} index={index} key={player.userId}></UserItem>
     ));
   }
 
@@ -64,19 +57,19 @@ const EndOfGame = ({players}) => {
         <div className="trophy"></div>
         <div className="sub-container-end-game">
           <div className="sub-container-end-game header-container">
-            <h1>Final Scores</h1>
+            <h1>{t("endOfGamePage.finalScores")}</h1>
           </div>
 
           <div className="sub-container-end-game sub-container-list">
             <div className="sub-container-end-game sub-container-list header">
               <div className="sub-container-end-game sub-container-list header position">
-                Position
+                {t("endOfGamePage.rank")}
               </div>
               <div className="sub-container-end-game sub-container-list header name">
-                Username
+                {t("endOfGamePage.userName")}
               </div>
               <div className="sub-container-end-game sub-container-list header points">
-                Final Points
+                {t("endOfGamePage.finalPoints")}
               </div>
             </div>
             {userListContent}
@@ -88,14 +81,14 @@ const EndOfGame = ({players}) => {
             className="button-container-end-game button-game-again"
             onClick={() => startNewGame()}
           >
-            Game again?
+            {t("endOfGamePage.gameAgain")}
           </div>
 
           <div
             className="button-container-end-game button-exit"
             onClick={() => exit()}
           >
-            Back to lobbies
+            {t("endOfGamePage.backToLobbies")}
           </div>
         </div>
       </div>
