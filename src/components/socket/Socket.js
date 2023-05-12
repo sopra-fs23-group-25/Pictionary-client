@@ -1,6 +1,7 @@
 import SockJsClient from "react-stomp";
 import { getDomain } from "helpers/getDomain";
 import { useCallback } from "react";
+import { sendJoinGameMessage } from "components/socket/socketAPI";
 
 const Socket = (props) => {
   const WEBSOCKET_SUFFIX = "/ws";
@@ -10,7 +11,7 @@ const Socket = (props) => {
 
   function onConnect() {
     console.log("connected");
-    props.sendJoinGameMessage();
+    sendJoinGameMessage(clientRef, props.lobbyId);
     //send-message to lobby
   }
 

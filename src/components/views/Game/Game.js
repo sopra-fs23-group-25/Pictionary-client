@@ -1,14 +1,20 @@
-import {
-  websocket_endpoints,
-  websocket_topics,
-} from "components/socket/Socket";
+import { websocket_topics } from "components/socket/Socket";
 import Socket from "components/socket/Socket";
 
 import DrawingBoard, { drawOnBoard } from "./DrawingBoard";
 import PaintToolbar from "./PaintToolBar";
 import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
-import { api, apiWithUserId } from "helpers/api";
+
+import { api } from "helpers/api";
+import { createGame, fetchGame } from "helpers/gameAPI";
+import { fetchTurn, updateTurn } from "helpers/turnAPI";
+import {
+  sendGameStateMessage,
+  sendCloseLobbyMessage,
+  sendLeaveGameMessage,
+} from "components/socket/socketAPI";
+
 import { useState, useRef, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
@@ -55,38 +61,31 @@ const GameView = (props) => {
   const [roundResult, setRoundResult] = useState([]);
   const [word, setWord] = useState("");
 
+  //Game Logic - Timer
+  const [gameState, setGameState] = useState("before game");
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
     const isHost = location?.state?.isHost || false;
     const lobbyId = location?.state?.lobbyId || 1;
-    console.log("HOST: ", isHost);
     setLobbyId(lobbyId);
     setIsHost(isHost);
 
     async function fetchLobbyInformation() {
       try {
+        console.log(lobbyId);
         const response = await api.get(`/lobbies/${lobbyId}`);
-        console.log(response);
         setTimePerRound(response.data.timePerRound);
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
       } catch (error) {
         alert(`Could not fetch Lobby`);
+        history.push("/lobbies");
       }
     }
 
     fetchLobbyInformation();
-  }, [props, location]);
-
-  //Game Logic - Timer
-  const [gameState, setGameState] = useState("before game");
-
-  // Information Needed on render page:
-  //setting Default Values on Render
-  useEffect(() => {
-    setIsPainter(true);
-    console.log("default value");
-  }, []);
+  }, [props, location, history]);
 
   // ClearCanvas
   function clearCanvas() {
@@ -95,64 +94,6 @@ const GameView = (props) => {
     const context = canvasRef.current.getContext("2d");
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
-
-  // WebSocket functions - TODO: refactor and extract
-
-  const sendDrawingMessage = (x1, y1, x2, y2, color, lineWidth) => {
-    const requestBody = JSON.stringify({
-      prevX: x1,
-      prevY: y1,
-      currX: x2,
-      currY: y2,
-      color: color,
-      lineWidth: lineWidth,
-    });
-    console.log(requestBody, websocket_endpoints(lobbyId).drawing_all);
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).drawing_all,
-      requestBody
-    );
-  };
-
-  const sendClearMessage = () => {
-    const requestBody = JSON.stringify({ task: "clear drawing board" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).drawing_clear,
-      requestBody
-    );
-  };
-
-  const sendJoinGameMessage = () => {
-    const requestBody = JSON.stringify({ task: "joined Game" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).users,
-      requestBody
-    );
-  };
-
-  const sendLeaveGameMessage = () => {
-    const requestBody = JSON.stringify({ task: "left Game" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).users,
-      requestBody
-    );
-  };
-
-  const sendCloseLobbyMessage = () => {
-    const requestBody = JSON.stringify({ task: "lobby closed" });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).lobby_closed,
-      requestBody
-    );
-  };
-
-  const sendGameStateMessage = (message) => {
-    const requestBody = JSON.stringify({ task: message });
-    clientRef.current.sendMessage(
-      websocket_endpoints(lobbyId).game_state,
-      requestBody
-    );
-  };
 
   // handle websocket (incoming) messages
   const onMessage = (msg, topic) => {
@@ -167,7 +108,6 @@ const GameView = (props) => {
         msg.color,
         msg.lineWidth
       );
-      console.log("received changes on drawing", msg);
     } else if (topic === websocket_topics(lobbyId).clear) {
       clearCanvas(canvasRef.current);
     } else if (topic === websocket_topics(lobbyId).users) {
@@ -180,54 +120,12 @@ const GameView = (props) => {
       console.log("lobby closed from host");
       setDisconnectedType(DisconnectionType.HOST_CLOSED_LOBBY);
     } else if (topic === websocket_topics(lobbyId).game_state) {
-      if (msg.task === "start game") {
-        setGameState(msg.task);
-      } else if (msg.task === "start round") {
-        setGameState(msg.task);
-      } else if (msg.task === "end round") {
-        setGameState(msg.task);
-      } else if (msg.task === "end last round") {
-        setGameState(msg.task);
-      } else if (msg.task === "end game") {
-        setGameState(msg.task);
-      }
+      setGameState(msg.task);
     } else if (topic === websocket_topics(lobbyId).host_disconnected) {
       console.log("host disconnected");
       setDisconnectedType(DisconnectionType.HOST_DISCONNECTED);
     }
   };
-
-  async function createGame() {
-    const response = await api.post(`/lobbies/${lobbyId}/game`);
-    return response;
-  }
-
-  async function fetchGame() {
-    const response = await api.get(`/lobbies/${lobbyId}/game`);
-    return response;
-  }
-
-  async function updateGame() {
-    await api.put(`/lobbies/${lobbyId}/game`);
-  }
-
-  async function deleteTurn() {
-    await api.delete(`/lobbies/${lobbyId}/game/turn`);
-  }
-
-  async function createTurn() {
-    const response = await api.post(`/lobbies/${lobbyId}/game/turn`);
-    return response;
-  }
-
-  async function fetchTurn() {
-    const userId = sessionStorage.getItem("userId");
-
-    const response = await apiWithUserId(userId).get(
-      `/lobbies/${lobbyId}/game/turn`
-    );
-    return response;
-  }
 
   function configurePainter() {
     const userId = parseInt(sessionStorage.getItem("userId"));
@@ -269,61 +167,40 @@ const GameView = (props) => {
 
   //Game Logic - Sequence - Timer
   async function handleClickStartGame() {
-    // POST game
-    await createGame();
-    //send start game over WS
-    sendGameStateMessage("start game");
-    //set started: true -> to hide button for host
-    // timerRef.current.endRound();
+    await createGame(lobbyId);
+    sendGameStateMessage(clientRef, lobbyId, "start game");
   }
 
   const startGame = async () => {
-    // show startGame Component
     timerRef.current.startGame(10);
-    //timerRef.current.startGame(5);
-    // GET Roles
-    const gameResponse = await fetchGame();
-    console.log("fetch game", gameResponse);
+
+    const gameResponse = await fetchGame(lobbyId);
+
     setPlayers(gameResponse.data.players);
     setCurrentRound(gameResponse.data.currentRound);
-    //configurePainter();
-    // setPlayers & setIsPainter
-    // update is Painter
   };
 
   async function startRound() {
     timerRef.current.startRound(timePerRound);
-    //  timerRef.current.startRound(5);
+
     if (isPainter) {
-      const response = await fetchTurn(); // to get word
-      console.log("turn response", response);
+      const response = await fetchTurn(lobbyId); // to get word
       setCurrentWord(response.data.word);
     }
     setGuessSubmitted(false);
     setCurrentGuess("");
-    // show Drawing Board
   }
 
   async function endRound() {
-    // isEndOfRound: true
-    //setIsEndOfRound(true);
     timerRef.current.endRound(10);
-    //  timerRef.current.endRound(30);
-    // show Round Result
-    // GET ROUND RESULT (roles, word)
-    const turnResponse = await fetchTurn(); // to get Result
-    const gameResponse = await fetchGame(); // to get new Roles
-    console.log("turn response:", turnResponse);
-    console.log("game response:", gameResponse);
-    //setRoundResult(turnResponse.data);
+
+    const turnResponse = await fetchTurn(lobbyId); // to get Result
+    const gameResponse = await fetchGame(lobbyId); // to get new Roles
+
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.currentRound);
     setWord(turnResponse.data.word);
-    //.sort((a, b) => b.score - a.score);
-    //configurePainter();
-    // setWord, setPlayers
-    // isPainter check
   }
 
   function endGame() {
@@ -341,7 +218,7 @@ const GameView = (props) => {
 
       // sendOverWebsocket to all players that lobby closed
       console.log("close lobby");
-      sendCloseLobbyMessage();
+      sendCloseLobbyMessage(clientRef, lobbyId);
     } catch (error) {
       alert("could not delete lobby");
     }
@@ -355,7 +232,7 @@ const GameView = (props) => {
       await api.put(`/lobbies/${lobbyId}/leave`, requestBody);
 
       // sendOverWebsocket to all players that user left lobby
-      sendLeaveGameMessage();
+      sendLeaveGameMessage(clientRef, lobbyId);
     } catch (error) {
       alert("could not leave lobby");
     }
@@ -391,7 +268,8 @@ const GameView = (props) => {
                     setColor={setColor}
                     lineWidth={lineWidth}
                     setLineWidth={setLineWidth}
-                    sendClearMessage={sendClearMessage}
+                    clientRef={clientRef}
+                    lobbyId={lobbyId}
                   ></PaintToolbar>
                 ) : null}
               </div>
@@ -420,11 +298,8 @@ const GameView = (props) => {
                   <CountDownTimer
                     gameState={gameState}
                     isHost={isHost}
-                    sendGameStateMessage={sendGameStateMessage}
-                    fetchGame={fetchGame}
-                    updateGame={updateGame}
-                    deleteTurn={deleteTurn}
-                    createTurn={createTurn}
+                    clientRef={clientRef}
+                    lobbyId={lobbyId}
                     ref={timerRef}
                   ></CountDownTimer>
                 ) : null}
@@ -473,7 +348,8 @@ const GameView = (props) => {
                     lineWidth={lineWidth}
                     ref={canvasRef}
                     isPainter={isPainter}
-                    sendDrawingMessage={sendDrawingMessage}
+                    clientRef={clientRef}
+                    lobbyId={lobbyId}
                   ></DrawingBoard>
                 );
             }
@@ -542,7 +418,6 @@ const GameView = (props) => {
         clientRef={clientRef}
         lobbyId={lobbyId}
         userId={userId}
-        sendJoinGameMessage={sendJoinGameMessage}
         topics={Object.values(websocket_topics(lobbyId))}
         onMessage={onMessage}
       />
@@ -576,7 +451,7 @@ const GuessingContainer = ({
     const guess = currentGuess;
     const requestBody = JSON.stringify({ userId: userId, guess: guess });
     try {
-      await api.put(`/lobbies/${lobbyId}/game/turn`, requestBody);
+      await updateTurn(lobbyId, requestBody);
     } catch (error) {
       console.log(error);
     }

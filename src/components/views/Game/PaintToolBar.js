@@ -1,5 +1,6 @@
 import RangeSelection from "components/ui/RangeSelection";
 import "styles/views/Game/PaintToolBar.scss";
+import { sendClearMessage } from "components/socket/socketAPI";
 
 const colors = [
   "yellow",
@@ -14,18 +15,13 @@ const colors = [
 ];
 
 const PaintToolbar = (props) => {
-  const {
-    selectedColor,
-    setColor,
-    lineWidth,
-    setLineWidth,
-    sendClearMessage,
-    t,
-  } = props;
+  const { selectedColor, setColor, lineWidth, setLineWidth, t, lobbyId } =
+    props;
+  const clientRef = props.clientRef;
 
   const handleClearCanvas = () => {
     console.log("clear canvas");
-    sendClearMessage();
+    sendClearMessage(clientRef, lobbyId);
   };
 
   return (

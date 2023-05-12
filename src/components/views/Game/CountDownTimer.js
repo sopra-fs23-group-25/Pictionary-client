@@ -2,6 +2,9 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import "styles/views/Game/CountDownTimer.scss";
 import { useState } from "react";
 import { forwardRef, useImperativeHandle } from "react";
+import { fetchGame, updateGame } from "helpers/gameAPI";
+import { createTurn, deleteTurn } from "helpers/turnAPI";
+import { sendGameStateMessage } from "components/socket/socketAPI";
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -20,30 +23,30 @@ const CountDownTimer = forwardRef((props, ref) => {
   const [duration, setDuration] = useState(0);
   const [key, setKey] = useState(0);
 
+  const { lobbyId } = props;
+  const clientRef = props.clientRef;
   const { gameState, isHost } = props;
-  const { sendGameStateMessage } = props;
-  const { updateGame, deleteTurn, createTurn, fetchGame } = props;
 
   async function handleTimerComplete() {
     if (isHost) {
       if (gameState === "start game") {
-        await createTurn();
-        sendGameStateMessage("start round");
+        await createTurn(lobbyId);
+        sendGameStateMessage(clientRef, lobbyId, "start round");
       } else if (gameState === "start round") {
         console.log("befor put game");
-        await updateGame();
-        const response = await fetchGame();
+        await updateGame(lobbyId);
+        const response = await fetchGame(lobbyId);
         if (response.data.gameOver === false) {
-          sendGameStateMessage("end round");
+          sendGameStateMessage(clientRef, lobbyId, "end round");
         } else {
-          sendGameStateMessage("end last round");
+          sendGameStateMessage(clientRef, lobbyId, "end last round");
         }
       } else if (gameState === "end round") {
-        await deleteTurn();
-        await createTurn();
-        sendGameStateMessage("start round");
+        await deleteTurn(lobbyId);
+        await createTurn(lobbyId);
+        sendGameStateMessage(clientRef, lobbyId, "start round");
       } else if (gameState === "end last round") {
-        sendGameStateMessage("end game");
+        sendGameStateMessage(clientRef, lobbyId, "end game");
       }
       console.log("Timer Ended");
     }
