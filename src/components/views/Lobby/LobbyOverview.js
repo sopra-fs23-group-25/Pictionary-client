@@ -47,6 +47,11 @@ const LobbyOverview = () => {
 
   useEffect(() => {
     fetchData();
+    const interval = setInterval(() => {
+      console.log("refreshed");
+      fetchData();
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   async function refreshLobby() {
