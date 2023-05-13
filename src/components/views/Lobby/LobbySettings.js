@@ -44,6 +44,10 @@ const LobbySettings = () => {
     });
   };
 
+  function lobbyNameNotWhiteSpaceOrEmpty() {
+    return lobbyName.trim() === "";
+  }
+
   return (
     <div className="lobbysettings">
       <h2>{t("lobbySettings.lobbySettings")}</h2>
@@ -95,7 +99,7 @@ const LobbySettings = () => {
         <button
           onClick={() => createLobby()}
           className="lobbysettings button-container button confirm"
-          disabled={!lobbyName}
+          disabled={!lobbyName || lobbyNameNotWhiteSpaceOrEmpty()}
         >
           {t("lobbySettings.confirm")}
         </button>
@@ -110,7 +114,7 @@ const EntryField = ({ type, value, onChange, t }) => {
   return (
     <div className="lobbyname">
       <label className="lobbyname label">
-        <span>Lobby Name</span>
+        <span>{t("lobbySettings.lobbyName")}</span>
       </label>
       <input
         className="lobbyname input"

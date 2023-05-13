@@ -10,6 +10,7 @@
   },
   "lobbySettings": {
     "lobbySettings": "Lobby Settings",
+    "lobbyName": "Lobby Name",
     "secPerRound": "seconds per round",
     "nrOfRounds": "number of rounds",
     "nrOfPlayers": "max number of players",
