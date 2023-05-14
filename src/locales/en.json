@@ -39,10 +39,14 @@
       "drawingBoard": "DRAWING BOARD",
       "round": "Round"
     },
-    "gameStats": {
-      "rounds": "Rounds",
-      "firstRound": "First Round",
-      "lastRound": "Last Round"
+    "roundsContainer": {
+      "round": "Round ",
+      "turn": "Turn ",
+      "firstRound": "First Round starts",
+      "lastRound": "Last Round is over",
+      "hostCanStart": "You can start the game",
+      "hostMustWait": "Wait for players to join lobby",
+      "playerMustWait": "Wait for host to start the game"
     },
     "paintToolBar": {
       "lineWidth": "Line Width",

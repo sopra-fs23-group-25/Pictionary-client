@@ -62,6 +62,7 @@ const GameView = (props) => {
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
   const [currentRound, setCurrentRound] = useState(0);
+  const [turn, setTurn] = useState(0);
 
   const [roundResult, setRoundResult] = useState([]);
   const [word, setWord] = useState("");
@@ -167,6 +168,29 @@ const GameView = (props) => {
 
   useEffect(() => {
     console.log(gameState);
+    if (gameState === "start round") {
+      if (isHost) {
+        const timer = setTimeout(async () => {
+          if (!painterActiveRef.current && !isPainter) {
+            await updateGame(lobbyId);
+            const response = await fetchGame(lobbyId);
+            console.log(response.data);
+            if (response.data.gameOver === false) {
+              sendGameStateMessage(clientRef, lobbyId, "end round");
+            } else {
+              sendGameStateMessage(clientRef, lobbyId, "end last round");
+            }
+          }
+        }, 8000);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [gameState, isPainter, isHost, lobbyId]);
+  // these functions will never change
+
+  useEffect(() => {
+    console.log(gameState);
     if (players.length > 0 && gameState !== "before game") {
       try {
         configurePainter();
@@ -201,20 +225,7 @@ const GameView = (props) => {
     }
     setGuessSubmitted(false);
     setCurrentGuess("");
-
-    if (isHost) {
-      setTimeout(async () => {
-        if (!painterActiveRef.current && !isPainter) {
-          await updateGame(lobbyId);
-          const response = await fetchGame(lobbyId);
-          if (response.data.gameOver === false) {
-            sendGameStateMessage(clientRef, lobbyId, "end round");
-          } else {
-            sendGameStateMessage(clientRef, lobbyId, "end last round");
-          }
-        }
-      }, 10000);
-    }
+    setTurn((turn % players.length) + 1);
   }
 
   async function endRound() {
@@ -333,8 +344,30 @@ const GameView = (props) => {
                 ) : null}
               </div>
               <div className="rounds-container">
-                {t("gamePage.drawingBoardHeader.round")} {currentRound}/
-                {nrOfRounds}
+                {(() => {
+                  switch (gameState) {
+                    case "before game":
+                      return isHost
+                        ? enoughPlayersInLobby()
+                          ? t("gamePage.roundsContainer.hostCanStart")
+                          : t("gamePage.roundsContainer.hostMustWait")
+                        : t("gamePage.roundsContainer.playerMustWait");
+                    case "start game":
+                      return t("gamePage.roundsContainer.firstRound");
+                    case "end last round":
+                      return t("gamePage.roundsContainer.lastRound");
+                    default:
+                      return (
+                        <>
+                          {t("gamePage.roundsContainer.turn")}
+                          {turn}/{players.length}
+                          {" of "}
+                          {t("gamePage.roundsContainer.round")}
+                          {currentRound}/{nrOfRounds}
+                        </>
+                      );
+                  }
+                })()}
               </div>
             </div>
           </div>
