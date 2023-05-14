@@ -7,7 +7,7 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 
 import { api } from "helpers/api";
-import { createGame, fetchGame } from "helpers/gameAPI";
+import { createGame, fetchGame, updateGame } from "helpers/gameAPI";
 import { fetchTurn, updateTurn } from "helpers/turnAPI";
 import {
   sendGameStateMessage,
@@ -39,7 +39,12 @@ const GameView = (props) => {
   //Word
   const [currentWord, setCurrentWord] = useState("");
   const [currentGuess, setCurrentGuess] = useState("");
+
+  // Disconnections
   const [guessSubmitted, setGuessSubmitted] = useState(false);
+  const [painterActive, setPainterActive] = useState(false);
+  const painterActiveRef = useRef(painterActive);
+  painterActiveRef.current = painterActive;
 
   //Roles
   const [isPainter, setIsPainter] = useState(true);
@@ -79,8 +84,11 @@ const GameView = (props) => {
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
       } catch (error) {
-        alert(`Could not fetch Lobby`);
-        history.push("/lobbies");
+        if (isHost) {
+          history.push("/lobbies");
+        } else {
+          alert(`Could not fetch Lobby`);
+        }
       }
     }
 
@@ -97,7 +105,6 @@ const GameView = (props) => {
 
   // handle websocket (incoming) messages
   const onMessage = (msg, topic) => {
-    console.log(msg);
     if (topic === websocket_topics(lobbyId).drawing) {
       drawOnBoard(
         canvasRef,
@@ -108,6 +115,7 @@ const GameView = (props) => {
         msg.color,
         msg.lineWidth
       );
+      setPainterActive(true);
     } else if (topic === websocket_topics(lobbyId).clear) {
       clearCanvas(canvasRef.current);
     } else if (topic === websocket_topics(lobbyId).users) {
@@ -160,7 +168,11 @@ const GameView = (props) => {
   useEffect(() => {
     console.log(gameState);
     if (players.length > 0 && gameState !== "before game") {
-      configurePainter();
+      try {
+        configurePainter();
+      } catch (error) {
+        console.log("configure painter error");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
@@ -189,6 +201,20 @@ const GameView = (props) => {
     }
     setGuessSubmitted(false);
     setCurrentGuess("");
+
+    if (isHost) {
+      setTimeout(async () => {
+        if (!painterActiveRef.current && !isPainter) {
+          await updateGame(lobbyId);
+          const response = await fetchGame(lobbyId);
+          if (response.data.gameOver === false) {
+            sendGameStateMessage(clientRef, lobbyId, "end round");
+          } else {
+            sendGameStateMessage(clientRef, lobbyId, "end last round");
+          }
+        }
+      }, 10000);
+    }
   }
 
   async function endRound() {
@@ -201,6 +227,7 @@ const GameView = (props) => {
     setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
     setCurrentRound(gameResponse.data.currentRound);
     setWord(turnResponse.data.word);
+    setPainterActive(false);
   }
 
   function endGame() {
@@ -252,7 +279,8 @@ const GameView = (props) => {
 
   return disconnectedType ? (
     <LobbyClosedComponent
-      disconnectedType={(disconnectedType, t)}
+      disconnectedType={disconnectedType}
+      t={t}
     ></LobbyClosedComponent>
   ) : gameState !== "end game" ? (
     <div className="game">
