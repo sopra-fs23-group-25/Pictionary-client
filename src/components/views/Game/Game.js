@@ -62,6 +62,7 @@ const GameView = (props) => {
   const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
+  const [lastRound, setLastRound] = useState(0);
   const [currentRound, setCurrentRound] = useState(0);
   const [turn, setTurn] = useState(0);
 
@@ -258,6 +259,7 @@ const GameView = (props) => {
     setGuessSubmitted(false);
     setCurrentGuess("");
     setEndTurnReason("default");
+    setLastRound(currentRound);
     setTurn((turn % players.length) + 1);
   }
 
@@ -399,7 +401,7 @@ const GameView = (props) => {
                           {turn}/{players.length}
                           {" of "}
                           {t("gamePage.roundsContainer.round")}
-                          {currentRound}/{nrOfRounds}
+                          {lastRound}/{nrOfRounds}
                         </>
                       );
                   }
