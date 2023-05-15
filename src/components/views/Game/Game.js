@@ -25,6 +25,7 @@ import EndOfTurn from "./EndOfTurnResults";
 import LobbyClosedComponent from "./LobbyClosedComponent";
 import { useTranslation } from "react-i18next";
 import "locales/index";
+import TurnOverIntermediateComponent from "./TurnOverIntermediateComponent";
 
 const GameView = (props) => {
   //Refs
@@ -69,6 +70,8 @@ const GameView = (props) => {
 
   //Game Logic - Timer
   const [gameState, setGameState] = useState("before game");
+  const [showTurnResult, setShowTurnResult] = useState(false);
+  const [endTurnReason, setEndTurnReason] = useState("default");
 
   useEffect(() => {
     // this information was passed while creating/joining lobby
@@ -95,6 +98,17 @@ const GameView = (props) => {
 
     fetchLobbyInformation();
   }, [props, location, history]);
+
+  //Delay for RoundResult to show reason why turn was ended
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowTurnResult(true);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [showTurnResult]);
 
   // ClearCanvas
   function clearCanvas() {
@@ -129,7 +143,21 @@ const GameView = (props) => {
       console.log("lobby closed from host");
       setDisconnectedType(DisconnectionType.HOST_CLOSED_LOBBY);
     } else if (topic === websocket_topics(lobbyId).game_state) {
-      setGameState(msg.task);
+      if (msg.task.includes("end") && msg.task.includes("round")) {
+        setShowTurnResult(false);
+        if (msg.task.includes("last")) {
+          setGameState("end last round");
+        } else {
+          setGameState("end round");
+        }
+        if (msg.task.includes("all guessed")) {
+          setEndTurnReason("all guessed");
+        } else if (msg.task.includes("inactive")) {
+          setEndTurnReason("inactive");
+        }
+      } else {
+        setGameState(msg.task);
+      }
     } else if (topic === websocket_topics(lobbyId).host_disconnected) {
       console.log("host disconnected");
       setDisconnectedType(DisconnectionType.HOST_DISCONNECTED);
@@ -166,8 +194,8 @@ const GameView = (props) => {
   }, [gameState /* intentionally excluding startGame, startRound, endRound */]);
   // these functions will never change
 
+  //Time-Out to end round earlier, when painter (not-host) is NOT painting
   useEffect(() => {
-    console.log(gameState);
     if (gameState === "start round") {
       if (isHost) {
         const timer = setTimeout(async () => {
@@ -176,9 +204,13 @@ const GameView = (props) => {
             const response = await fetchGame(lobbyId);
             console.log(response.data);
             if (response.data.gameOver === false) {
-              sendGameStateMessage(clientRef, lobbyId, "end round");
+              sendGameStateMessage(clientRef, lobbyId, "inactive end round");
             } else {
-              sendGameStateMessage(clientRef, lobbyId, "end last round");
+              sendGameStateMessage(
+                clientRef,
+                lobbyId,
+                "inactive end last round"
+              );
             }
           }
         }, 8000);
@@ -225,17 +257,21 @@ const GameView = (props) => {
     }
     setGuessSubmitted(false);
     setCurrentGuess("");
+    setEndTurnReason("default");
     setTurn((turn % players.length) + 1);
   }
 
   async function endRound() {
-    timerRef.current.endRound(10);
+    timerRef.current.endRound(13);
 
     const turnResponse = await fetchTurn(lobbyId); // to get Result
     const gameResponse = await fetchGame(lobbyId); // to get new Roles
+    console.log(gameResponse.data.players);
 
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
-    setPlayers(gameResponse.data.players.sort((a, b) => b.score - a.score));
+    setPlayers(
+      gameResponse.data.players.sort((a, b) => b.totalScore - a.totalScore)
+    );
     setCurrentRound(gameResponse.data.currentRound);
     setWord(turnResponse.data.word);
     setPainterActive(false);
@@ -383,17 +419,13 @@ const GameView = (props) => {
                   ></BeforeGameStart>
                 );
               case "end round":
-                return (
-                  <EndOfTurn
-                    t={t}
-                    roundResult={roundResult}
-                    players={players}
-                    currentRound={currentRound}
-                    word={word}
-                  ></EndOfTurn>
-                );
               case "end last round":
-                return (
+                return !showTurnResult ? (
+                  <TurnOverIntermediateComponent
+                    t={t}
+                    endTurnReason={endTurnReason}
+                  ></TurnOverIntermediateComponent>
+                ) : (
                   <EndOfTurn
                     t={t}
                     roundResult={roundResult}

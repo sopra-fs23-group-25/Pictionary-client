@@ -74,6 +74,12 @@
       "redirect": "you get redirected to the Lobby-Overview page..."
     }
   },
+  "turnOverReason": {
+    "turnOver": "The turn is over",
+    "allPlayersGuessed": "All players have submitted a guess!",
+    "painterInactive": "The painter was inactive, the turn was finished earlier",
+    "timeOver": "The time is over!"
+  },
   "endOfGamePage": {
     "finalScores": "Final Scores",
     "rank": "Rank",
