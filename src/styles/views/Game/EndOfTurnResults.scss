@@ -21,6 +21,7 @@
   //animation-name: fadeOut;
 }
 
+
 .base-container-end-of-turn {
   position: relative;
   width: 100%;
@@ -87,7 +88,7 @@
     &.h1 {
       font-size: 2.5em;
       margin-top: 0.3em;
-      margin-bottom: 0em;
+      //margin-bottom: 0em;
     }
   }
   &.sub-container-list {
@@ -145,17 +146,17 @@
         overflow: hidden;
         width: 15%;
         justify-content: center;
-        text-align: center;
+        //text-align: center;
         //padding-left: 10px;
       }
       &.guessed-word {
-        margin-left: 0%;
+        margin-left: 0;
         //justify-content: left;
         text-align: center;
         overflow: hidden;
         width: 20%;
         justify-content: center;
-        text-align: center;
+        //text-align: center;
         //padding-right: 5px;
       }
     }
@@ -233,8 +234,17 @@
         //align-items: center;
         justify-content: center;
         text-align: center;
-        background: $list-color;
+        //background: $list-color;
+
+          &.positive-score {
+              background: rgba(31, 198, 16, 0.26);
+          }
+
+          &.negative-score {
+              background: rgba(255, 44, 44, 0.26);
+          }
       }
+
     }
   }
   &.flag-container {
