@@ -4,6 +4,7 @@ import User from "models/User";
 import { useHistory } from "react-router-dom";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
+import { useTranslation } from "react-i18next";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -27,6 +28,8 @@ const FormField = ({ label, value, type, onChange }) => {
 
 const Login = (props) => {
   const history = useHistory();
+  const { i18n } = useTranslation(); // destructure i18n here
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
@@ -41,6 +44,9 @@ const Login = (props) => {
       // Store the token into the local storage.
       sessionStorage.setItem("token", user.token);
       sessionStorage.setItem("userId", user.userId);
+      sessionStorage.setItem("language", user.language);
+
+      i18n.changeLanguage(user.language);
 
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);

@@ -1,8 +1,9 @@
 import React, { useEffect, forwardRef } from "react";
 import "styles/views/Game/DrawingBoard.scss";
+import { sendDrawingMessage } from "components/socket/socketAPI";
 
 const DrawingBoard = forwardRef(
-  ({ color, lineWidth, isPainter, sendDrawingMessage }, ref) => {
+  ({ color, lineWidth, isPainter, clientRef, lobbyId }, ref) => {
     useEffect(() => {
       const canvas = ref.current;
 
@@ -16,7 +17,6 @@ const DrawingBoard = forwardRef(
 
         lastX = event.clientX - bounds.left;
         lastY = event.clientY - bounds.top;
-        console.log(lastX, lastY);
       }
 
       function handleMouseMove(event) {
@@ -26,7 +26,16 @@ const DrawingBoard = forwardRef(
         const currentY = event.clientY - bounds.top;
 
         drawOnBoard(ref, lastX, lastY, currentX, currentY, color, lineWidth);
-        sendDrawingMessage(lastX, lastY, currentX, currentY, color, lineWidth);
+        sendDrawingMessage(
+          lastX,
+          lastY,
+          currentX,
+          currentY,
+          color,
+          lineWidth,
+          clientRef,
+          lobbyId
+        );
 
         lastX = currentX;
         lastY = currentY;
@@ -53,7 +62,7 @@ const DrawingBoard = forwardRef(
         canvas.removeEventListener("mouseup", handleMouseUp);
         canvas.removeEventListener("mouseout", handleMouseOut);
       };
-    }, [color, lineWidth, isPainter, ref, sendDrawingMessage]);
+    }, [color, lineWidth, isPainter, ref, clientRef, lobbyId]);
 
     return (
       <canvas

@@ -5,15 +5,39 @@
     "lobbySize": "Anz. Spieler",
     "refresh": "NEU LADEN",
     "createLobby": "LOBBY ERSTELLEN",
+    "userSettings": "Einstellungen",
     "logout": "ABMELDEN"
   },
   "lobbySettings": {
     "lobbySettings": "Lobby Einstellungen",
+    "lobbyName": "Lobby Name",
     "secPerRound": "Sekunden pro Runde",
     "nrOfRounds": "Anzahl Runden",
     "nrOfPlayers": "maximale Anzahl Spieler",
     "placeHolder": "hier eingeben ...",
     "cancel": "ABBRECHEN",
     "confirm": "BESTÄTIGEN"
+  },
+  "userSettings": {
+    "userSettings": "Benutzer Einstellungen",
+    "newUsername": "neuer Benutzernamen",
+    "newPassword": "neues Passwort",
+    "newPreferredLanguage": "Wechsle deine bevorzugte Sprache",
+    "save": "SPEICHERN",
+    "backToLobbyOverview": "ZURÜCK"
+  },
+  "gamePage": {
+    "buttons": {
+      "startGame": "Spiel starten",
+      "closeLobby": "Lobby schliessen",
+      "leaveLobby": "Lobby verlassen"
+    },
+    "drawingBoardHeader": {
+      "waitingRoom": "WARTE RAUM",
+      "getReady": "ACHTUNG SPIEL BEGINNT",
+      "roundResult": "RUNDEN RESULTAT",
+      "drawingBoard": "ZEICHNUNGS BRETT",
+      "round": "Runde"
+    }
   }
 }

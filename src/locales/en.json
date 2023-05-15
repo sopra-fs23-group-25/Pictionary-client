@@ -5,15 +5,97 @@
     "lobbySize": "Group Size",
     "refresh": "REFRESH",
     "createLobby": "CREATE A NEW LOBBY",
+    "userSettings": "Settings",
     "logout": "LOGOUT"
   },
   "lobbySettings": {
     "lobbySettings": "Lobby Settings",
+    "lobbyName": "Lobby Name",
     "secPerRound": "seconds per round",
     "nrOfRounds": "number of rounds",
     "nrOfPlayers": "max number of players",
     "placeHolder": "enter here ...",
     "cancel": "CANCEL",
     "confirm": "CONFIRM"
+  },
+  "userSettings": {
+    "userSettings": "User Settings",
+    "newUsername": "new username",
+    "newPassword": "new password",
+    "newPreferredLanguage": "Change your preferred language",
+    "save": "SAVE",
+    "backToLobbyOverview": "BACK"
+  },
+  "gamePage": {
+    "buttons": {
+      "startGame": "Start Game",
+      "closeLobby": "Close Lobby",
+      "leaveLobby": "Leave Lobby"
+    },
+    "drawingBoardHeader": {
+      "waitingRoom": "WAITING ROOM",
+      "getReady": "GET READY",
+      "roundResult": "ROUND RESULT",
+      "drawingBoard": "DRAWING BOARD",
+      "round": "Round"
+    },
+    "roundsContainer": {
+      "round": "Round ",
+      "turn": "Turn ",
+      "firstRound": "First Round starts",
+      "lastRound": "Last Round is over",
+      "hostCanStart": "You can start the game",
+      "hostMustWait": "Wait for players to join lobby",
+      "playerMustWait": "Wait for host to start the game"
+    },
+    "paintToolBar": {
+      "lineWidth": "Line Width",
+      "clearBoard": "Clear Board"
+    },
+    "guessingContainer": {
+      "wordToPaint": "Word to paint",
+      "typeInGuess": "Type in your guess",
+      "submittedGuess": "Your submitted guess",
+      "submit": "Submit"
+    },
+    "ranking": { "ranking": "Ranking" },
+    "beforeGameStart": {
+      "getReady": "Get ready for the game",
+      "gameConsists": "The game consists of ",
+      "rounds": " rounds",
+      "roundOver": "A round is over when each player painted one time",
+      "youHave": "You have ",
+      "secondsToPaint": " seconds to paint/guess the word",
+      "firstPainter": "The first painter is "
+    },
+    "lobbyClosed": {
+      "lobbyClosed": "Lobby Closed",
+      "hostDisconnected": "Host Disconnected",
+      "redirect": "you get redirected to the Lobby-Overview page..."
+    }
+  },
+  "turnOverReason": {
+    "turnOver": "The turn is over",
+    "allPlayersGuessed": "All players have submitted a guess!",
+    "painterInactive": "The painter was inactive, the turn was finished earlier",
+    "timeOver": "The time is over!"
+  },
+  "endOfGamePage": {
+    "finalScores": "Final Scores",
+    "rank": "Rank",
+    "userName": "Username",
+    "finalPoints": "Final Points",
+    "gameAgain": "Game again?",
+    "backToLobbies": "Back to Lobbies"
+  },
+  "endOfTurn": {
+    "resultLastRound": "Results of last turn",
+    "rank": "Rank",
+    "userName": "Username",
+    "newPoints": "New Points",
+    "guessedWord": "Guessed Word",
+    "getReadyForNextTurn": "Get ready for the next turn !!!",
+    "newPainter": "New Painter: ",
+    "lastWord": "The word was: "
   }
 }

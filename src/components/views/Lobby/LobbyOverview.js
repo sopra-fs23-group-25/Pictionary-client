@@ -28,7 +28,6 @@ const LobbyOverview = () => {
   const { t } = useTranslation();
   const [lobbies, setLobbies] = useState(null);
 
-
   const fetchData = async () => {
     try {
       const response = await api.get("/lobbies");
@@ -48,6 +47,11 @@ const LobbyOverview = () => {
 
   useEffect(() => {
     fetchData();
+    const interval = setInterval(() => {
+      console.log("refreshed");
+      fetchData();
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   async function refreshLobby() {
@@ -106,11 +110,11 @@ const LobbyOverview = () => {
     }
   };
 
-    const navigateToUserSettings = () => {
-        const userId = sessionStorage.getItem("userId");
-        //console.log("sessionStorage ID", userId);
-        history.push("/users/" + userId.toString());
-    };
+  const navigateToUserSettings = () => {
+    const userId = sessionStorage.getItem("userId");
+    //console.log("sessionStorage ID", userId);
+    history.push("/users/" + userId.toString());
+  };
 
   return (
     <div className="main-container">
@@ -142,12 +146,12 @@ const LobbyOverview = () => {
         >
           {t("lobbyOverview.createLobby")}
         </button>
-          <button
-                  onClick={navigateToUserSettings}
-                  className="sub-container sub-container-buttons button three"
-          >
-              SETTINGS
-          </button>
+        <button
+          onClick={navigateToUserSettings}
+          className="sub-container sub-container-buttons button three"
+        >
+          SETTINGS
+        </button>
         <button
           onClick={() => logout()}
           className="sub-container sub-container-buttons button four"

@@ -1,5 +1,6 @@
 import RangeSelection from "components/ui/RangeSelection";
 import "styles/views/Game/PaintToolBar.scss";
+import { sendClearMessage } from "components/socket/socketAPI";
 
 const colors = [
   "yellow",
@@ -14,12 +15,13 @@ const colors = [
 ];
 
 const PaintToolbar = (props) => {
-  const { selectedColor, setColor, lineWidth, setLineWidth, sendClearMessage } =
+  const { selectedColor, setColor, lineWidth, setLineWidth, t, lobbyId } =
     props;
+  const clientRef = props.clientRef;
 
   const handleClearCanvas = () => {
     console.log("clear canvas");
-    sendClearMessage();
+    sendClearMessage(clientRef, lobbyId);
   };
 
   return (
@@ -39,7 +41,7 @@ const PaintToolbar = (props) => {
         ))}
       </div>
       <div className="width-picker">
-        <label>Line Width</label>
+        <label> {t("gamePage.paintToolBar.lineWidth")}</label>
         <RangeSelection
           setter={setLineWidth}
           state={lineWidth}
@@ -48,7 +50,7 @@ const PaintToolbar = (props) => {
           step={"2"}
         ></RangeSelection>
         <button className="clear-button" onClick={handleClearCanvas}>
-          Clear Board
+          {t("gamePage.paintToolBar.clearBoard")}
         </button>
       </div>
     </div>
