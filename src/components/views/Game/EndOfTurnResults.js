@@ -55,38 +55,36 @@ const EndOfTurn = ({ players, roundResult, currentRound, word, t }) => {
 
   return (
     <div id="base-container-end-of-turn" className="base-container-end-of-turn">
-      <div className="popup">
-        <div className="sub-container-players">
-          <div className="sub-container-players header-container">
-            <h1>{t("endOfTurn.resultLastRound")}</h1>
-          </div>
-          <div className="sub-container-players sub-container-list">
-            <div className="sub-container-players sub-container-list header">
-              <div className="sub-container-players sub-container-list header position">
-                {t("endOfTurn.rank")}
-              </div>
-              <div className="sub-container-players sub-container-list header name">
-                {t("endOfTurn.userName")}
-              </div>
-              <div className="sub-container-players sub-container-list header points">
-                {t("endOfTurn.newPoints")}
-              </div>
-              <div className="sub-container-players sub-container-list header guessed-word">
-                {t("endOfTurn.guessedWord")}
-              </div>
+      <div className="sub-container-players">
+        <div className="sub-container-players header-container">
+          <h1>{t("endOfTurn.resultLastRound")}</h1>
+        </div>
+        <div className="sub-container-players sub-container-list">
+          <div className="sub-container-players sub-container-list header">
+            <div className="sub-container-players sub-container-list header position">
+              {t("endOfTurn.rank")}
             </div>
-            {users}
+            <div className="sub-container-players sub-container-list header name">
+              {t("endOfTurn.userName")}
+            </div>
+            <div className="sub-container-players sub-container-list header points">
+              {t("endOfTurn.newPoints")}
+            </div>
+            <div className="sub-container-players sub-container-list header guessed-word">
+              {t("endOfTurn.guessedWord")}
+            </div>
           </div>
-          <div className="sub-container-players flag-container"></div>
-          <div className="sub-container-players header-nextRound">
-            {t("endOfTurn.getReadyForNextTurn")}
-          </div>
-          <div className="sub-container-players header-nextPainter">
-            {t("endOfTurn.newPainter")} {painter}
-          </div>
-          <div className="sub-container-players header-correct-word">
-            {t("endOfTurn.lastWord")} {word}
-          </div>
+          {users}
+        </div>
+        <div className="sub-container-players flag-container"></div>
+        <div className="sub-container-players header-nextRound">
+          {t("endOfTurn.getReadyForNextTurn")}
+        </div>
+        <div className="sub-container-players header-nextPainter">
+          {t("endOfTurn.newPainter")} {painter}
+        </div>
+        <div className="sub-container-players header-correct-word">
+          {t("endOfTurn.lastWord")} {word}
         </div>
       </div>
     </div>
