@@ -94,8 +94,8 @@ const CountDownTimer = forwardRef((props, ref) => {
         isPlaying={isRunning}
         key={key}
         duration={duration}
-        size={90}
-        strokeWidth={20}
+        size={83}
+        strokeWidth={16}
         strokeLinecap="butt"
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}

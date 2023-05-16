@@ -10,8 +10,8 @@
 
   &.container {
     background: $background-color;
-    height: 800px;
-    width: 1000px;
+    height: 750px;
+    width: 850px;
   }
 
   &.header-container {
@@ -42,8 +42,9 @@
     &.sub-container2 {
       align-items: center;
       color: $accent-color;
-      font-size: 200%;
+      font-size: 180%;
       font-weight: 900;
+      text-align: center;
 
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;
