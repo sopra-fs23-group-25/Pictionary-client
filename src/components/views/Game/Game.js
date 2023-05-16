@@ -83,6 +83,7 @@ const GameView = (props) => {
     setLobbyId(lobbyId);
     setIsHost(isHost);
     async function fetchLobbyInformation() {
+
         const storedLobbyId = sessionStorage.getItem("lobbyId");
         if (parseFloat(id) !== parseFloat(storedLobbyId)) {
             history.push("/lobbies");
