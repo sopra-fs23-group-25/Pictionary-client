@@ -30,12 +30,19 @@ const LobbySettings = () => {
 
       const token = sessionStorage.getItem("token");
       const response = await apiWithAuth(token).post("/lobbies", requestBody);
-
+      sessionStorage.setItem("lobbyId", response.data.lobbyId);
       navigateToGamePage(response.data.lobbyId);
     } catch (error) {
       alert("Something went wrong while creating a new lobby! See console");
     }
   }
+  const handleCancelClick = () => {
+      // Remove the 'lobbyId' item from sessionStorage
+      //sessionStorage.removeItem('lobbyId');
+
+      // Redirect to '/lobbies' using history.push
+      history.push('/lobbies');
+    };
 
   const navigateToGamePage = (lobbyId) => {
     history.push({
@@ -92,7 +99,7 @@ const LobbySettings = () => {
       <div className="lobbysettings button-container">
         <button
           className="lobbysettings button-container button cancel"
-          onClick={() => history.push("/lobbies")}
+          onClick={handleCancelClick}
         >
           {t("lobbySettings.cancel")}
         </button>

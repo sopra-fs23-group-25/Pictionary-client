@@ -27,11 +27,12 @@ const LobbyOverview = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [lobbies, setLobbies] = useState(null);
-
   const fetchData = async () => {
     try {
       const response = await api.get("/lobbies");
       setLobbies(response.data);
+      sessionStorage.removeItem("lobbyId");
+      //console.log("lobbyID in Session Storage", sessionStorage.getItem("lobbyId"));
     } catch (error) {
       console.error(
         `Something went wrong while fetching the lobbies: \n${handleError(
@@ -66,6 +67,9 @@ const LobbyOverview = () => {
         userId: userId,
       });
       await api.put(`/lobbies/${lobbyId}`, requestBody);
+        sessionStorage.setItem("lobbyId", lobbyId);
+        console.log("lobbyid joining player", sessionStorage.getItem("lobbyId"))
+        //sessionStorage.removeItem("lobbyId");
       navigateToGamePage(lobbyId);
     } catch (error) {
       alert(`Could not join Lobby`);
