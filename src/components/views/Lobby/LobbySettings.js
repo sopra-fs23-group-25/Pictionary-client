@@ -122,6 +122,7 @@ const EntryField = ({ type, value, onChange, t }) => {
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        maxLength={18}
       />
     </div>
   );
