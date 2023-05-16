@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
 }
 
 .paint-toolbar label {
@@ -22,6 +22,7 @@
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
+  padding-bottom: 4.5px;
   width: 50%;
 }
 
@@ -57,7 +58,7 @@
 
 .clear-button {
   margin-top: 10%;
-  width: 70%;
+  width: 80%;
   border-radius: $box-radius;
   border-color: $button-color;
   color: $button-text-color;

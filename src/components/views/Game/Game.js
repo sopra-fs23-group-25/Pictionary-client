@@ -59,6 +59,7 @@ const GameView = (props) => {
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
   const [lobbyId, setLobbyId] = useState(1);
+  const [lobbyName, setLobbyName] = useState(null);
   const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
   const [timePerRound, setTimePerRound] = useState(null);
@@ -88,6 +89,7 @@ const GameView = (props) => {
         setTimePerRound(response.data.timePerRound);
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
+        setLobbyName(response.data.lobbyName);
       } catch (error) {
         if (isHost) {
           history.push("/lobbies");
@@ -368,6 +370,8 @@ const GameView = (props) => {
                     return t("gamePage.drawingBoardHeader.drawingBoard");
                 }
               })()}
+              <br></br>
+              <div className="lobbyName">{lobbyName}</div>
             </div>
             <div className="board header-container sub-container3">
               <div className="clock-container">
@@ -454,34 +458,34 @@ const GameView = (props) => {
 
       <div className="game small-container">
         <div className="game small-container sub-container1">
-          {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
-          {isHost && gameState === "before game" ? (
-            <div className="host-button-container">
-              <button
-                disabled={!enoughPlayersInLobby()}
-                className="start-game-button"
-                onClick={handleClickStartGame}
-              >
-                {t("gamePage.buttons.startGame")}
-              </button>
-              <button
-                className="start-game-button"
-                onClick={handleClickCloseLobby}
-              >
-                {t("gamePage.buttons.closeLobby")}
-              </button>
-            </div>
-          ) : null}
-          {!isHost && gameState === "before game" ? (
-            <div className="host-button-container">
+          <div className="host-button-container">
+            {/*CHECK IF AT LEAST 2 PLAYERS IN LOBBY*/}
+            {isHost && gameState === "before game" ? (
+              <>
+                <button
+                  disabled={!enoughPlayersInLobby()}
+                  className="start-game-button"
+                  onClick={handleClickStartGame}
+                >
+                  {t("gamePage.buttons.startGame")}
+                </button>
+                <button
+                  className="start-game-button"
+                  onClick={handleClickCloseLobby}
+                >
+                  {t("gamePage.buttons.closeLobby")}
+                </button>
+              </>
+            ) : null}
+            {!isHost && gameState === "before game" ? (
               <button
                 className="start-game-button"
                 onClick={handleClickLeaveLobby}
               >
                 {t("gamePage.buttons.leaveLobby")}
               </button>
-            </div>
-          ) : null}
+            ) : null}{" "}
+          </div>
           <img className="logo" src={logo} alt="Pictionary Logo"></img>
         </div>
         {gameState === "start round" ? (

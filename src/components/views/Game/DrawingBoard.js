@@ -67,8 +67,8 @@ const DrawingBoard = forwardRef(
     return (
       <canvas
         className="board canvas"
-        width={1000}
-        height={640}
+        width={850}
+        height={600}
         ref={ref}
       ></canvas>
     );
