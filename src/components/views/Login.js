@@ -21,6 +21,7 @@ const FormField = ({ label, value, type, onChange }) => {
         value={value}
         type={type}
         onChange={(e) => onChange(e.target.value)}
+        maxLength={16}
       />
     </div>
   );
