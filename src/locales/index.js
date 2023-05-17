@@ -10,6 +10,10 @@ const resources = {
   de: {
     translation: de,
   },
+
+  fr: {
+    translation: fr,
+  },
 };
 
 const language = sessionStorage.getItem("language");
