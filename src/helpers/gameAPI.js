@@ -13,3 +13,7 @@ export async function fetchGame(lobbyId) {
 export async function updateGame(lobbyId) {
   await api.put(`/lobbies/${lobbyId}/game`);
 }
+
+export async function addImageToGame(lobbyId, requestBody) {
+  await api.put(`/lobbies/${lobbyId}/game/images`, requestBody);
+}

@@ -7,7 +7,12 @@ import logo from "images/pictionary_logo.png";
 import "styles/views/Game/Game.scss";
 
 import { api } from "helpers/api";
-import { createGame, fetchGame, updateGame } from "helpers/gameAPI";
+import {
+  createGame,
+  fetchGame,
+  updateGame,
+  addImageToGame,
+} from "helpers/gameAPI";
 import { fetchTurn, updateTurn } from "helpers/turnAPI";
 import {
   sendGameStateMessage,
@@ -75,6 +80,9 @@ const GameView = (props) => {
   const [showTurnResult, setShowTurnResult] = useState(false);
   const [endTurnReason, setEndTurnReason] = useState("default");
 
+  //Images
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
     const isHost = location?.state?.isHost || false;
@@ -121,6 +129,24 @@ const GameView = (props) => {
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
 
+  function getCanvasImageBase64() {
+    // Get the data URL of the canvas
+    const dataURL = canvasRef.current.toDataURL();
+
+    // Extract the base64-encoded image data
+    const base64Data = dataURL.split(",")[1];
+    return base64Data;
+  }
+
+  async function sendImage() {
+    const img = getCanvasImageBase64();
+    const requestBody = JSON.stringify({ imageData: img });
+    try {
+      await addImageToGame(lobbyId, requestBody);
+      console.log("sended image");
+    } catch (error) {}
+  }
+
   // handle websocket (incoming) messages
   const onMessage = (msg, topic) => {
     if (topic === websocket_topics(lobbyId).drawing) {
@@ -147,6 +173,10 @@ const GameView = (props) => {
       setDisconnectedType(DisconnectionType.HOST_CLOSED_LOBBY);
     } else if (topic === websocket_topics(lobbyId).game_state) {
       if (msg.task.includes("end") && msg.task.includes("round")) {
+        if (isHost && painterActiveRef.current) {
+          console.log("we are here");
+          sendImage();
+        }
         setShowTurnResult(false);
         if (msg.task.includes("last")) {
           setGameState("end last round");
@@ -271,6 +301,7 @@ const GameView = (props) => {
     const turnResponse = await fetchTurn(lobbyId); // to get Result
     const gameResponse = await fetchGame(lobbyId); // to get new Roles
     console.log(gameResponse.data.players);
+    console.log(gameResponse.data);
 
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(
