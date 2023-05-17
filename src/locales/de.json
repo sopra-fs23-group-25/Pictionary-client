@@ -72,9 +72,7 @@
       "lobbyClosed": "Lobby geschlossen",
       "hostDisconnected": "Verbindung zu Host wurde unterbrochen",
       "redirect": "Du wirst auf die Lobby-Übersicht umgleitet "
-    },
-
-
+    }
   },
   "turnOverReason": {
     "turnOver": "Der Zug ist vorbei",
@@ -91,7 +89,7 @@
     "backToLobbies": "Zurück zu den Lobbies"
   },
   "endOfTurn": {
-    "resultLastRound": "Resultat des letzten Zugs"
+    "resultLastRound": "Resultat des letzten Zugs",
     "rank": "Rang",
     "userName": "Benutzername",
     "newPoints": "Zusätzliche Punkte",
