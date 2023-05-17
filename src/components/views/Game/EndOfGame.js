@@ -48,6 +48,7 @@ const EndOfGame = ({ players, t }) => {
   const exit = () => {
     //api.delete("/lobbies/{lobbyId}/game");
     //api.delete("/lobbies/{lobbyId}");
+      sessionStorage.removeItem("lobbyId");
     history.push("/lobbies");
   };
 

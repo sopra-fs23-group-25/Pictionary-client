@@ -16,7 +16,7 @@ import {
 } from "components/socket/socketAPI";
 
 import { useState, useRef, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import {useHistory, useLocation, useParams} from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 import CountDownTimer from "./CountDownTimer";
 import BeforeGameStart from "./BeforeGameStart";
@@ -66,6 +66,7 @@ const GameView = (props) => {
   const [lastRound, setLastRound] = useState(0);
   const [currentRound, setCurrentRound] = useState(0);
   const [turn, setTurn] = useState(0);
+  let { id } = useParams();
 
   const [roundResult, setRoundResult] = useState([]);
   const [word, setWord] = useState("");
@@ -81,9 +82,16 @@ const GameView = (props) => {
     const lobbyId = location?.state?.lobbyId || 1;
     setLobbyId(lobbyId);
     setIsHost(isHost);
-
     async function fetchLobbyInformation() {
-      try {
+
+        const storedLobbyId = sessionStorage.getItem("lobbyId");
+        if (parseFloat(id) !== parseFloat(storedLobbyId)) {
+            history.push("/lobbies");
+        }
+
+        try {
+
+
         console.log(lobbyId);
         const response = await api.get(`/lobbies/${lobbyId}`);
         setTimePerRound(response.data.timePerRound);
@@ -100,7 +108,7 @@ const GameView = (props) => {
     }
 
     fetchLobbyInformation();
-  }, [props, location, history]);
+  }, [props, location, history, id]);
 
   //Delay for RoundResult to show reason why turn was ended
   useEffect(() => {
@@ -292,6 +300,7 @@ const GameView = (props) => {
   async function handleClickCloseLobby() {
     //DELETE LOBBY
     try {
+        sessionStorage.removeItem("lobbyId");
       await api.delete(`/lobbies/${lobbyId}`);
 
       // sendOverWebsocket to all players that lobby closed
@@ -308,6 +317,7 @@ const GameView = (props) => {
       const userId = sessionStorage.getItem("userId");
       const requestBody = JSON.stringify({ userId: userId });
       await api.put(`/lobbies/${lobbyId}/leave`, requestBody);
+      sessionStorage.removeItem("lobbyId");
 
       // sendOverWebsocket to all players that user left lobby
       sendLeaveGameMessage(clientRef, lobbyId);
@@ -321,6 +331,7 @@ const GameView = (props) => {
     // Wait for 2.5 seconds before redirecting to the overview page
     if (disconnectedType) {
       const timer = setTimeout(() => {
+        sessionStorage.removeItem("lobbyId");
         history.push("/lobbies");
       }, 2500);
 

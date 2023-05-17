@@ -19,6 +19,8 @@ MOCKS
  */
 
 const UserItem = ({ guess, index }) => {
+
+    const scoreClass = guess.score > 0 ? "positive-score" : "negative-score";
   return (
     <div className="sub-container-players sub-container-list list">
       <div className="sub-container-players sub-container-list list position">
@@ -30,7 +32,7 @@ const UserItem = ({ guess, index }) => {
       <div className="sub-container-players sub-container-list list points">
         {guess.score}
       </div>
-      <div className="sub-container-players sub-container-list list guessed-word">
+        <div className={`sub-container-players sub-container-list list guessed-word ${scoreClass}`}>
         {guess.guess}
       </div>
     </div>
