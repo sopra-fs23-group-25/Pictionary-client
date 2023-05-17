@@ -36,8 +36,68 @@
       "waitingRoom": "WARTE RAUM",
       "getReady": "ACHTUNG SPIEL BEGINNT",
       "roundResult": "RUNDEN RESULTAT",
-      "drawingBoard": "ZEICHNUNGS BRETT",
+      "drawingBoard": "LEINWAND",
       "round": "Runde"
-    }
+    },
+    "roundsContainer": {
+      "round": "Runde ",
+      "turn": "Zug ",
+      "firstRound": "Erste Runde startet",
+      "lastRound": "Letze Runde ist vorbei",
+      "hostCanStart": "Du kannst das Spiel beginnen",
+      "hostMustWait": "Warte auf mehr Spielerinnen",
+      "playerMustWait": "Warte, dass Host das Spiel beginnt"
+    },
+    "paintToolBar": {
+      "lineWidth": "Linien Breite",
+      "clearBoard": "Leinwand zurücksetzen"
+    },
+    "guessingContainer": {
+      "wordToPaint": "Zu zeichnendes Wort",
+      "typeInGuess": "Geratenes Wort eingeben",
+      "submittedGuess": "Dein geratenes Wort",
+      "submit": "Abschicken"
+    },
+    "ranking": { "ranking": "Rangliste" },
+    "beforeGameStart": {
+      "getReady": "Bereite dich vor",
+      "gameConsists": "Das Spiel besteht aus ",
+      "rounds": " Runden",
+      "roundOver": "Eine Runde enden nachdem jede Spielerin einmal gezeichnet hat",
+      "youHave": "Du has ",
+      "secondsToPaint": " Sekunden Zeit das Wort zu zeichnen/erraten",
+      "firstPainter": "Die erste Person, die zeichnet, ist "
+    },
+    "lobbyClosed": {
+      "lobbyClosed": "Lobby geschlossen",
+      "hostDisconnected": "Verbindung zu Host wurde unterbrochen",
+      "redirect": "Du wirst auf die Lobby-Übersicht umgleitet "
+    },
+
+
+  },
+  "turnOverReason": {
+    "turnOver": "Der Zug ist vorbei",
+    "allPlayersGuessed": "Alle Spielerinnen haben geraten!",
+    "painterInactive": "Es wurde zu lange nicht gezeichnet!",
+    "timeOver": "Die Zeit ist um!"
+  },
+  "endOfGamePage": {
+    "finalScores": "Endergebnis",
+    "rank": "Rang",
+    "userName": "Benutzername",
+    "finalPoints": "Finale Punktzahl",
+    "gameAgain": "Neue Runde?",
+    "backToLobbies": "Zurück zu den Lobbies"
+  },
+  "endOfTurn": {
+    "resultLastRound": "Resultat des letzten Zugs"
+    "rank": "Rang",
+    "userName": "Benutzername",
+    "newPoints": "Zusätzliche Punkte",
+    "guessedWord": "Geratenes Wort",
+    "getReadyForNextTurn": "Bereite dich auf nächste Runde vor!!!",
+    "newPainter": "Es zeichnet: ",
+    "lastWord": "Das Wort war: "
   }
 }

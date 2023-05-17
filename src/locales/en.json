@@ -78,7 +78,7 @@
     "turnOver": "The turn is over",
     "allPlayersGuessed": "All players have submitted a guess!",
     "painterInactive": "The painter was inactive, the turn was finished earlier",
-    "timeOver": "The time is over!"
+    "timeOver": "The time is up!"
   },
   "endOfGamePage": {
     "finalScores": "Final Scores",
