@@ -35,7 +35,7 @@
     "drawingBoardHeader": {
       "waitingRoom": "WAITING ROOM",
       "getReady": "GET READY",
-      "roundResult": "ROUND RESULT",
+      "roundResult": "TURN RESULT",
       "drawingBoard": "DRAWING BOARD",
       "round": "Round"
     },

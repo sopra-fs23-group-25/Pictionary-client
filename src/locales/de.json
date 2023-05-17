@@ -34,8 +34,8 @@
     },
     "drawingBoardHeader": {
       "waitingRoom": "WARTERAUM",
-      "getReady": "ACHTUNG SPIEL BEGINNT",
-      "roundResult": "RUNDEN RESULTAT",
+      "getReady": "LOS...",
+      "roundResult": "RESULTAT",
       "drawingBoard": "LEINWAND",
       "round": "Runde"
     },
@@ -56,16 +56,16 @@
       "wordToPaint": "Zeichne das Wort",
       "typeInGuess": "Wort eingeben",
       "submittedGuess": "Dein geratenes Wort",
-      "submit": "Abschicken"
+      "submit": "Senden"
     },
     "ranking": { "ranking": "Rangliste" },
     "beforeGameStart": {
-      "getReady": "Bereite dich vor",
+      "getReady": "Das Spiel beginnt!",
       "gameConsists": "Das Spiel besteht aus ",
       "rounds": " Runden",
-      "roundOver": "Eine Runde enden nachdem jede Spielerin einmal gezeichnet hat",
+      "roundOver": "Eine Runde endet, nachdem jede Spielerin einmal gezeichnet hat",
       "youHave": "Du has ",
-      "secondsToPaint": " Sekunden Zeit das Wort zu zeichnen/erraten",
+      "secondsToPaint": " Sekunden Zeit, das Wort zu zeichnen/erraten",
       "firstPainter": "Die erste Person, die zeichnet, ist "
     },
     "lobbyClosed": {
@@ -89,12 +89,12 @@
     "backToLobbies": "Zurück zu den Lobbies"
   },
   "endOfTurn": {
-    "resultLastRound": "Resultat des letzten Zugs",
+    "resultLastRound": "Resultat Zug",
     "rank": "Rang",
     "userName": "Benutzername",
     "newPoints": "Erworbene Punkte",
     "guessedWord": "Geratenes Wort",
-    "getReadyForNextTurn": "Nächste Runde vor!!!",
+    "getReadyForNextTurn": "Nächste Runde!!!",
     "newPainter": "Es zeichnet: ",
     "lastWord": "Das Wort war: "
   }
