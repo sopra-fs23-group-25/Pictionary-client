@@ -2,9 +2,9 @@
   "lobbyOverview": {
     "lobbyOverview": "Aperçu du Lobby",
     "joinLobby": "Rejoignez un lobby en cliquant sur son nom",
-    "lobbySize": "Taille du groupe",
+    "lobbySize": "Taille",
     "refresh": "ACTUALISER",
-    "createLobby": "CRÉER UN NOUVEAU LOBBY",
+    "createLobby": "CRÉER UN LOBBY",
     "userSettings": "Paramètres",
     "logout": "LOGOUT"
   },
@@ -14,23 +14,23 @@
     "secPerRound": "secondes par tour",
     "nrOfRounds": "nombre de tours",
     "nrOfPlayers": "nombre maximum de joueurs",
-    "placeHolder": "entrer ici...",
+    "placeHolder": "entrer nom du lobby ici...",
     "cancel": "ANNULER",
     "confirm": "CONFIRMER"
   },
   "userSettings": {
-    "userSettings": "Paramètres de l'utilisateur",
+    "userSettings": "Paramètres",
     "newUsername": "nouveau nom",
-    "newPassword": "nouveau mot de passe",
+    "newPassword": "entrer nouveau mot de passe",
     "newPreferredLanguage": "Changez votre langue préférée",
     "save": "SAUVER",
     "backToLobbyOverview": "RETOUR"
   },
   "gamePage": {
     "buttons": {
-      "startGame": "Commencer le Jeu",
-      "closeLobby": "Fermer le Lobby",
-      "leaveLobby": "Quitter le Lobby"
+      "startGame": "Commencer Jeu",
+      "closeLobby": "Fermer Lobby",
+      "leaveLobby": "Quitter Lobby"
     },
     "drawingBoardHeader": {
       "waitingRoom": "SALLE D'ATTENTE",
@@ -54,11 +54,11 @@
     },
     "guessingContainer": {
       "wordToPaint": "Mot à peindre",
-      "typeInGuess": "Entrer mot",
+      "typeInGuess": "Entrer Mot",
       "submittedGuess": "Ton supposition soumis",
       "submit": "Envoyer"
     },
-    "ranking": { "ranking": "Classement" },
+    "ranking": { "ranking": "Palmarès" },
     "beforeGameStart": {
       "getReady": "Préparez-vous",
       "gameConsists": "Le jeu consiste à ",
@@ -89,7 +89,7 @@
     "backToLobbies": "Retour aux Lobbies"
   },
   "endOfTurn": {
-    "resultLastRound": "Résultats du dernier tour",
+    "resultLastRound": "Résultat du Tour",
     "rank": "Position",
     "userName": "Nom",
     "newPoints": "Nouveaux Points",
