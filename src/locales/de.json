@@ -33,7 +33,7 @@
       "leaveLobby": "Lobby verlassen"
     },
     "drawingBoardHeader": {
-      "waitingRoom": "WARTE RAUM",
+      "waitingRoom": "WARTERAUM",
       "getReady": "ACHTUNG SPIEL BEGINNT",
       "roundResult": "RUNDEN RESULTAT",
       "drawingBoard": "LEINWAND",
@@ -53,8 +53,8 @@
       "clearBoard": "Leinwand zurücksetzen"
     },
     "guessingContainer": {
-      "wordToPaint": "Zu zeichnendes Wort",
-      "typeInGuess": "Geratenes Wort eingeben",
+      "wordToPaint": "Zeichne das Wort",
+      "typeInGuess": "Wort eingeben",
       "submittedGuess": "Dein geratenes Wort",
       "submit": "Abschicken"
     },
@@ -94,7 +94,7 @@
     "userName": "Benutzername",
     "newPoints": "Zusätzliche Punkte",
     "guessedWord": "Geratenes Wort",
-    "getReadyForNextTurn": "Bereite dich auf nächste Runde vor!!!",
+    "getReadyForNextTurn": "Nächste Runde vor!!!",
     "newPainter": "Es zeichnet: ",
     "lastWord": "Das Wort war: "
   }
