@@ -35,7 +35,7 @@
     "drawingBoardHeader": {
       "waitingRoom": "WAITING ROOM",
       "getReady": "GET READY",
-      "roundResult": "ROUND RESULT",
+      "roundResult": "TURN RESULT",
       "drawingBoard": "DRAWING BOARD",
       "round": "Round"
     },
@@ -78,7 +78,7 @@
     "turnOver": "The turn is over",
     "allPlayersGuessed": "All players have submitted a guess!",
     "painterInactive": "The painter was inactive, the turn was finished earlier",
-    "timeOver": "The time is over!"
+    "timeOver": "The time is up!"
   },
   "endOfGamePage": {
     "finalScores": "Final Scores",

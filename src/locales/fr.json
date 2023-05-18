@@ -1,0 +1,101 @@
+{
+  "lobbyOverview": {
+    "lobbyOverview": "Aperçu du Lobby",
+    "joinLobby": "Rejoignez un lobby en cliquant sur son nom",
+    "lobbySize": "Taille",
+    "refresh": "ACTUALISER",
+    "createLobby": "CRÉER UN LOBBY",
+    "userSettings": "Paramètres",
+    "logout": "LOGOUT"
+  },
+  "lobbySettings": {
+    "lobbySettings": "Paramètres du Lobby",
+    "lobbyName": "Nom du Lobby",
+    "secPerRound": "secondes par tour",
+    "nrOfRounds": "nombre de tours",
+    "nrOfPlayers": "nombre maximum de joueurs",
+    "placeHolder": "entrer nom du lobby ici...",
+    "cancel": "ANNULER",
+    "confirm": "CONFIRMER"
+  },
+  "userSettings": {
+    "userSettings": "Paramètres",
+    "newUsername": "nouveau nom",
+    "newPassword": "entrer nouveau mot de passe",
+    "newPreferredLanguage": "Changez votre langue préférée",
+    "save": "SAUVER",
+    "backToLobbyOverview": "RETOUR"
+  },
+  "gamePage": {
+    "buttons": {
+      "startGame": "Jouer",
+      "closeLobby": "Fermer Lobby",
+      "leaveLobby": "Quitter Lobby"
+    },
+    "drawingBoardHeader": {
+      "waitingRoom": "SALLE D'ATTENTE",
+      "getReady": "SOYEZ PRÊTS",
+      "roundResult": "RÉSULTAT DU TOUR",
+      "drawingBoard": "TOILE",
+      "round": "Rond"
+    },
+    "roundsContainer": {
+      "round": "Rond ",
+      "turn": "Tour ",
+      "firstRound": "Début du premier tour",
+      "lastRound": "Dernier tour est terminé",
+      "hostCanStart": "Tu peux démarrer le jeu",
+      "hostMustWait": "Attendez plus de joueurs",
+      "playerMustWait": "Attendez que l'hôte démarre le jeu"
+    },
+    "paintToolBar": {
+      "lineWidth": "Largeur de ligne",
+      "clearBoard": "Toile Vide"
+    },
+    "guessingContainer": {
+      "wordToPaint": "Mot à peindre",
+      "typeInGuess": "Entrer Mot",
+      "submittedGuess": "Ton supposition soumis",
+      "submit": "Envoyer"
+    },
+    "ranking": { "ranking": "Palmarès" },
+    "beforeGameStart": {
+      "getReady": "Préparez-vous",
+      "gameConsists": "Le jeu consiste à ",
+      "rounds": " ronds",
+      "roundOver": "Le rond est terminé lorsque chaque joueur a peinté une fois",
+      "youHave": "Tu as ",
+      "secondsToPaint": " secondes pour peindre/deviner le mot",
+      "firstPainter": "Le premier peintre est "
+    },
+    "lobbyClosed": {
+      "lobbyClosed": "Lobby Fermé",
+      "hostDisconnected": "Hôte Déconnecté",
+      "redirect": "vous êtes redirigé vers la page Aperçu du Lobby..."
+    }
+  },
+  "turnOverReason": {
+    "turnOver": "Le tour est fini",
+    "allPlayersGuessed": "Tous les joueurs ont soumis un mot!",
+    "painterInactive": "Le peintre était inactif, le tour a été terminé plus tôt",
+    "timeOver": "C'est l'heure!"
+  },
+  "endOfGamePage": {
+    "finalScores": "Résultat",
+    "rank": "Position",
+    "userName": "Nom",
+    "finalPoints": "Points",
+    "gameAgain": "Game again?",
+    "backToLobbies": "Aux Lobbies"
+  },
+  "endOfTurn": {
+    "resultLastRound": "Résultat du Tour",
+    "rank": "Position",
+    "userName": "Nom",
+    "newPoints": "Nouveaux Points",
+    "guessedWord": "Mot Deviné",
+    "getReadyForNextTurn": "Préparez-vous!!!",
+    "newPainter": "Nouveau Peintre :",
+    "lastWord": "Le mot était :"
+  }
+}
