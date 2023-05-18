@@ -136,46 +136,26 @@
       cursor: pointer;
 
       &.one {
-        background-image: url("../../../images/refresh-icon.png");
-        background-repeat: no-repeat;
-        background-size: 20px 20px; /* set the size of the background image */
-        //background-position: right 10px center; /* position the background image to the right of the text */
-          background-position: right 10% center;
-          //width: 10px;
-          width: 22%;
-          justify-content: left;
-
-      }
-
-      &.one:hover {
-        //background-image: url("/images/refresh-icon.png");
-        //background-repeat: no-repeat;
-        //background-size: 20px 20px; /* set the size of the background image */
-        //background-position: right 10px center;
-          background-image: url("../../../images/refresh-icon.png");
-          background-repeat: no-repeat;
-          background-size: 20px 20px; /* set the size of the background image */
-          background-position: right 10% center;
+        width: 8%;
+        & img {
+          height: 22px;
+          width: 22px;
+        }
       }
 
       &.two {
-        //width: 200px;
-          width: 38%;
+        width: 37%;
       }
       &.three {
-        //width: 100px;
-          width: 18%;
+        width: 27%;
       }
-        &.four {
-            //width: 100px;
-            width: 15%;
-        }
+      &.four {
+        width: 20%;
+      }
     }
 
     &.button:hover {
       background: $accent-color;
     }
-
-
   }
 }

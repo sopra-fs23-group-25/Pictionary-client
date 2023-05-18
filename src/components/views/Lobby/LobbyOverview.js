@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { api, apiWithAuth, handleError } from "helpers/api";
 
 import "styles/views/Lobby/LobbyOverview.scss";
+import refreshIcon from "images/refresh-icon.png";
 import { Spinner } from "components/ui/Spinner";
 import { useTranslation } from "react-i18next";
 import "locales/index";
@@ -67,9 +68,9 @@ const LobbyOverview = () => {
         userId: userId,
       });
       await api.put(`/lobbies/${lobbyId}`, requestBody);
-        sessionStorage.setItem("lobbyId", lobbyId);
-        console.log("lobbyid joining player", sessionStorage.getItem("lobbyId"))
-        //sessionStorage.removeItem("lobbyId");
+      sessionStorage.setItem("lobbyId", lobbyId);
+      console.log("lobbyid joining player", sessionStorage.getItem("lobbyId"));
+      //sessionStorage.removeItem("lobbyId");
       navigateToGamePage(lobbyId);
     } catch (error) {
       alert(`Could not join Lobby`);
@@ -142,7 +143,7 @@ const LobbyOverview = () => {
           onClick={() => refreshLobby()}
           className="sub-container sub-container-buttons button one"
         >
-          {t("lobbyOverview.refresh")}
+          <img src={refreshIcon} alt="refresh"></img>
         </button>
         <button
           onClick={navigateToLobbySettings}
