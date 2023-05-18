@@ -4,6 +4,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Game/EndOfGame.scss";
 //import "styles/views/Login.scss"npm
 import { Spinner } from "../../ui/Spinner";
+import Confetti from "react-confetti";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -48,12 +49,13 @@ const EndOfGame = ({ players, t }) => {
   const exit = () => {
     //api.delete("/lobbies/{lobbyId}/game");
     //api.delete("/lobbies/{lobbyId}");
-      sessionStorage.removeItem("lobbyId");
+    sessionStorage.removeItem("lobbyId");
     history.push("/lobbies");
   };
 
   return (
     <BaseContainer>
+      <Confetti></Confetti>
       <div className="popup-endofgame">
         <div className="trophy"></div>
         <div className="sub-container-end-game">
