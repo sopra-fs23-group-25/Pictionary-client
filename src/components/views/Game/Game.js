@@ -36,6 +36,7 @@ const GameView = (props) => {
   //Drawing Board
   const [color, setColor] = useState("black");
   const [lineWidth, setLineWidth] = useState(5);
+  const [eraserOn, setEraserOn] = useState(false);
 
   //Word
   const [currentWord, setCurrentWord] = useState("");
@@ -353,6 +354,8 @@ const GameView = (props) => {
                     t={t}
                     selectedColor={color}
                     setColor={setColor}
+                    eraserOn={eraserOn}
+                    setEraserOn={setEraserOn}
                     lineWidth={lineWidth}
                     setLineWidth={setLineWidth}
                     clientRef={clientRef}
@@ -457,6 +460,7 @@ const GameView = (props) => {
                     isPainter={isPainter}
                     clientRef={clientRef}
                     lobbyId={lobbyId}
+                    eraserOn={eraserOn}
                   ></DrawingBoard>
                 );
             }
