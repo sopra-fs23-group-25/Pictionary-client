@@ -1,7 +1,6 @@
 import React, { useEffect, forwardRef } from "react";
 import "styles/views/Game/DrawingBoard.scss";
 import { sendDrawingMessage } from "components/socket/socketAPI";
-import bin from "images/bin.png";
 
 const DrawingBoard = forwardRef(
   ({ color, lineWidth, isPainter, clientRef, lobbyId, eraserOn }, ref) => {
