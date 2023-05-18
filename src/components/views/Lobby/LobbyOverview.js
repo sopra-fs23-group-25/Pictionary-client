@@ -150,7 +150,7 @@ const LobbyOverview = () => {
           onClick={navigateToUserSettings}
           className="sub-container sub-container-buttons button three"
         >
-          SETTINGS
+          {t("lobbyOverview.userSettings")}
         </button>
         <button
           onClick={() => logout()}

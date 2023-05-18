@@ -86,16 +86,16 @@
     "userName": "Benutzername",
     "finalPoints": "Finale Punktzahl",
     "gameAgain": "Neue Runde?",
-    "backToLobbies": "Zurück zu den Lobbies"
+    "backToLobbies": "Zu den Lobbies"
   },
   "endOfTurn": {
-    "resultLastRound": "Resultat Zug",
+    "resultLastRound": "Zwischenresultat",
     "rank": "Rang",
     "userName": "Benutzername",
-    "newPoints": "Erworbene Punkte",
+    "newPoints": "Punkte",
     "guessedWord": "Geratenes Wort",
     "getReadyForNextTurn": "Nächste Runde!!!",
-    "newPainter": "Es zeichnet: ",
+    "newPainter": "Es wird zeichnen: ",
     "lastWord": "Das Wort war: "
   }
 }
