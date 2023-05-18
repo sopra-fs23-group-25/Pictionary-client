@@ -285,6 +285,7 @@ const GameView = (props) => {
     setCurrentRound(gameResponse.data.currentRound);
     setWord(turnResponse.data.word);
     setPainterActive(false);
+    setEraserOn(false);
   }
 
   function endGame() {
