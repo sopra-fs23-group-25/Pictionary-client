@@ -28,7 +28,7 @@
   },
   "gamePage": {
     "buttons": {
-      "startGame": "Commencer Jeu",
+      "startGame": "Jouer",
       "closeLobby": "Fermer Lobby",
       "leaveLobby": "Quitter Lobby"
     },
