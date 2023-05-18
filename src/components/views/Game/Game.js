@@ -16,7 +16,7 @@ import {
 } from "components/socket/socketAPI";
 
 import { useState, useRef, useEffect } from "react";
-import {useHistory, useLocation, useParams} from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import PlayerRanking from "./PlayerRanking";
 import CountDownTimer from "./CountDownTimer";
 import BeforeGameStart from "./BeforeGameStart";
@@ -36,6 +36,7 @@ const GameView = (props) => {
   //Drawing Board
   const [color, setColor] = useState("black");
   const [lineWidth, setLineWidth] = useState(5);
+  const [eraserOn, setEraserOn] = useState(false);
 
   //Word
   const [currentWord, setCurrentWord] = useState("");
@@ -83,15 +84,12 @@ const GameView = (props) => {
     setLobbyId(lobbyId);
     setIsHost(isHost);
     async function fetchLobbyInformation() {
+      const storedLobbyId = sessionStorage.getItem("lobbyId");
+      if (parseFloat(id) !== parseFloat(storedLobbyId)) {
+        history.push("/lobbies");
+      }
 
-        const storedLobbyId = sessionStorage.getItem("lobbyId");
-        if (parseFloat(id) !== parseFloat(storedLobbyId)) {
-            history.push("/lobbies");
-        }
-
-        try {
-
-
+      try {
         console.log(lobbyId);
         const response = await api.get(`/lobbies/${lobbyId}`);
         setTimePerRound(response.data.timePerRound);
@@ -300,7 +298,7 @@ const GameView = (props) => {
   async function handleClickCloseLobby() {
     //DELETE LOBBY
     try {
-        sessionStorage.removeItem("lobbyId");
+      sessionStorage.removeItem("lobbyId");
       await api.delete(`/lobbies/${lobbyId}`);
 
       // sendOverWebsocket to all players that lobby closed
@@ -356,6 +354,8 @@ const GameView = (props) => {
                     t={t}
                     selectedColor={color}
                     setColor={setColor}
+                    eraserOn={eraserOn}
+                    setEraserOn={setEraserOn}
                     lineWidth={lineWidth}
                     setLineWidth={setLineWidth}
                     clientRef={clientRef}
@@ -447,7 +447,7 @@ const GameView = (props) => {
                     t={t}
                     roundResult={roundResult}
                     players={players}
-                    currentRound={currentRound}
+                    gameState={gameState}
                     word={word}
                   ></EndOfTurn>
                 );
@@ -460,6 +460,7 @@ const GameView = (props) => {
                     isPainter={isPainter}
                     clientRef={clientRef}
                     lobbyId={lobbyId}
+                    eraserOn={eraserOn}
                   ></DrawingBoard>
                 );
             }

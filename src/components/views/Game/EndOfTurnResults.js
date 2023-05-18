@@ -19,8 +19,7 @@ MOCKS
  */
 
 const UserItem = ({ guess, index }) => {
-
-    const scoreClass = guess.score > 0 ? "positive-score" : "negative-score";
+  const scoreClass = guess.score > 0 ? "positive-score" : "negative-score";
   return (
     <div className="sub-container-players sub-container-list list">
       <div className="sub-container-players sub-container-list list position">
@@ -32,14 +31,16 @@ const UserItem = ({ guess, index }) => {
       <div className="sub-container-players sub-container-list list points">
         {guess.score}
       </div>
-        <div className={`sub-container-players sub-container-list list guessed-word ${scoreClass}`}>
+      <div
+        className={`sub-container-players sub-container-list list guessed-word ${scoreClass}`}
+      >
         {guess.guess}
       </div>
     </div>
   );
 };
 
-const EndOfTurn = ({ players, roundResult, currentRound, word, t }) => {
+const EndOfTurn = ({ players, roundResult, gameState, word, t }) => {
   let users = <Spinner></Spinner>;
   if (roundResult.length > 0) {
     users = roundResult.map((guess, index) => (
@@ -79,12 +80,16 @@ const EndOfTurn = ({ players, roundResult, currentRound, word, t }) => {
           {users}
         </div>
         <div className="sub-container-players flag-container"></div>
-        <div className="sub-container-players header-nextRound">
-          {t("endOfTurn.getReadyForNextTurn")}
-        </div>
-        <div className="sub-container-players header-nextPainter">
-          {t("endOfTurn.newPainter")} {painter}
-        </div>
+        {gameState !== "end last round" ? (
+          <>
+            <div className="sub-container-players header-nextRound">
+              {t("endOfTurn.getReadyForNextTurn")}
+            </div>
+            <div className="sub-container-players header-nextPainter">
+              {t("endOfTurn.newPainter")} {painter}
+            </div>
+          </>
+        ) : null}
         <div className="sub-container-players header-correct-word">
           {t("endOfTurn.lastWord")} {word}
         </div>

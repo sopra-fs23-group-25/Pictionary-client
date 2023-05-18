@@ -1,9 +1,10 @@
 import React, { useEffect, forwardRef } from "react";
 import "styles/views/Game/DrawingBoard.scss";
 import { sendDrawingMessage } from "components/socket/socketAPI";
+import bin from "images/bin.png";
 
 const DrawingBoard = forwardRef(
-  ({ color, lineWidth, isPainter, clientRef, lobbyId }, ref) => {
+  ({ color, lineWidth, isPainter, clientRef, lobbyId, eraserOn }, ref) => {
     useEffect(() => {
       const canvas = ref.current;
 
@@ -25,17 +26,31 @@ const DrawingBoard = forwardRef(
         const currentX = event.clientX - bounds.left;
         const currentY = event.clientY - bounds.top;
 
-        drawOnBoard(ref, lastX, lastY, currentX, currentY, color, lineWidth);
-        sendDrawingMessage(
-          lastX,
-          lastY,
-          currentX,
-          currentY,
-          color,
-          lineWidth,
-          clientRef,
-          lobbyId
-        );
+        if (eraserOn) {
+          drawOnBoard(ref, lastX, lastY, currentX, currentY, "white", 30);
+          sendDrawingMessage(
+            lastX,
+            lastY,
+            currentX,
+            currentY,
+            "white",
+            30,
+            clientRef,
+            lobbyId
+          );
+        } else {
+          drawOnBoard(ref, lastX, lastY, currentX, currentY, color, lineWidth);
+          sendDrawingMessage(
+            lastX,
+            lastY,
+            currentX,
+            currentY,
+            color,
+            lineWidth,
+            clientRef,
+            lobbyId
+          );
+        }
 
         lastX = currentX;
         lastY = currentY;
@@ -62,11 +77,11 @@ const DrawingBoard = forwardRef(
         canvas.removeEventListener("mouseup", handleMouseUp);
         canvas.removeEventListener("mouseout", handleMouseOut);
       };
-    }, [color, lineWidth, isPainter, ref, clientRef, lobbyId]);
+    }, [color, lineWidth, isPainter, ref, clientRef, lobbyId, eraserOn]);
 
     return (
       <canvas
-        className="board canvas"
+        className={eraserOn ? "board canvas eraser-on" : "board canvas"}
         width={850}
         height={600}
         ref={ref}

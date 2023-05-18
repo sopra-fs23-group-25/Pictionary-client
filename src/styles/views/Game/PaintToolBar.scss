@@ -71,3 +71,35 @@
     background: $accent-color;
   }
 }
+
+.toolbar-button-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.toolbar-buttons {
+  background: $accent-color * 1.1;
+  height: 45px;
+  width: 45px;
+  border: 1px solid gray;
+  cursor: pointer;
+
+  border-radius: $box-radius;
+
+  &.active {
+    background-color: aquamarine;
+    border: 2px solid black;
+  }
+
+  & img {
+    height: 30px;
+    width: 30px;
+  }
+  &:hover {
+    background: $accent-color;
+  }
+}

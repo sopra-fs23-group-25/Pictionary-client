@@ -69,6 +69,8 @@
     border-top-right-radius: 0px;
     border-bottom-left-radius: $box-radius;
     border-bottom-right-radius: $box-radius;
-    //cursor: url("../../paintbrush.png"), pointer;
+    &.eraser-on {
+      cursor: url("/images/eraserCanvas.png"), pointer;
+    }
   }
 }
