@@ -42,6 +42,7 @@
     "roundsContainer": {
       "round": "Runde ",
       "turn": "Zug ",
+      "of": " von ",
       "firstRound": "Erste Runde startet",
       "lastRound": "Letze Runde ist vorbei",
       "hostCanStart": "Du kannst das Spiel beginnen",

@@ -415,7 +415,7 @@ const GameView = (props) => {
                         <>
                           {t("gamePage.roundsContainer.turn")}
                           {turn}/{players.length}
-                          {" of "}
+                          {t("gamePage.roundsContainer.of")}
                           {t("gamePage.roundsContainer.round")}
                           {lastRound}/{nrOfRounds}
                         </>

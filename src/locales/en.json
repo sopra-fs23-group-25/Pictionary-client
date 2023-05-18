@@ -42,6 +42,7 @@
     "roundsContainer": {
       "round": "Round ",
       "turn": "Turn ",
+      "of": " of ",
       "firstRound": "First Round starts",
       "lastRound": "Last Round is over",
       "hostCanStart": "You can start the game",

@@ -42,6 +42,7 @@
     "roundsContainer": {
       "round": "Rond ",
       "turn": "Tour ",
+      "of": " de ",
       "firstRound": "Début du premier tour",
       "lastRound": "Dernier tour est terminé",
       "hostCanStart": "Tu peux démarrer le jeu",
