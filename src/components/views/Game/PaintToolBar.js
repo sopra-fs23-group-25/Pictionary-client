@@ -9,9 +9,9 @@ const colors = [
   "green",
   "turquoise",
   "blue",
+  "purple",
   "red",
   "brown",
-  "white",
   "gray",
   "black",
 ];

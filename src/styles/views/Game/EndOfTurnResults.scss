@@ -21,7 +21,6 @@
   //animation-name: fadeOut;
 }
 
-
 .base-container-end-of-turn {
   position: relative;
   width: 100%;
@@ -236,15 +235,14 @@
         text-align: center;
         //background: $list-color;
 
-          &.positive-score {
-              background: rgba(31, 198, 16, 0.26);
-          }
+        &.positive-score {
+          background: rgba(31, 198, 16, 0.26);
+        }
 
-          &.negative-score {
-              background: rgba(255, 44, 44, 0.26);
-          }
+        &.negative-score {
+          background: rgba(255, 44, 44, 0.26);
+        }
       }
-
     }
   }
   &.flag-container {
@@ -252,13 +250,16 @@
     max-width: 400px;
     //height: 10%;
     top: 60%;
-    left: 55%;
+    //left: 55%; without animation
+    left: 30%;
     height: 25%;
     transform: translateX(-50%);
 
     background-repeat: no-repeat;
     background-size: contain;
     background-image: url("../../../images/Fahne.png");
+    animation: pulse 5s linear infinite;
+
     //z-index: 1;
   }
 
@@ -268,7 +269,7 @@
     //justify-content: right;
     //width: 280.28px;
     //width: 35%;
-      width: 38%;
+    width: 38%;
     height: 34.36px;
     left: 520px;
     top: 1%;
@@ -292,7 +293,7 @@
     margin-top: 10%;
     //justify-content: right;
     width: 300.28px;
-      //width: 400px;
+    //width: 400px;
     //width: 45%;
     height: 34.36px;
     right: 3%;

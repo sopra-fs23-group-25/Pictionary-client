@@ -9,6 +9,15 @@
   align-items: center;
   flex-direction: column;
   gap: 10px;
+
+  & img {
+    position: relative;
+    left: 10%;
+    bottom: -25%;
+    height: 90px;
+    width: 90px;
+    animation: pulse 2s linear infinite;
+  }
 }
 
 .before-game-span {

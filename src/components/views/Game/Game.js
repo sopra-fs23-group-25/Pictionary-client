@@ -134,7 +134,7 @@ const GameView = (props) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowTurnResult(true);
-    }, 3000);
+    }, 3500);
 
     return () => {
       clearTimeout(timeoutId);
@@ -277,6 +277,7 @@ const GameView = (props) => {
 
     setPlayers(gameResponse.data.players);
     setCurrentRound(gameResponse.data.currentRound);
+    setEraserOn(false);
   };
 
   async function startRound() {

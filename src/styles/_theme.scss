@@ -77,3 +77,15 @@ $borderRadius: 0.75em;
   align-items: center;
   justify-content: center;
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
