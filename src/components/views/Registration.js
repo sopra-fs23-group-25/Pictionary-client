@@ -6,6 +6,7 @@ import "styles/views/Login.scss";
 import "styles/ui/DropDownMenu.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import { useTranslation } from "react-i18next";
+import ErrorPopup from "components/ui/ErrorPopUp";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -64,6 +65,19 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [language, setLanguage] = useState(languageOptions[0].value);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  // Function to handle error occurrence
+  const handleErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
+
+  // Function to handle closing the error pop-up
+  const handleCloseError = () => {
+    setShowError(false);
+  };
 
   const doRegister = async () => {
     try {
@@ -92,8 +106,11 @@ const Register = (props) => {
       // Login successfully worked --> navigate to the lobby overview
       history.push(`/lobbies`);
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-      history.push("/register");
+      handleErrorMessage(
+        `Something went wrong during the registration: \n  ${handleError(
+          error
+        )}`
+      );
     }
   };
 
@@ -140,6 +157,9 @@ const Register = (props) => {
           </button>
         </div>
       </div>
+      {showError && (
+        <ErrorPopup message={errorMessage} onClose={handleCloseError} />
+      )}
     </BaseContainer>
   );
 };

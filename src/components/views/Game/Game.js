@@ -27,6 +27,9 @@ import { useTranslation } from "react-i18next";
 import "locales/index";
 import TurnOverIntermediateComponent from "./TurnOverIntermediateComponent";
 
+import ErrorPopup from "components/ui/ErrorPopUp";
+import { handleError } from "helpers/api";
+
 const GameView = (props) => {
   //Refs
   const canvasRef = useRef(null); //reference of Drawing Canvas
@@ -77,6 +80,20 @@ const GameView = (props) => {
   const [showTurnResult, setShowTurnResult] = useState(false);
   const [endTurnReason, setEndTurnReason] = useState("default");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  // Function to handle error occurrence
+  const handleErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
+
+  // Function to handle closing the error pop-up
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
     const isHost = location?.state?.isHost || false;
@@ -97,6 +114,11 @@ const GameView = (props) => {
         setPlayers(response.data.players);
         setLobbyName(response.data.lobbyName);
       } catch (error) {
+        handleErrorMessage(
+          `Something went wrong while fetching the lobbies: \n  ${handleError(
+            error
+          )}`
+        );
         if (isHost) {
           history.push("/lobbies");
         } else {
@@ -306,7 +328,11 @@ const GameView = (props) => {
       console.log("close lobby");
       sendCloseLobbyMessage(clientRef, lobbyId);
     } catch (error) {
-      alert("could not delete lobby");
+      handleErrorMessage(
+        `Something went wrong while fetching the lobbies: \n  ${handleError(
+          error
+        )}`
+      );
     }
   }
 
@@ -321,7 +347,11 @@ const GameView = (props) => {
       // sendOverWebsocket to all players that user left lobby
       sendLeaveGameMessage(clientRef, lobbyId);
     } catch (error) {
-      alert("could not leave lobby");
+      handleErrorMessage(
+        `Something went wrong while fetching the lobbies: \n  ${handleError(
+          error
+        )}`
+      );
     }
     history.push("/lobbies");
   }
@@ -533,6 +563,9 @@ const GameView = (props) => {
         topics={Object.values(websocket_topics(lobbyId))}
         onMessage={onMessage}
       />
+      {showError && (
+        <ErrorPopup message={errorMessage} onClose={handleCloseError} />
+      )}
     </div>
   ) : (
     <EndOfGame t={t} players={players}></EndOfGame>

@@ -6,6 +6,7 @@ import "styles/ui/DropDownMenu.scss";
 import User from "../../../models/User";
 import { useTranslation } from "react-i18next";
 import "locales/index";
+import ErrorPopup from "components/ui/ErrorPopUp";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -66,6 +67,20 @@ const UserSettings = () => {
   let { id } = useParams();
   const userId = id;
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  // Function to handle error occurrence
+  const handleErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
+
+  // Function to handle closing the error pop-up
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+
   const languageOptions = [
     { value: "en", label: "English" },
     { value: "de", label: "German" },
@@ -79,14 +94,22 @@ const UserSettings = () => {
     }
 
     async function fetchData() {
-      const response = await apiWithAuth(token).get(
-        "/users/" + userId.toString()
-      );
-      const user = new User(response.data);
-      setLanguage(user.language);
-      setNewLanguage(user.language);
-      setUsername(user.username);
-      setNewUsername(user.username);
+      try {
+        const response = await apiWithAuth(token).get(
+          "/users/" + userId.toString()
+        );
+        const user = new User(response.data);
+        setLanguage(user.language);
+        setNewLanguage(user.language);
+        setUsername(user.username);
+        setNewUsername(user.username);
+      } catch (error) {
+        handleErrorMessage(
+          `Something went wrong while fetching user information: \n  ${handleError(
+            error
+          )}`
+        );
+      }
     }
     fetchData();
   }, [token, userId, history]);
@@ -108,7 +131,11 @@ const UserSettings = () => {
       setNewPassword("");
       setNewPassword("");
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      handleErrorMessage(
+        `Something went wrong while saving the changes: \n  ${handleError(
+          error
+        )}`
+      );
     }
   };
 
@@ -167,6 +194,9 @@ const UserSettings = () => {
           {t("userSettings.backToLobbyOverview")}
         </button>
       </div>
+      {showError && (
+        <ErrorPopup message={errorMessage} onClose={handleCloseError} />
+      )}
     </div>
   );
 };

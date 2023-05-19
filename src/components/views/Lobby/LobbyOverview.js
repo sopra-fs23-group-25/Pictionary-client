@@ -7,6 +7,7 @@ import refreshIcon from "images/refresh-icon.png";
 import { Spinner } from "components/ui/Spinner";
 import { useTranslation } from "react-i18next";
 import "locales/index";
+import ErrorPopup from "components/ui/ErrorPopUp";
 
 const LobbyItem = ({ lobby, handleClick }) => {
   return (
@@ -28,6 +29,20 @@ const LobbyOverview = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [lobbies, setLobbies] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  // Function to handle error occurrence
+  const handleErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
+
+  // Function to handle closing the error pop-up
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+
   const fetchData = async () => {
     try {
       const response = await api.get("/lobbies");
@@ -35,26 +50,26 @@ const LobbyOverview = () => {
       sessionStorage.removeItem("lobbyId");
       //console.log("lobbyID in Session Storage", sessionStorage.getItem("lobbyId"));
     } catch (error) {
-      console.error(
-        `Something went wrong while fetching the lobbies: \n${handleError(
+      handleErrorMessage(
+        `Something went wrong while fetching the lobbies: \n  ${handleError(
           error
         )}`
-      );
-      console.error("Details:", error);
-      alert(
-        "Something went wrong while fetching the lobbies! See the console for details."
       );
     }
   };
 
-  useEffect(() => {
-    fetchData();
-    const interval = setInterval(() => {
-      console.log("refreshed");
+  useEffect(
+    () => {
       fetchData();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+      const interval = setInterval(() => {
+        console.log("refreshed");
+        fetchData();
+      }, 3000);
+      return () => clearInterval(interval);
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   async function refreshLobby() {
     await fetchData();
@@ -73,7 +88,11 @@ const LobbyOverview = () => {
       //sessionStorage.removeItem("lobbyId");
       navigateToGamePage(lobbyId);
     } catch (error) {
-      alert(`Could not join Lobby`);
+      handleErrorMessage(
+        `Something went wrong during joining the lobby: \n  ${handleError(
+          error
+        )}`
+      );
     }
   }
 
@@ -105,14 +124,10 @@ const LobbyOverview = () => {
   }
 
   const logout = async () => {
-    try {
-      const token = sessionStorage.getItem("token");
-      await apiWithAuth(token).delete("/sessions");
-      sessionStorage.clear();
-      history.push("/login");
-    } catch (error) {
-      alert("Something went wrong while logging out!");
-    }
+    const token = sessionStorage.getItem("token");
+    await apiWithAuth(token).delete("/sessions");
+    sessionStorage.clear();
+    history.push("/login");
   };
 
   const navigateToUserSettings = () => {
@@ -164,6 +179,9 @@ const LobbyOverview = () => {
           {t("lobbyOverview.logout")}
         </button>
       </div>
+      {showError && (
+        <ErrorPopup message={errorMessage} onClose={handleCloseError} />
+      )}
     </div>
   );
 };
