@@ -6,6 +6,8 @@ import "styles/views/Lobby/LobbySettings.scss";
 
 import { useTranslation } from "react-i18next";
 import "locales/index";
+import { handleError } from "helpers/api";
+import ErrorPopup from "components/ui/ErrorPopUp";
 
 const LobbySettings = () => {
   const history = useHistory();
@@ -15,6 +17,20 @@ const LobbySettings = () => {
   const [selectedTime, setSelectedTime] = useState(30);
   const [selectedRounds, setSelectedRound] = useState(2);
   const [selectedNrOfPlayers, setSelectedNrOfPlayers] = useState(5);
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  // Function to handle error occurrence
+  const handleErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
+
+  // Function to handle closing the error pop-up
+  const handleCloseError = () => {
+    setShowError(false);
+  };
 
   async function createLobby() {
     try {
@@ -33,16 +49,20 @@ const LobbySettings = () => {
       sessionStorage.setItem("lobbyId", response.data.lobbyId);
       navigateToGamePage(response.data.lobbyId);
     } catch (error) {
-      alert("Something went wrong while creating a new lobby! See console");
+      handleErrorMessage(
+        `Something went wrong while creating the lobby: \n  ${handleError(
+          error
+        )}`
+      );
     }
   }
   const handleCancelClick = () => {
-      // Remove the 'lobbyId' item from sessionStorage
-      //sessionStorage.removeItem('lobbyId');
+    // Remove the 'lobbyId' item from sessionStorage
+    //sessionStorage.removeItem('lobbyId');
 
-      // Redirect to '/lobbies' using history.push
-      history.push('/lobbies');
-    };
+    // Redirect to '/lobbies' using history.push
+    history.push("/lobbies");
+  };
 
   const navigateToGamePage = (lobbyId) => {
     history.push({
@@ -111,6 +131,9 @@ const LobbySettings = () => {
           {t("lobbySettings.confirm")}
         </button>
       </div>
+      {showError && (
+        <ErrorPopup message={errorMessage} onClose={handleCloseError} />
+      )}
     </div>
   );
 };
