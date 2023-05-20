@@ -47,7 +47,8 @@
       "lastRound": "Dernier tour est terminé",
       "hostCanStart": "Tu peux démarrer le jeu",
       "hostMustWait": "Attendez plus de joueurs",
-      "playerMustWait": "Attendez que l'hôte démarre le jeu"
+      "playerMustWait": "Attendez que l'hôte démarre le jeu",
+      "rejoining": "Rejoindre"
     },
     "paintToolBar": {
       "lineWidth": "Largeur de ligne",
@@ -98,5 +99,8 @@
     "getReadyForNextTurn": "Préparez-vous!!!",
     "newPainter": "Nouveau Peintre :",
     "lastWord": "Le mot était :"
+  },
+  "rejoining": {
+    "rejoining": "Rejoindre - Attendre le prochain tour pour rejouer"
   }
 }

@@ -46,11 +46,14 @@
   padding: 4px;
   border: none;
   width: 30px;
-  background-color: $accent-color;
+  background-color: $button-color;
   border-radius: $box-radius;
-
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 900;
+
+  &:hover {
+    background: $accent-color;
+  }
 }
 
 .error-message {

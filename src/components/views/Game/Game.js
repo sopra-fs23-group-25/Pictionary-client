@@ -29,6 +29,7 @@ import TurnOverIntermediateComponent from "./TurnOverIntermediateComponent";
 
 import ErrorPopup from "components/ui/ErrorPopUp";
 import { handleError } from "helpers/api";
+import Rejoining from "./Rejoining";
 
 const GameView = (props) => {
   //Refs
@@ -62,7 +63,7 @@ const GameView = (props) => {
 
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
-  const [lobbyId, setLobbyId] = useState(1);
+  const [lobbyId, setLobbyId] = useState(sessionStorage.getItem("lobbyId"));
   const [lobbyName, setLobbyName] = useState(null);
   const [players, setPlayers] = useState([]);
   const [nrOfRounds, setNrOfRounds] = useState(null);
@@ -94,14 +95,33 @@ const GameView = (props) => {
     setShowError(false);
   };
 
+  //warning when refreshing page (not customizable -> browser prevents)
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (isComponentMounted) {
+        event.returnValue = "leave";
+        return "";
+      }
+    };
+
+    let isComponentMounted = true;
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      isComponentMounted = false;
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   useEffect(() => {
     // this information was passed while creating/joining lobby
+    const storedLobbyId = sessionStorage.getItem("lobbyId");
+
     const isHost = location?.state?.isHost || false;
-    const lobbyId = location?.state?.lobbyId || 1;
+    const lobbyId = location?.state?.lobbyId || storedLobbyId;
     setLobbyId(lobbyId);
     setIsHost(isHost);
     async function fetchLobbyInformation() {
-      const storedLobbyId = sessionStorage.getItem("lobbyId");
       if (parseFloat(id) !== parseFloat(storedLobbyId)) {
         history.push("/lobbies");
       }
@@ -109,20 +129,24 @@ const GameView = (props) => {
       try {
         console.log(lobbyId);
         const response = await api.get(`/lobbies/${lobbyId}`);
+        console.log(response);
         setTimePerRound(response.data.timePerRound);
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
         setLobbyName(response.data.lobbyName);
+
+        if (response.data.running === true) {
+          setGameState("rejoining");
+        }
       } catch (error) {
-        handleErrorMessage(
-          `Something went wrong while fetching the lobbies: \n  ${handleError(
-            error
-          )}`
-        );
         if (isHost) {
           history.push("/lobbies");
         } else {
-          alert(`Could not fetch Lobby`);
+          handleErrorMessage(
+            `Something went wrong while fetching the lobbies: \n  ${handleError(
+              error
+            )}`
+          );
         }
       }
     }
@@ -220,6 +244,8 @@ const GameView = (props) => {
       endRound();
     } else if (gameState === "end game") {
       endGame();
+    } else if (gameState === "rejoining") {
+      rejoin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState /* intentionally excluding startGame, startRound, endRound */]);
@@ -313,6 +339,24 @@ const GameView = (props) => {
 
   function endGame() {
     // render End Of Game
+  }
+
+  async function rejoin() {
+    const gameResponse = await fetchGame(lobbyId); // to get new Roles
+    const players = gameResponse.data.players;
+    setPlayers(players.sort((a, b) => b.totalScore - a.totalScore));
+
+    if (
+      players.find((user) => user.currentRole === "PAINTER").userId ===
+      sessionStorage.getItem("userId")
+    ) {
+      const turnResponse = await fetchTurn(lobbyId); // to get Result
+      setRoundResult(
+        turnResponse.data.guesses.sort((a, b) => b.score - a.score)
+      );
+      setCurrentRound(gameResponse.data.currentRound);
+      setWord(turnResponse.data.word);
+    }
   }
 
   function enoughPlayersInLobby() {
@@ -418,15 +462,23 @@ const GameView = (props) => {
             </div>
             <div className="board header-container sub-container3">
               <div className="clock-container">
-                {gameState !== "before game" ? (
-                  <CountDownTimer
-                    gameState={gameState}
-                    isHost={isHost}
-                    clientRef={clientRef}
-                    lobbyId={lobbyId}
-                    ref={timerRef}
-                  ></CountDownTimer>
-                ) : null}
+                {(() => {
+                  switch (gameState) {
+                    case "before game":
+                    case "rejoining":
+                      return null;
+                    default:
+                      return (
+                        <CountDownTimer
+                          gameState={gameState}
+                          isHost={isHost}
+                          clientRef={clientRef}
+                          lobbyId={lobbyId}
+                          ref={timerRef}
+                        ></CountDownTimer>
+                      );
+                  }
+                })()}
               </div>
               <div className="rounds-container">
                 {(() => {
@@ -441,6 +493,8 @@ const GameView = (props) => {
                       return t("gamePage.roundsContainer.firstRound");
                     case "end last round":
                       return t("gamePage.roundsContainer.lastRound");
+                    case "rejoining":
+                      return t("gamePage.roundsContainer.rejoining");
                     default:
                       return (
                         <>
@@ -483,6 +537,8 @@ const GameView = (props) => {
                     word={word}
                   ></EndOfTurn>
                 );
+              case "rejoining":
+                return <Rejoining t={t}></Rejoining>;
               default:
                 return (
                   <DrawingBoard
@@ -559,6 +615,7 @@ const GameView = (props) => {
       </div>
       <Socket
         clientRef={clientRef}
+        gameState={gameState}
         lobbyId={lobbyId}
         userId={userId}
         topics={Object.values(websocket_topics(lobbyId))}

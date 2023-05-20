@@ -47,7 +47,8 @@
       "lastRound": "Letze Runde ist vorbei",
       "hostCanStart": "Du kannst das Spiel beginnen",
       "hostMustWait": "Warte auf mehr Spielerinnen",
-      "playerMustWait": "Warte, dass Host das Spiel beginnt"
+      "playerMustWait": "Warte, dass Host das Spiel beginnt",
+      "rejoining": "Neu verbinden"
     },
     "paintToolBar": {
       "lineWidth": "Linien Breite",
@@ -98,5 +99,8 @@
     "getReadyForNextTurn": "Nächste Runde!!!",
     "newPainter": "Es wird zeichnen: ",
     "lastWord": "Das Wort war: "
+  },
+  "rejoining": {
+    "rejoining": "Neu verbinden - Warte auf den nächsten Zug, um wieder mitzuspielen"
   }
 }
