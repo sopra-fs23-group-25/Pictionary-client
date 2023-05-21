@@ -47,7 +47,8 @@
       "lastRound": "Last Round is over",
       "hostCanStart": "You can start the game",
       "hostMustWait": "Wait for players to join lobby",
-      "playerMustWait": "Wait for host to start the game"
+      "playerMustWait": "Wait for host to start the game",
+      "rejoining": "Rejoining"
     },
     "paintToolBar": {
       "lineWidth": "Line Width",
@@ -98,5 +99,8 @@
     "getReadyForNextTurn": "Get ready for the next turn !!!",
     "newPainter": "New Painter: ",
     "lastWord": "The word was: "
+  },
+  "rejoining": {
+    "rejoining": "Rejoining - Wait for next turn to play again"
   }
 }

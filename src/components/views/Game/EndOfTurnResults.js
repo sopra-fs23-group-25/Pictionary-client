@@ -44,7 +44,7 @@ const EndOfTurn = ({ players, roundResult, gameState, word, t }) => {
   let users = <Spinner></Spinner>;
   if (roundResult.length > 0) {
     users = roundResult.map((guess, index) => (
-      <UserItem guess={guess} index={index}></UserItem>
+      <UserItem guess={guess} index={index} key={index}></UserItem>
     ));
   }
 

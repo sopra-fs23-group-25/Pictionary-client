@@ -10,9 +10,14 @@ const Socket = (props) => {
   const url = getDomain();
 
   function onConnect() {
-    console.log("connected");
-    sendJoinGameMessage(clientRef, props.lobbyId);
-    //send-message to lobby
+    try {
+      console.log("connected");
+      if (props.gameState !== "rejoining") {
+        sendJoinGameMessage(clientRef, props.lobbyId);
+      }
+    } catch (error) {
+      console.log("Could not send joining message over websockets");
+    } //send-message to lobby
   }
 
   function onDisconnect() {
