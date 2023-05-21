@@ -270,7 +270,7 @@ const GameView = (props) => {
               );
             }
           }
-        }, 8000);
+        }, 12500);
 
         return () => clearTimeout(timer);
       }

@@ -89,7 +89,7 @@ const LobbySettings = () => {
         <RangeSelection
           setter={setSelectedTime}
           state={selectedTime}
-          min={"10"}
+          min={"20"}
           max={"60"}
           step={"5"}
         ></RangeSelection>
@@ -100,7 +100,7 @@ const LobbySettings = () => {
           setter={setSelectedRound}
           state={selectedRounds}
           min={"1"}
-          max={"10"}
+          max={"5"}
           step={"1"}
           disabled={false}
         ></RangeSelection>
