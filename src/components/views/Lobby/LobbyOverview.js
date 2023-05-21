@@ -8,6 +8,7 @@ import { Spinner } from "components/ui/Spinner";
 import { useTranslation } from "react-i18next";
 import "locales/index";
 import ErrorPopup from "components/ui/ErrorPopUp";
+import rules from "images/document.png";
 
 const LobbyItem = ({ lobby, handleClick }) => {
   return (
@@ -111,6 +112,10 @@ const LobbyOverview = () => {
     history.push("/lobbysettings");
   };
 
+  const navigateToRules = () => {
+    history.push("/rules");
+  };
+
   let lobbyListContent = <Spinner></Spinner>;
 
   if (lobbies) {
@@ -140,6 +145,9 @@ const LobbyOverview = () => {
     <div className="main-container">
       <div className="sub-container sub-container-header">
         <h1>{t("lobbyOverview.lobbyOverview")}</h1>
+        <button className="rules-button" onClick={navigateToRules}>
+          <img src={rules} alt="rules"></img>
+        </button>
         <h2>{t("lobbyOverview.joinLobby")}</h2>
       </div>
       <div className="sub-container sub-container-list">

@@ -15,6 +15,28 @@
   height: 650px; /* adjust the height as needed */
 }
 
+.rules-button {
+  position: absolute;
+  border-radius: $box-radius;
+
+  box-shadow: $box-shadow;
+  background-color: $button-color;
+  border-color: $button-color;
+  color: $button-text-color;
+  cursor: pointer;
+  transform: translate(205px, -20px);
+
+  &:hover {
+    background: $accent-color;
+  }
+
+  & img {
+    margin-top: 3px;
+    height: 35px;
+    width: 35px;
+  }
+}
+
 .sub-container {
   width: 100%;
   flex-direction: column;
