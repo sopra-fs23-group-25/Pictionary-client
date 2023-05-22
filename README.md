@@ -26,8 +26,9 @@ We created a web-based version of Pictionary, a fun draw and guess game, where u
 ## Launch and Deployment
 
 Get the client
-
-git clone https://github.com/sopra-fs23-group-25/Pictionary-client
+```bash
+./git clone https://github.com/sopra-fs23-group-25/Pictionary-client
+```
 and open the project with an IDE of your choice.
 
 For your local development environment, [Node.js](https://nodejs.org/en) is needed. All other dependencies, including React, get installed with:
