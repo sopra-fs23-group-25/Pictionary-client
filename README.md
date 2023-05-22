@@ -24,7 +24,38 @@ We created a web-based version of Pictionary, a fun draw and guess game, where u
 <img src="https://github.com/get-icon/geticon/blob/master/icons/github-icon.svg" width="16" height="16" /> [**GitHub**](https://github.com/) : version control, tracability and planning.
 
 ## Launch and Deployment
-todo
+
+Get the client
+
+git clone https://github.com/sopra-fs23-group-25/Pictionary-client
+and open the project with an IDE of your choice.
+
+For your local development environment, [Node.js](https://nodejs.org/en) is needed. All other dependencies, including React, get installed with:
+
+npm install
+When running the application for the first time, run this command. After that you can start the application with:
+
+npm run dev
+After that you can open http://localhost:3000 to view the app running in the browser. Notice that the page will reload if you make any edits.
+
+Build
+This command will build the app for production to the build folder.
+
+npm run build
+It bundles React correctly in production mode and optimizes the build for the best performance: the build is minified, and the filenames include hashes.
+
+Testing
+There are currently no tests on the client version of Pictionary.
+
+Tests can be run with the command:
+
+npm run test
+This launches the test runner in an interactive watch mode. See the section about [running tests](https://create-react-app.dev/docs/running-tests/) for more information.
+
+Deployment
+After each commit to the master branch, automatic Github Actions get executed which deploy our application to Google Cloud. See the section about [deployment](https://create-react-app.dev/docs/deployment/) for more information.
+
+
 
 ## Illustrations
 todo
