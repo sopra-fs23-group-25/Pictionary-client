@@ -27,30 +27,34 @@ We created a web-based version of Pictionary, a fun draw and guess game, where u
 
 Get the client
 ```bash
-./git clone https://github.com/sopra-fs23-group-25/Pictionary-client
+git clone https://github.com/sopra-fs23-group-25/Pictionary-client
 ```
 and open the project with an IDE of your choice.
 
 For your local development environment, [Node.js](https://nodejs.org/en) is needed. All other dependencies, including React, get installed with:
-
+```bash
 npm install
+```
 When running the application for the first time, run this command. After that you can start the application with:
-
+```bash
 npm run dev
+```
 After that you can open http://localhost:3000 to view the app running in the browser. Notice that the page will reload if you make any edits.
 
 Build
 This command will build the app for production to the build folder.
-
+```bash
 npm run build
+```
 It bundles React correctly in production mode and optimizes the build for the best performance: the build is minified, and the filenames include hashes.
 
 Testing
 There are currently no tests on the client version of Pictionary.
 
 Tests can be run with the command:
-
+```bash
 npm run test
+```
 This launches the test runner in an interactive watch mode. See the section about [running tests](https://create-react-app.dev/docs/running-tests/) for more information.
 
 Deployment
