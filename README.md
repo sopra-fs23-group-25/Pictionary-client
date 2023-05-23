@@ -67,8 +67,7 @@ After each commit to the master branch, automatic Github Actions get executed wh
 ## Illustrations
 
 ### Registration
-The registration page is the landing page and where a new user can register a 
- account by choosing a unique username, password and preferred language.
+The registration page is the landing page and where a new user can register an account by choosing a unique username, password and preferred language.
 <img width="1512" alt="Registration" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/d8074c4d-521d-4050-acd2-f9b65c63370b">
 
 ### Login
@@ -76,8 +75,9 @@ The login page is where the user with an existing account can log in with their 
 <img width="1512" alt="Login" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1db837c8-ba13-43d2-a955-88286b79393f">
 
 ### Lobby Overview
-On the lobby overview page (French user view) the user can join a lobby by clicking on the name of it or create a new lobby with their own settings.
-The refresh button is to reload the page so newly created lobbies get added. “Create a Lobby” button redirects the user to the lobby settings page for a new lobby. “Settings” button is for user settings, where you can change username, password and preferred language and the “Logout” button logs you out and redirects to the login page.
+On the lobby overview page, here as seen from a French user's view, the user has the possiblity to join a lobby by clicking on the name of it or create a new lobby with their own settings by clicking on the ```CREATE A LOBBY``` button.
+The refresh button is to reload the page so newly created lobbies get loaded. ```CREATE A LOBBY``` button redirects the user to the lobby settings page for a new lobby. ```Settings``` button is for user settings, where you can change username, password and preferred language and the ```Logout``` button logs you out and redirects to the login page.
+
 <img width="1512" alt="LobbyOverviewFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/946ef5de-9171-49af-b504-f346e8811450">
 
 ### User Settings
