@@ -98,16 +98,21 @@ On the waiting room page as a non-host, shown here from a German user's view, th
 
 ### Game
 #### Painter
-The game starts and the painter needs to paint the word displayed in the right box. Therefore, the player can use the toolbar in the top-left corner with different colors, brush sizes and eraser. For all correct guesses submitted in time, the painter gets points too. Furthermore, the current turn, current round, total number of turns and rounds, as well as the time left for this turn is shown in the top-right corner of the drawing board. The overall ranking of players is seen in the bottom-right corner.
-<img width="1512" alt="DrawingBoardPainterFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/476c040a-dc46-4f58-8ca6-86b7b11db78e">
+The game starts and the painter needs to paint the word displayed in the right box, shown here as a French player’s view. The player can use the toolbar in the top-left corner with different colors, brush sizes and eraser. For all correct guesses submitted in time, the painter gets points too. Furthermore, the current turn, current round, total number of turns and rounds, as well as the time left for this turn is shown in the top-right corner of the drawing board. The overall ranking of players is seen in the bottom-right corner.
+<img width="1512" alt="Good5" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/9ce69310-8dcc-4e70-89e8-ab7697becf66">
+
 
 #### Guesser
-After the game has started, the guesser, shown here from a German player's view, sees the painting drawn by the painter in real-time and the remaining time to submit a guess. The player can type in their guesses in the box to the right and submit by clicking on the ```SUBMIT``` button.
-<img width="1512" alt="DrawingBoardGuesserGer" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/93255f31-f386-4f1e-870c-3de0386e9332">
+After the game has started, the guessers see the painting drawn by the painter in real-time and the remaining time to submit a guess, shown here from a German and an English user’s view. The player can type in their guesses in their own preferred language into the box to the right and submit by clicking on the ```SUBMIT``` button.
+<img width="1512" alt="Good3" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/ecb9a947-3d3e-4071-980e-469f9936a2bd">
+<img width="1512" alt="Good4" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/7b704ee9-1d64-4f0a-8364-bf18d8df5a34">
+
 
 ### End of Turn Result
-The game ends as soon as all players have submitted a guess or if the time runs out. The players see the results of the last turn including correct answer, points distributed, turn ranking, the guesses submitted by all the other players in their own preferred language and if they were right. Furthermore, the next painter is announced.
-<img width="1512" alt="TurnResultEng2" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1cc9bdc2-8a07-446a-acde-9e46648a4c4f">
+ The game ends as soon as all players submit a guess or when the time runs out. The players see the results of the last turn in their own preferred language, shown here from a German and English player’s view. This includes the correct answer, points distributed, turn ranking, the guesses submitted by all the other players in their preferred language and if they were right. Furthermore, the next painter is announced.
+<img width="1512" alt="Good6" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/edb97e8b-19ec-44fd-8cea-50ac1581b383">
+<img width="1512" alt="Good7" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/0d052933-4222-40a1-b5ae-03f757b7c645">
+
 
 ### End of Game and Final Scores
 After all rounds have been played, the game ends and the final scores are displayed. The player sees the final ranking including final points and by ```Back to Lobbies``` button they can go back to the lobby overview page.
