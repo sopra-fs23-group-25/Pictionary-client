@@ -102,5 +102,50 @@
   },
   "rejoining": {
     "rejoining": "Neu verbinden - Warte auf den nächsten Zug, um wieder mitzuspielen"
+  },
+  "rules": {
+    "back": "ZURÜCK",
+    "rules": "Pictionary Regeln",
+    "description": {
+      "title": "Spielbeschreibung",
+      "language": "bevorzugten Sprache des Benutzers",
+      "API": "Google Translate API",
+      "rounds": "1-5 Runden",
+      "players": "2-5 Spieler:innen",
+      "seconds": "20-60 Sekunden",
+      "game": {
+        "part1.1": "Pictionary ist ein Mehrspieler-Zeichnungsspiel, bei dem ein Maler ein Wort zeichnet und die anderen Spieler versuchen das Wort zu erraten. Das Spiel kann in der ",
+        "part1.2": " gespielt werden, da die ",
+        "part1.3": " alle Wörter in die bevorzugte Sprache des Benutzers übersetzt.",
+        "part2": "Ein Spiel besteht aus ",
+        "part3.1": "Ein Spiel besteht aus ",
+        "part3.2": " Eine Runde ist vorbei, wenn jede Spieler:in einmal gezeichnet hat. (Anzahl der Züge pro Runde = Anzahl der Spieler:innen in der Lobby)",
+        "part4": "Die Dauer eines Zuges kann gewählt werden zwischen: ",
+        "part5.1": "Ein Zug ist beendet, entweder wenn die ",
+        "part5.2": "Zeit abgelaufen ist, alle Spieler:innen geraten haben oder der Maler inaktiv war.",
+        "part6": "Das Wort kann in der ",
+        "part6-1": " erraten werden."
+      }
+    },
+    "gameRules": {
+      "title": "Spielregeln",
+      "rules": {
+        "part1": "Man darf das Wort einmal pro Zug versuchen zu erraten.",
+        "part2": "Verhalten Sie sich respektvoll",
+        "part3.1": "Keine ",
+        "part3.2": "Buchstaben in den Zeichnungen verwenden."
+      }
+    },
+    "scoringRules": {
+      "title": "Punkteverteilung",
+      "0_points": "0 Punkte",
+      "5_points": "5 Punkte",
+      "rules": {
+        "part1.1": "Der Maler erhält ",
+        "part1.2": " für jedes richtig erratene Wort",
+        "part2": "Wenn ein Spieler das Wort falsch rät, erhält der Spieler ",
+        "part3": "Der erste Spieler, der richtig rät, erhält 25 Punkte. Jede weiter Spieler:in, die das Wort richtig errät, erhält 5 Punkte weniger. Zum Beispiel: Erste richtige Vermutung 25 Punkte, zweite richtige Vermutung 20 Punkte usw.."
+      }
+    }
   }
 }
