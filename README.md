@@ -66,48 +66,52 @@ After each commit to the master branch, automatic Github Actions get executed wh
 
 ## Illustrations
 
-### Registration and Login
-
-Registration: The registration page is the landing page and where a new user can register a 
+### Registration
+The registration page is the landing page and where a new user can register a 
  account by choosing a unique username, password and preferred language.
 <img width="1512" alt="Registration" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/d8074c4d-521d-4050-acd2-f9b65c63370b">
 
-Login: The login page is where the user with an existing account can log in with their credentials.
+### Login
+The login page is where the user with an existing account can log in with their credentials.
 <img width="1512" alt="Login" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1db837c8-ba13-43d2-a955-88286b79393f">
 
 ### Lobby Overview
-Lobby Overview: In the lobby overview page (French user view) the user can join a lobby by clicking on the name of it or create a new lobby with their own settings.
+On the lobby overview page (French user view) the user can join a lobby by clicking on the name of it or create a new lobby with their own settings.
 The refresh button is to reload the page so newly created lobbies get added. “Create a Lobby” button redirects the user to the lobby settings page for a new lobby. “Settings” button is for user settings, where you can change username, password and preferred language and the “Logout” button logs you out and redirects to the login page.
 <img width="1512" alt="LobbyOverviewFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/946ef5de-9171-49af-b504-f346e8811450">
 
 ### User Settings
-User Settings: The user settings page is where the user can edit the username, password and preferred language.
+The user settings page is where the user can edit the username, password and preferred language.
 <img width="1512" alt="UserSettings" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/0eec05b9-bd3d-493e-8034-3565167dca5c">
 
 ### Lobby Settings
-Lobby Settings: On the lobby settings page the user can choose the lobby’s name, seconds per round, how many rounds you want to play and maximum number of players allowed. The minimum number of players is 2.
+On the lobby settings page the user can choose the lobby’s name, seconds per round, how many rounds you want to play and maximum number of players allowed. The minimum number of players is 2.
 <img width="1512" alt="LobbySettings" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/a4f7f80b-e12c-4077-bcbd-f35a63d98c35">
 
 ### Waiting Room
-Waiting Room (Host): The host can start the game by clicking on the “Start Game” button as soon as there is a minimum of 2 players. The host can also close the lobby by clicking on the “Close Lobby” button which will redirect all players of this lobby to the lobby overview page.
+#### Host
+The host can start the game by clicking on the “Start Game” button as soon as there is a minimum of 2 players. The host can also close the lobby by clicking on the “Close Lobby” button which will redirect all players of this lobby to the lobby overview page.
 <img width="1512" alt="WaitingRoomHost" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/0b6b80c3-bb2b-4abf-9098-762de117fc89">
 
-Waiting Room (Non-host): On the waiting room page as a non-host (German user view) the user needs to wait until the host starts the game. The user can also leave the lobby by clicking on the “Leave Lobby” button. 
+#### Non-host
+On the waiting room page as a non-host (German user view) the user needs to wait until the host starts the game. The user can also leave the lobby by clicking on the “Leave Lobby” button. 
 <img width="1512" alt="WaitingRoomNotHost" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/09d28923-5afc-4644-8386-9afd928ed327">
 
 ### Game
-Game (Painter): The game starts and the painter needs to paint the word displayed in the right box. Therefore, the player can use the toolbar in the top-left corner with different colors, brush sizes and eraser. For all correct guesses submitted in time, the painter gets points too. Furthermore, the current turn and round, total number of turns and rounds left, as well as the time left for this turn is shown in the top-right corner of the drawing board. The overall ranking of players is seen in the bottom-right corner.
+#### Painter
+The game starts and the painter needs to paint the word displayed in the right box. Therefore, the player can use the toolbar in the top-left corner with different colors, brush sizes and eraser. For all correct guesses submitted in time, the painter gets points too. Furthermore, the current turn and round, total number of turns and rounds left, as well as the time left for this turn is shown in the top-right corner of the drawing board. The overall ranking of players is seen in the bottom-right corner.
 <img width="1512" alt="DrawingBoardPainterFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/476c040a-dc46-4f58-8ca6-86b7b11db78e">
 
-Game (Guesser): After the game has started, the guessers see the painting drawn by the painter in real-time and the remaining time to submit a guess (German user view). The can submit their guesses in the box to the right.
+#### Guesser
+After the game has started, the guessers see the painting drawn by the painter in real-time and the remaining time to submit a guess (German user view). The can submit their guesses in the box to the right.
 <img width="1512" alt="DrawingBoardGuesserGer" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/93255f31-f386-4f1e-870c-3de0386e9332">
 
 ### Turn Results
-Turn Results: The game ends as soon as all players submit a guess or when the time runs out. The players see the results of the last turn including correct answer, points distributed, turn ranking, the guesses submitted by all the other players in their preferred language and if they were right. Furthermore, the next painter is announced.
+The game ends as soon as all players submit a guess or when the time runs out. The players see the results of the last turn including correct answer, points distributed, turn ranking, the guesses submitted by all the other players in their preferred language and if they were right. Furthermore, the next painter is announced.
 <img width="1512" alt="TurnResultEng2" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1cc9bdc2-8a07-446a-acde-9e46648a4c4f">
 
 ### End of Game
-End of Game: After all rounds have been played, the game ends and the final scores are displayed. The player sees the final ranking including final points and by clicking on the “Back to Lobbies” button they can go back to the lobby overview page.
+After all rounds have been played, the game ends and the final scores are displayed. The player sees the final ranking including final points and by clicking on the “Back to Lobbies” button they can go back to the lobby overview page.
 <img width="1512" alt="FinalScores" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/f8839f9e-c904-4d92-a387-82eaddd88817">
 
 
