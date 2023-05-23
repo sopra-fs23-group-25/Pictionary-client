@@ -144,7 +144,7 @@
         "part1.1": "Der Maler erhält ",
         "part1.2": " für jedes richtig erratene Wort",
         "part2": "Wenn ein Spieler das Wort falsch rät, erhält der Spieler ",
-        "part3": "Der erste Spieler, der richtig rät, erhält 25 Punkte. Jede weiter Spieler:in, die das Wort richtig errät, erhält 5 Punkte weniger. Zum Beispiel: Erste richtige Vermutung 25 Punkte, zweite richtige Vermutung 20 Punkte usw.."
+        "part3": "Der erste Spieler, der richtig rät, erhält 20 Punkte. Jede weiter Spieler:in, die das Wort richtig errät, erhält 5 Punkte weniger. Zum Beispiel: Erste richtige Vermutung 20 Punkte, zweite richtige Vermutung 15 Punkte usw.."
       }
     }
   }

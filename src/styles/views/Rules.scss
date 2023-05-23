@@ -22,18 +22,6 @@
     margin-bottom: 0em;
     color: $accent-color;
   }
-  animation: fadeIn 1.5s forwards; /* Use the fadeIn animation with a duration of 1 second */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    top: -20px;
-  }
-  to {
-    opacity: 1;
-    top: 0;
-  }
 }
 
 .rules-text {
@@ -52,7 +40,8 @@
   }
 }
 
-.list {
+.rules-list {
+  animation: fadeIn 2s forwards; /* Use the fadeIn animation with a duration of 1 second */
   list-style-type: square;
   list-style-position: inside;
   margin-top: 5px;

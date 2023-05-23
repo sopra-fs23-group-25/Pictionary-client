@@ -160,6 +160,7 @@
       }
     }
     &.list {
+      animation: fadeIn 1s forwards; /* Use the fadeIn animation with a duration of 1 second */
       margin-left: 5%;
       position: relative;
       display: flex;

@@ -89,3 +89,14 @@ $borderRadius: 0.75em;
     transform: scale(1);
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    top: -20px;
+  }
+  to {
+    opacity: 1;
+    top: 0;
+  }
+}

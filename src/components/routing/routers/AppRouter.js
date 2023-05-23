@@ -6,8 +6,6 @@ import Registration from "components/views/Registration";
 import LobbyOverview from "components/views/Lobby/LobbyOverview";
 import LobbySettings from "components/views/Lobby/LobbySettings";
 import Game from "components/views/Game/Game";
-import EndOfTurnResults from "../../views/Game/EndOfTurnResults";
-import EndOfGame from "../../views/Game/EndOfGame";
 import UserSettings from "../../views/Lobby/UserSettings";
 import { GameGuard } from "../routeProtectors/GameGuard";
 import Rules from "components/views/Rules";
@@ -65,14 +63,6 @@ const AppRouter = () => {
           <LobbyGuard>
             <UserSettings />
           </LobbyGuard>
-        </Route>
-
-        <Route exact path="/endofturn">
-          <EndOfTurnResults />
-        </Route>
-
-        <Route exact path="/endofgame">
-          <EndOfGame />
         </Route>
 
         <Route exact path="/">

@@ -14,7 +14,7 @@ const Rules = () => {
       <h1>{t("rules.rules")}</h1>
       <div className="rules-text">
         <h3>{t("rules.description.title")}</h3>
-        <ul className="list">
+        <ul className="rules-list">
           <li>
             {t("rules.description.game.part1.1")}
             <span>{t("rules.description.language")}</span>
@@ -47,7 +47,7 @@ const Rules = () => {
           </li>
         </ul>
         <h3>{t("rules.gameRules.title")}</h3>
-        <ul className="list">
+        <ul className="rules-list">
           <li> {t("rules.gameRules.rules.part1")}</li>
           <li> {t("rules.gameRules.rules.part2")}</li>
           <li>
@@ -56,7 +56,7 @@ const Rules = () => {
           </li>
         </ul>
         <h3>{t("rules.scoringRules.title")}</h3>
-        <ul className="list">
+        <ul className="rules-list">
           <li>
             {t("rules.scoringRules.rules.part1.1")}
             <span> {t("rules.scoringRules.5_points")}</span>
