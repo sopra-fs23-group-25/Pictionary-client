@@ -7,6 +7,7 @@ import "styles/ui/DropDownMenu.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import { useTranslation } from "react-i18next";
 import ErrorPopup from "components/ui/ErrorPopUp";
+import logo from "images/pictionary_logo.png";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -120,6 +121,9 @@ const Register = (props) => {
 
   return (
     <BaseContainer>
+      <div className="logo-container">
+        <img src={logo} alt="" className="logo-icon"></img>
+      </div>
       <div className="login">
         <div className="subcontainer header-container">
           <h1>Registration</h1>

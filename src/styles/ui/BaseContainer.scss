@@ -1,4 +1,4 @@
-@import 'styles/theme';
+@import "styles/theme";
 
 .base-container {
   margin-left: auto;
@@ -7,4 +7,16 @@
   padding-right: 15px;
   max-width: $DESKTOP_WIDTH;
   color: $textColor;
+}
+
+.logo-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.logo-icon {
+  height: 25%;
+  width: 25%;
 }
