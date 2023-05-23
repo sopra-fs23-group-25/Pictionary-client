@@ -105,11 +105,11 @@ The game starts and the painter needs to paint the word displayed in the right b
 After the game has started, the guesser, as seen from a German player here, sees the painting drawn by the painter in real-time and the remaining time to submit a guess. The player can type in their guesses in the box to the right and submit by clicking on the ```SUBMIT``` button.
 <img width="1512" alt="DrawingBoardGuesserGer" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/93255f31-f386-4f1e-870c-3de0386e9332">
 
-### Turn Results
+### End of Turn Result
 The game ends as soon as all players have submitted a guess or if the time runs out. The players see the results of the last turn including correct answer, points distributed, turn ranking, the guesses submitted by all the other players in their own preferred language and if they were right. Furthermore, the next painter is announced.
 <img width="1512" alt="TurnResultEng2" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1cc9bdc2-8a07-446a-acde-9e46648a4c4f">
 
-### End of Game
+### End of Game and Final Scores
 After all rounds have been played, the game ends and the final scores are displayed. The player sees the final ranking including final points and by ```Back to Lobbies``` button they can go back to the lobby overview page.
 <img width="1512" alt="FinalScores" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/f8839f9e-c904-4d92-a387-82eaddd88817">
 
