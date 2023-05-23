@@ -102,5 +102,50 @@
   },
   "rejoining": {
     "rejoining": "Rejoindre - Attendre le prochain tour pour rejouer"
+  },
+
+  "rules": {
+    "back": "RETOUR",
+    "rules": "Règles du Pictionary",
+    "description": {
+      "title": "Description du jeu",
+      "language": "langue préférée de l'utilisateur",
+      "API": "Google Translate API",
+      "rounds": "1-5 ronds",
+      "players": "2-5 joueurs",
+      "seconds": "20-60 secondes",
+      "game": {
+        "part1.1": "Le Pictionary est un jeu de dessin multijoueur où un artiste dessine un mot et les autres joueurs essaient de deviner le mot. Le jeu peut être joué dans la ",
+        "part1.2": " en raison de l'utilisation du ",
+        "part1.3": ", qui traduit tous les mots dans la langue préférée de l'utilisateur.",
+        "part2": "Un jeu peut être joué avec ",
+        "part3.1": "Un jeu se compose de ",
+        "part3.2": " Une manche se termine lorsque chaque joueur a dessiné une fois. (nombre de tours par manche = nombre de joueurs dans le lobby)",
+        "part4": "La durée d'un tour peut être choisie entre ",
+        "part5.1": "Un tour se termine soit lorsque le ",
+        "part5.2": "temps est écoulé, que tous les joueurs ont deviné ou que l'artiste était inactif.",
+        "part6": "Une proposition peut être soumise dans le "
+      }
+    },
+    "gameRules": {
+      "title": "Règles du jeu",
+      "rules": {
+        "part1": "Une seule proposition peut être soumise par tour",
+        "part2": "Comportez-vous avec respect",
+        "part3.1": "N'utilisez pas",
+        "part3.2": " de lettres dans vos dessins."
+      }
+    },
+    "scoringRules": {
+      "title": "Répartition des points",
+      "0_points": "0 points",
+      "5_points": "5 points",
+      "rules": {
+        "part1.1": "Le peintre obtient ",
+        "part1.2": " pour chaque bonne proposition",
+        "part2": "Si un joueur devine incorrectement le mot, le joueur obtient ",
+        "part3": "Le premier joueur qui devine correctement obtient 25 points. Chaque devinette correcte soumise ultérieurement obtient 5 points de moins. Par exemple : première devinette correcte 25 points, deuxième devinette correcte 20 points, etc."
+      }
+    }
   }
 }
