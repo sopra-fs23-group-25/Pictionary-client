@@ -1,0 +1,86 @@
+@import "styles/theme";
+
+.rules {
+  background: $background-color;
+  border-radius: $box-radius;
+  box-shadow: $box-shadow;
+  width: 800px;
+  height: 600px;
+
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  & h1 {
+    font-size: 2.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0em;
+    color: $accent-color;
+  }
+  animation: fadeIn 1.5s forwards; /* Use the fadeIn animation with a duration of 1 second */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    top: -20px;
+  }
+  to {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+.rules-text {
+  width: 90%;
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  overflow-y: auto;
+
+  & h3 {
+    text-align: center;
+    font-size: 150%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.list {
+  list-style-type: square;
+  list-style-position: inside;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  & li {
+    margin-top: 5px;
+  }
+  & span {
+    font-weight: 600;
+    color: $accent-color;
+  }
+}
+
+.back-button {
+  position: absolute;
+  border-radius: $box-radius;
+
+  box-shadow: $box-shadow;
+  background-color: $button-color;
+  border-color: $button-color;
+  color: $button-text-color;
+  cursor: pointer;
+  transform: translate(320px, 25px);
+
+  height: 35px;
+  width: 100px;
+
+  &:hover {
+    background: $accent-color;
+  }
+}

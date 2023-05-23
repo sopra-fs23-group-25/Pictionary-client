@@ -102,5 +102,50 @@
   },
   "rejoining": {
     "rejoining": "Rejoining - Wait for next turn to play again"
+  },
+  "rules": {
+    "back": "BACK",
+    "rules": "Pictionary Rules",
+    "description": {
+      "title": "Game Description",
+      "language": "users preferred language",
+      "API": "Google Translate API",
+      "rounds": "1-5 rounds",
+      "players": "2-5 players",
+      "seconds": "20-60 seconds",
+      "game": {
+        "part1.1": "Pictionary is a multiplayer drawing game, where a painter draws a word and the other players try to guess the word. The game can be played in a ",
+        "part1.2": " due to the usage of the ",
+        "part1.3": ", which translates all words into the users preferred language.",
+        "part2": "A game can be played with ",
+        "part3.1": "A game consists of ",
+        "part3.2": " A round is over, when every player has drawn once. (number of turns per round = number of players in lobby)",
+        "part4": "The duration of a turn can be choosen from ",
+        "part5.1": "A turn is finished, either when the ",
+        "part5.2": "time is over, all players have guessed or the painter was inactive.",
+        "part6": "A guess can be submitted in the ",
+        "part6-1": ""
+      }
+    },
+    "gameRules": {
+      "title": "Game Rules",
+      "rules": {
+        "part1": "One guess can be submitted per turn",
+        "part2": "Behave respectfully",
+        "part3.1": "Do NOT",
+        "part3.2": " use letters in your drawings."
+      }
+    },
+    "scoringRules": {
+      "title": "Scoring Rules",
+      "0_points": "0 points",
+      "5_points": "5 points",
+      "rules": {
+        "part1.1": "The painter gets ",
+        "part1.2": " for every right guess",
+        "part2": "If a players guesses the word wrong, the player gets ",
+        "part3": "The first player, that guesses correctly, gets 25 points. Each correct guess that was submitted later, gets 5 points less. For example: First correct guess 25 points, 2nd correct guess 20 points etc.."
+      }
+    }
   }
 }

@@ -9,7 +9,8 @@ import Game from "components/views/Game/Game";
 import EndOfTurnResults from "../../views/Game/EndOfTurnResults";
 import EndOfGame from "../../views/Game/EndOfGame";
 import UserSettings from "../../views/Lobby/UserSettings";
-import {GameGuard} from "../routeProtectors/GameGuard";
+import { GameGuard } from "../routeProtectors/GameGuard";
+import Rules from "components/views/Rules";
 
 /**
  * Main router of your application.
@@ -43,9 +44,15 @@ const AppRouter = () => {
         </Route>
 
         <Route path="/game/:id">
-            <GameGuard>
-                <Game />
-            </GameGuard>
+          <GameGuard>
+            <Game />
+          </GameGuard>
+        </Route>
+
+        <Route exact path="/rules">
+          <LobbyGuard>
+            <Rules />
+          </LobbyGuard>
         </Route>
 
         <Route exact path="/lobbysettings">
@@ -54,11 +61,11 @@ const AppRouter = () => {
           </LobbyGuard>
         </Route>
 
-          <Route exact path="/users/:id">
-              <LobbyGuard>
-                  <UserSettings />
-              </LobbyGuard>
-          </Route>
+        <Route exact path="/users/:id">
+          <LobbyGuard>
+            <UserSettings />
+          </LobbyGuard>
+        </Route>
 
         <Route exact path="/endofturn">
           <EndOfTurnResults />
