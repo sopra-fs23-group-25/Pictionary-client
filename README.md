@@ -75,7 +75,7 @@ The login page is where the user with an existing account can log in with their 
 <img width="1512" alt="Login" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/1db837c8-ba13-43d2-a955-88286b79393f">
 
 ### Lobby Overview
-On the lobby overview page, here as seen from a French user's view, the user has the possiblity to join a lobby by clicking on the name of it or create a new lobby with their own settings by clicking on the ```CREATE A LOBBY``` button.
+On the lobby overview page, shown here from a French user's view, the user has the possiblity to join a lobby by clicking on the name of it or create a new lobby with their own settings by clicking on the ```CREATE A LOBBY``` button.
 The refresh button is to reload the page so newly created lobbies get loaded. ```CREATE A LOBBY``` button redirects the user to the lobby settings page for a new lobby. ```SETTINGS``` button is for user settings, where you can change username, password and preferred language and the ```LOGOUT``` button logs you out and redirects to the login page.
 <img width="1512" alt="LobbyOverviewFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/946ef5de-9171-49af-b504-f346e8811450">
 
@@ -93,7 +93,7 @@ The host can start the game by clicking on the ```Start Game``` button as soon a
 <img width="1512" alt="WaitingRoomHost" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/0b6b80c3-bb2b-4abf-9098-762de117fc89">
 
 #### Non-host
-On the waiting room page as a non-host (German user view) the user needs to wait until the host starts the game. The user can also leave the lobby by clicking on the ```Leave Lobby``` button. 
+On the waiting room page as a non-host, shown here from a German user's view, the user needs to wait until the host starts the game. The user can also leave the lobby by clicking on the ```Leave Lobby``` button. 
 <img width="1512" alt="WaitingRoomNotHost" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/09d28923-5afc-4644-8386-9afd928ed327">
 
 ### Game
@@ -102,7 +102,7 @@ The game starts and the painter needs to paint the word displayed in the right b
 <img width="1512" alt="DrawingBoardPainterFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/476c040a-dc46-4f58-8ca6-86b7b11db78e">
 
 #### Guesser
-After the game has started, the guesser, as seen from a German player here, sees the painting drawn by the painter in real-time and the remaining time to submit a guess. The player can type in their guesses in the box to the right and submit by clicking on the ```SUBMIT``` button.
+After the game has started, the guesser, shown here from a German player's view, sees the painting drawn by the painter in real-time and the remaining time to submit a guess. The player can type in their guesses in the box to the right and submit by clicking on the ```SUBMIT``` button.
 <img width="1512" alt="DrawingBoardGuesserGer" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/93255f31-f386-4f1e-870c-3de0386e9332">
 
 ### End of Turn Result
