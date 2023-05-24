@@ -113,6 +113,7 @@
       "rounds": "1-5 rounds",
       "players": "2-5 players",
       "seconds": "20-60 seconds",
+      "english": " english language ",
       "game": {
         "part1.1": "Pictionary is a multiplayer drawing game, where a painter draws a word and the other players try to guess the word. The game can be played in a ",
         "part1.2": " due to the usage of the ",
@@ -124,7 +125,9 @@
         "part5.1": "A turn is finished, either when the ",
         "part5.2": "time is over, all players have guessed or the painter was inactive.",
         "part6": "A guess can be submitted in the ",
-        "part6-1": ""
+        "part6-1": "",
+        "part6-2": ". But guesses submitted in the",
+        "part6-4": " are always accepted."
       }
     },
     "gameRules": {

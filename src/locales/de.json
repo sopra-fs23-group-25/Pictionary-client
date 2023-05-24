@@ -113,6 +113,7 @@
       "rounds": "1-5 Runden",
       "players": "2-5 Spieler:innen",
       "seconds": "20-60 Sekunden",
+      "english": " englische Sprache",
       "game": {
         "part1.1": "Pictionary ist ein Mehrspieler-Zeichnungsspiel, bei dem ein Maler ein Wort zeichnet und die anderen Spieler versuchen das Wort zu erraten. Das Spiel kann in der ",
         "part1.2": " gespielt werden, da die ",
@@ -124,7 +125,9 @@
         "part5.1": "Ein Zug ist beendet, entweder wenn die ",
         "part5.2": "Zeit abgelaufen ist, alle Spieler:innen geraten haben oder der Maler inaktiv war.",
         "part6": "Das Wort kann in der ",
-        "part6-1": " erraten werden."
+        "part6-1": " erraten werden.",
+        "part6-2": " Wörter, die auf die ",
+        "part6-4": " abgeschickt werden, werden immer akzeptiert."
       }
     },
     "gameRules": {

@@ -44,6 +44,9 @@ const Rules = () => {
             {t("rules.description.game.part6")}
             <span> {t("rules.description.language")}</span>
             {t("rules.description.game.part6-1")}
+            {t("rules.description.game.part6-2")}
+            <span> {t("rules.description.english")}</span>
+            {t("rules.description.game.part6-4")}
           </li>
         </ul>
         <h3>{t("rules.gameRules.title")}</h3>
