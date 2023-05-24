@@ -147,5 +147,16 @@
         "part3": "Der erste Spieler, der richtig rät, erhält 20 Punkte. Jede weiter Spieler:in, die das Wort richtig errät, erhält 5 Punkte weniger. Zum Beispiel: Erste richtige Vermutung 20 Punkte, zweite richtige Vermutung 15 Punkte usw.."
       }
     }
+  },
+  "errors": {
+    "joinLobby": "Beim Betreten der Lobby ist ein Fehler aufgetreten:",
+    "fetchLobby": "Beim Laden der Lobby ist ein Fehler aufgetreten:",
+    "fetchLobbies": "Beim Laden der Lobbies ist ein Fehler aufgetreten:",
+    "createLobby": "Beim Erstellen der Lobby ist ein Fehler aufgetreten:",
+    "fetchUser": "Beim Abrufen von Benutzerinformationen ist ein Fehler aufgetreten:",
+    "updateUser": "Beim Speichern der Änderungen ist ein Fehler aufgetreten:",
+    "startGame": "Beim Starten des Spiels ist ein Fehler aufgetreten:",
+    "closeLobby": "Beim Schließen der Lobby ist ein Fehler aufgetreten",
+    "leaveLobby": "Beim Verlassen der Lobby ist ein Fehler aufgetreten"
   }
 }

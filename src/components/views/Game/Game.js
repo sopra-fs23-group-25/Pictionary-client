@@ -143,16 +143,14 @@ const GameView = (props) => {
           history.push("/lobbies");
         } else {
           handleErrorMessage(
-            `Something went wrong while fetching the lobbies: \n  ${handleError(
-              error
-            )}`
+            `${t("errors.fetchLobby")} \n  ${handleError(error)}`
           );
         }
       }
     }
 
     fetchLobbyInformation();
-  }, [props, location, history, id]);
+  }, [props, location, history, id, t]);
 
   //Delay for RoundResult to show reason why turn was ended
   useEffect(() => {
@@ -257,17 +255,23 @@ const GameView = (props) => {
       if (isHost) {
         const timer = setTimeout(async () => {
           if (!painterActiveRef.current && !isPainter) {
-            await updateGame(lobbyId);
-            const response = await fetchGame(lobbyId);
-            console.log(response.data);
-            if (response.data.gameOver === false) {
-              sendGameStateMessage(clientRef, lobbyId, "inactive end round");
-            } else {
-              sendGameStateMessage(
-                clientRef,
-                lobbyId,
-                "inactive end last round"
-              );
+            try {
+              await updateGame(lobbyId);
+              const response = await fetchGame(lobbyId);
+              console.log(response.data);
+              if (response.data.gameOver === false) {
+                sendGameStateMessage(clientRef, lobbyId, "inactive end round");
+              } else {
+                sendGameStateMessage(
+                  clientRef,
+                  lobbyId,
+                  "inactive end last round"
+                );
+              }
+            } catch (error) {
+              console.log(error);
+              sessionStorage.removeItem("lobbyId");
+              history.push("/lobbies");
             }
           }
         }, 12500);
@@ -275,7 +279,7 @@ const GameView = (props) => {
         return () => clearTimeout(timer);
       }
     }
-  }, [gameState, isPainter, isHost, lobbyId]);
+  }, [gameState, isPainter, isHost, lobbyId, history]);
   // these functions will never change
 
   useEffect(() => {
@@ -292,8 +296,12 @@ const GameView = (props) => {
 
   //Game Logic - Sequence - Timer
   async function handleClickStartGame() {
-    await createGame(lobbyId);
-    sendGameStateMessage(clientRef, lobbyId, "start game");
+    try {
+      await createGame(lobbyId);
+      sendGameStateMessage(clientRef, lobbyId, "start game");
+    } catch (error) {
+      handleErrorMessage(`${t("errors.startGame")} \n  ${handleError(error)}`);
+    }
   }
 
   const startGame = async () => {
@@ -342,20 +350,25 @@ const GameView = (props) => {
   }
 
   async function rejoin() {
-    const gameResponse = await fetchGame(lobbyId); // to get new Roles
-    const players = gameResponse.data.players;
-    setPlayers(players.sort((a, b) => b.totalScore - a.totalScore));
+    try {
+      const gameResponse = await fetchGame(lobbyId); // to get new Roles
+      const players = gameResponse.data.players;
+      setPlayers(players.sort((a, b) => b.totalScore - a.totalScore));
 
-    if (
-      players.find((user) => user.currentRole === "PAINTER").userId ===
-      sessionStorage.getItem("userId")
-    ) {
-      const turnResponse = await fetchTurn(lobbyId); // to get Result
-      setRoundResult(
-        turnResponse.data.guesses.sort((a, b) => b.score - a.score)
-      );
-      setCurrentRound(gameResponse.data.currentRound);
-      setWord(turnResponse.data.word);
+      if (
+        players.find((user) => user.currentRole === "PAINTER").userId ===
+        sessionStorage.getItem("userId")
+      ) {
+        const turnResponse = await fetchTurn(lobbyId); // to get Result
+        setRoundResult(
+          turnResponse.data.guesses.sort((a, b) => b.score - a.score)
+        );
+        setCurrentRound(gameResponse.data.currentRound);
+        setWord(turnResponse.data.word);
+      }
+    } catch (error) {
+      sessionStorage.removeItem("lobbyId");
+      history.push("/lobbies");
     }
   }
 
@@ -373,11 +386,7 @@ const GameView = (props) => {
       console.log("close lobby");
       sendCloseLobbyMessage(clientRef, lobbyId);
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while fetching the lobbies: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.closeLobby")} \n  ${handleError(error)}`);
     }
   }
 
@@ -392,11 +401,7 @@ const GameView = (props) => {
       // sendOverWebsocket to all players that user left lobby
       sendLeaveGameMessage(clientRef, lobbyId);
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while fetching the lobbies: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.leaveLobby")} \n  ${handleError(error)}`);
     }
     history.push("/lobbies");
   }
@@ -661,6 +666,15 @@ const GuessingContainer = ({
     setGuessSubmitted(true);
   }
 
+  function handleChange(event) {
+    const inputValue = event.target.value;
+    const regexPattern = /\s/; // Regex pattern to match any whitespace character
+
+    if (!regexPattern.test(inputValue)) {
+      setCurrentGuess(inputValue);
+    }
+  }
+
   return (
     <div className="guessing-container">
       <h1>
@@ -671,7 +685,7 @@ const GuessingContainer = ({
       <div className="word-input-container">
         <input
           value={currentGuess}
-          onChange={(e) => setCurrentGuess(e.target.value)}
+          onChange={handleChange}
           disabled={guessSubmitted}
           className="word-input"
         ></input>

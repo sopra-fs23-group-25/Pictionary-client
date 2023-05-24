@@ -50,9 +50,7 @@ const LobbySettings = () => {
       navigateToGamePage(response.data.lobbyId);
     } catch (error) {
       handleErrorMessage(
-        `Something went wrong while creating the lobby: \n  ${handleError(
-          error
-        )}`
+        `${t("errors.createLobby")} \n  ${handleError(error)}`
       );
     }
   }

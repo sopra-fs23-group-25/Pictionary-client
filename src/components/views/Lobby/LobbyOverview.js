@@ -49,12 +49,9 @@ const LobbyOverview = () => {
       const response = await api.get("/lobbies");
       setLobbies(response.data);
       sessionStorage.removeItem("lobbyId");
-      //console.log("lobbyID in Session Storage", sessionStorage.getItem("lobbyId"));
     } catch (error) {
       handleErrorMessage(
-        `Something went wrong while fetching the lobbies: \n  ${handleError(
-          error
-        )}`
+        `${t("errors.fetchLobbies")} \n  ${handleError(error)}`
       );
     }
   };
@@ -89,11 +86,7 @@ const LobbyOverview = () => {
       //sessionStorage.removeItem("lobbyId");
       navigateToGamePage(lobbyId);
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong during joining the lobby: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.joinLobby")} \n  ${handleError(error)}`);
     }
   }
 
