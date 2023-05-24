@@ -147,5 +147,16 @@
         "part3": "The first player, that guesses correctly, gets 20 points. Each correct guess that was submitted later, gets 5 points less. For example: First correct guess 20 points, 2nd correct guess 15 points etc.."
       }
     }
+  },
+  "errors": {
+    "joinLobby": "Something went wrong during joining the lobby:",
+    "fetchLobby": "Something went wrong while fetching the lobby:",
+    "fetchLobbies": "Something went wrong while fetching the lobbies:",
+    "createLobby": "Something went wrong while creating the lobby:",
+    "fetchUser": "Something went wrong while fetching user information:",
+    "updateUser": "Something went wrong while saving the changes:",
+    "startGame": "Something went wrong while starting the game:",
+    "closeLobby": "Something went wrong while closing the lobby",
+    "leaveLobby": "Something went wrong while leaving the lobby"
   }
 }

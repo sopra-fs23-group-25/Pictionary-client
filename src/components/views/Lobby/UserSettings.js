@@ -105,14 +105,12 @@ const UserSettings = () => {
         setNewUsername(user.username);
       } catch (error) {
         handleErrorMessage(
-          `Something went wrong while fetching user information: \n  ${handleError(
-            error
-          )}`
+          `${t("errors.fetchUser")} \n  ${handleError(error)}`
         );
       }
     }
     fetchData();
-  }, [token, userId, history]);
+  }, [token, userId, history, t]);
 
   const save = async () => {
     try {
@@ -131,11 +129,7 @@ const UserSettings = () => {
       setNewPassword("");
       setNewPassword("");
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while saving the changes: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.updateUser")} \n  ${handleError(error)}`);
     }
   };
 

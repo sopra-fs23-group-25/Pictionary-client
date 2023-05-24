@@ -147,5 +147,16 @@
         "part3": "Le premier joueur qui devine correctement obtient 20 points. Chaque devinette correcte soumise ultérieurement obtient 5 points de moins. Par exemple : première devinette correcte 20 points, deuxième devinette correcte 15 points, etc."
       }
     }
+  },
+  "errors": {
+    "joinLobby": "Une erreur s'est produite lors de la connexion au lobby :",
+    "fetchLobby": "Une erreur s'est produite lors de la récupération du lobby :",
+    "fetchLobbies": "Une erreur s'est produite lors de la récupération des lobbies :",
+    "createLobby": "Une erreur s'est produite lors de la création du lobby :",
+    "fetchUser": "Une erreur s'est produite lors de la récupération des informations de l'utilisateur :",
+    "updateUser": "Une erreur s'est produite lors de l'enregistrement des modifications :",
+    "startGame": "Une erreur s'est produite lors du démarrage du jeu :",
+    "closeLobby": "Une erreur s'est produite lors de la fermeture du lobby :",
+    "leaveLobby": "Une erreur s'est produite lors de la sortie du lobby :"
   }
 }

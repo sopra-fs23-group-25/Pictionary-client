@@ -143,16 +143,14 @@ const GameView = (props) => {
           history.push("/lobbies");
         } else {
           handleErrorMessage(
-            `Something went wrong while fetching the lobbies: \n  ${handleError(
-              error
-            )}`
+            `${t("errors.fetchLobby")} \n  ${handleError(error)}`
           );
         }
       }
     }
 
     fetchLobbyInformation();
-  }, [props, location, history, id]);
+  }, [props, location, history, id, t]);
 
   //Delay for RoundResult to show reason why turn was ended
   useEffect(() => {
@@ -302,11 +300,7 @@ const GameView = (props) => {
       await createGame(lobbyId);
       sendGameStateMessage(clientRef, lobbyId, "start game");
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while starting the game: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.startGame")} \n  ${handleError(error)}`);
     }
   }
 
@@ -392,11 +386,7 @@ const GameView = (props) => {
       console.log("close lobby");
       sendCloseLobbyMessage(clientRef, lobbyId);
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while fetching the lobbies: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.closeLobby")} \n  ${handleError(error)}`);
     }
   }
 
@@ -411,11 +401,7 @@ const GameView = (props) => {
       // sendOverWebsocket to all players that user left lobby
       sendLeaveGameMessage(clientRef, lobbyId);
     } catch (error) {
-      handleErrorMessage(
-        `Something went wrong while fetching the lobbies: \n  ${handleError(
-          error
-        )}`
-      );
+      handleErrorMessage(`${t("errors.leaveLobby")} \n  ${handleError(error)}`);
     }
     history.push("/lobbies");
   }
