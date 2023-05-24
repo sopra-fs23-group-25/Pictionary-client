@@ -59,7 +59,8 @@ const GameView = (props) => {
 
   const location = useLocation();
   const history = useHistory();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
   //Lobby-Information
   const userId = sessionStorage.getItem("userId");
@@ -608,6 +609,7 @@ const GameView = (props) => {
                 guessSubmitted={guessSubmitted}
                 setGuessSubmitted={setGuessSubmitted}
                 lobbyId={lobbyId}
+                currentLanguage={currentLanguage}
               ></GuessingContainer>
             )}
           </div>
@@ -653,6 +655,7 @@ const GuessingContainer = ({
   setGuessSubmitted,
   lobbyId,
   t,
+  currentLanguage,
 }) => {
   async function submitGuess() {
     const userId = sessionStorage.getItem("userId");
@@ -670,7 +673,9 @@ const GuessingContainer = ({
     const inputValue = event.target.value;
     const regexPattern = /\s/; // Regex pattern to match any whitespace character
 
-    if (!regexPattern.test(inputValue)) {
+    if (currentLanguage === "fr") {
+      setCurrentGuess(inputValue);
+    } else if (!regexPattern.test(inputValue)) {
       setCurrentGuess(inputValue);
     }
   }
