@@ -666,6 +666,15 @@ const GuessingContainer = ({
     setGuessSubmitted(true);
   }
 
+  function handleChange(event) {
+    const inputValue = event.target.value;
+    const regexPattern = /\s/; // Regex pattern to match any whitespace character
+
+    if (!regexPattern.test(inputValue)) {
+      setCurrentGuess(inputValue);
+    }
+  }
+
   return (
     <div className="guessing-container">
       <h1>
@@ -676,7 +685,7 @@ const GuessingContainer = ({
       <div className="word-input-container">
         <input
           value={currentGuess}
-          onChange={(e) => setCurrentGuess(e.target.value)}
+          onChange={handleChange}
           disabled={guessSubmitted}
           className="word-input"
         ></input>
