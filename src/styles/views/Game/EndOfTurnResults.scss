@@ -167,8 +167,10 @@
       font-size: 18px;
       overflow: hidden;
       flex-direction: row;
-      height: 23px;
+      min-height: 23px;
+      height: auto;
       border-radius: $box-radius;
+      margin-bottom: 3px;
 
       &.position {
         width: 7%;
