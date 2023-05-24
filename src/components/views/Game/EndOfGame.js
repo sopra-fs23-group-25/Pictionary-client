@@ -17,7 +17,7 @@ const UserItem = ({ player, index }) => {
   return (
     <div className="sub-container-end-game sub-container-list list">
       <div className="sub-container-end-game sub-container-list list position">
-        #{index + 1}
+        #{player.rank}
       </div>
       <div className="sub-container-end-game sub-container-list list username">
         {player.username}
@@ -33,9 +33,21 @@ const EndOfGame = ({ players, t }) => {
   const history = useHistory();
   //const [users, setUsers] = useState(null);
 
+  // Calculate the ranks
+  let currentRank = 0;
+  let previousScore = -1;
+  const scoresWithRank = players.map((user, index) => {
+    if (user.totalScore !== previousScore) {
+      currentRank = currentRank + 1;
+    }
+    previousScore = user.totalScore;
+    return { ...user, rank: currentRank };
+  });
+
   let userListContent = <Spinner></Spinner>;
-  if (players.length > 0) {
-    userListContent = players.map((player, index) => (
+
+  if (scoresWithRank.length > 0) {
+    userListContent = scoresWithRank.map((player, index) => (
       <UserItem player={player} index={index} key={player.userId}></UserItem>
     ));
   }

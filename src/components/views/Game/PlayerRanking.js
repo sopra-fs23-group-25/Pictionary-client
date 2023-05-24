@@ -6,6 +6,18 @@ import textbox from "images/textbox.png";
 
 const PlayerRanking = ({ players, t }) => {
   const userId = parseInt(sessionStorage.getItem("userId"));
+
+  // Calculate the ranks
+  let currentRank = 0;
+  let previousScore = -1;
+  const scoresWithRank = players.map((user, index) => {
+    if (user.totalScore !== previousScore) {
+      currentRank = currentRank + 1;
+    }
+    previousScore = user.totalScore;
+    return { ...user, rank: currentRank };
+  });
+
   return (
     <div className="ranking-container">
       <div className="ranking-header">
@@ -13,9 +25,9 @@ const PlayerRanking = ({ players, t }) => {
         <img src={trophy} className="ranking-header" alt="trophy"></img>
       </div>
       <div className="ranking-table">
-        {players.map((player, index) => (
+        {scoresWithRank.map((player, index) => (
           <div className="ranking-row" key={index}>
-            <div className="ranking-element rank">#{index + 1}</div>
+            <div className="ranking-element rank">#{player.rank}</div>
             <div
               className={
                 "ranking-element name" +

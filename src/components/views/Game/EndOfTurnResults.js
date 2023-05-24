@@ -23,7 +23,7 @@ const UserItem = ({ guess, index }) => {
   return (
     <div className="sub-container-players sub-container-list list">
       <div className="sub-container-players sub-container-list list position">
-        #{index + 1}
+        #{guess.rank}
       </div>
       <div className="sub-container-players sub-container-list list name">
         {guess.username}
@@ -41,9 +41,20 @@ const UserItem = ({ guess, index }) => {
 };
 
 const EndOfTurn = ({ players, roundResult, gameState, word, t }) => {
+  // Calculate the ranks
+  let currentRank = 0;
+  let previousScore = -1;
+  const scoresWithRank = roundResult.map((user, index) => {
+    if (user.score !== previousScore) {
+      currentRank = currentRank + 1;
+    }
+    previousScore = user.score;
+    return { ...user, rank: currentRank };
+  });
+
   let users = <Spinner></Spinner>;
-  if (roundResult.length > 0) {
-    users = roundResult.map((guess, index) => (
+  if (scoresWithRank.length > 0) {
+    users = scoresWithRank.map((guess, index) => (
       <UserItem guess={guess} index={index} key={index}></UserItem>
     ));
   }
