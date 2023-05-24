@@ -356,20 +356,25 @@ const GameView = (props) => {
   }
 
   async function rejoin() {
-    const gameResponse = await fetchGame(lobbyId); // to get new Roles
-    const players = gameResponse.data.players;
-    setPlayers(players.sort((a, b) => b.totalScore - a.totalScore));
+    try {
+      const gameResponse = await fetchGame(lobbyId); // to get new Roles
+      const players = gameResponse.data.players;
+      setPlayers(players.sort((a, b) => b.totalScore - a.totalScore));
 
-    if (
-      players.find((user) => user.currentRole === "PAINTER").userId ===
-      sessionStorage.getItem("userId")
-    ) {
-      const turnResponse = await fetchTurn(lobbyId); // to get Result
-      setRoundResult(
-        turnResponse.data.guesses.sort((a, b) => b.score - a.score)
-      );
-      setCurrentRound(gameResponse.data.currentRound);
-      setWord(turnResponse.data.word);
+      if (
+        players.find((user) => user.currentRole === "PAINTER").userId ===
+        sessionStorage.getItem("userId")
+      ) {
+        const turnResponse = await fetchTurn(lobbyId); // to get Result
+        setRoundResult(
+          turnResponse.data.guesses.sort((a, b) => b.score - a.score)
+        );
+        setCurrentRound(gameResponse.data.currentRound);
+        setWord(turnResponse.data.word);
+      }
+    } catch (error) {
+      sessionStorage.removeItem("lobbyId");
+      history.push("/lobbies");
     }
   }
 
