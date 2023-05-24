@@ -296,7 +296,8 @@
     width: 300.28px;
     //width: 400px;
     //width: 45%;
-    height: 34.36px;
+    min-height: 34.36px;
+    height: auto;
     right: 3%;
     top: 1%;
     text-align: center;
@@ -315,7 +316,8 @@
     position: absolute;
     width: 35%;
     //height: 34.36px;
-    height: 5%;
+    min-height: 5%;
+    height: auto;
     right: 1%;
     top: 30%;
     color: black;
