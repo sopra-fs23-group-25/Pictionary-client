@@ -257,17 +257,23 @@ const GameView = (props) => {
       if (isHost) {
         const timer = setTimeout(async () => {
           if (!painterActiveRef.current && !isPainter) {
-            await updateGame(lobbyId);
-            const response = await fetchGame(lobbyId);
-            console.log(response.data);
-            if (response.data.gameOver === false) {
-              sendGameStateMessage(clientRef, lobbyId, "inactive end round");
-            } else {
-              sendGameStateMessage(
-                clientRef,
-                lobbyId,
-                "inactive end last round"
-              );
+            try {
+              await updateGame(lobbyId);
+              const response = await fetchGame(lobbyId);
+              console.log(response.data);
+              if (response.data.gameOver === false) {
+                sendGameStateMessage(clientRef, lobbyId, "inactive end round");
+              } else {
+                sendGameStateMessage(
+                  clientRef,
+                  lobbyId,
+                  "inactive end last round"
+                );
+              }
+            } catch (error) {
+              console.log(error);
+              sessionStorage.removeItem("lobbyId");
+              history.push("/lobbies");
             }
           }
         }, 12500);
@@ -275,7 +281,7 @@ const GameView = (props) => {
         return () => clearTimeout(timer);
       }
     }
-  }, [gameState, isPainter, isHost, lobbyId]);
+  }, [gameState, isPainter, isHost, lobbyId, history]);
   // these functions will never change
 
   useEffect(() => {
@@ -292,8 +298,16 @@ const GameView = (props) => {
 
   //Game Logic - Sequence - Timer
   async function handleClickStartGame() {
-    await createGame(lobbyId);
-    sendGameStateMessage(clientRef, lobbyId, "start game");
+    try {
+      await createGame(lobbyId);
+      sendGameStateMessage(clientRef, lobbyId, "start game");
+    } catch (error) {
+      handleErrorMessage(
+        `Something went wrong while starting the game: \n  ${handleError(
+          error
+        )}`
+      );
+    }
   }
 
   const startGame = async () => {

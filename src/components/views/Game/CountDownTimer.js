@@ -5,6 +5,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { fetchGame, updateGame } from "helpers/gameAPI";
 import { createTurn, deleteTurn } from "helpers/turnAPI";
 import { sendGameStateMessage } from "components/socket/socketAPI";
+import { useHistory } from "react-router-dom";
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -27,24 +28,46 @@ const CountDownTimer = forwardRef((props, ref) => {
   const clientRef = props.clientRef;
   const { gameState, isHost } = props;
 
+  const history = useHistory();
+
+  function navigateToLobbies() {
+    sessionStorage.removeItem("lobbyId");
+    history.push("/lobbies");
+  }
+
   async function handleTimerComplete() {
     if (isHost) {
       if (gameState === "start game") {
-        await createTurn(lobbyId);
-        sendGameStateMessage(clientRef, lobbyId, "start round");
+        try {
+          await createTurn(lobbyId);
+          sendGameStateMessage(clientRef, lobbyId, "start round");
+        } catch (error) {
+          console.log(error);
+          navigateToLobbies();
+        }
       } else if (gameState === "start round") {
         console.log("befor put game");
-        await updateGame(lobbyId);
-        const response = await fetchGame(lobbyId);
-        if (response.data.gameOver === false) {
-          sendGameStateMessage(clientRef, lobbyId, "end round");
-        } else {
-          sendGameStateMessage(clientRef, lobbyId, "end last round");
+        try {
+          await updateGame(lobbyId);
+          const response = await fetchGame(lobbyId);
+          if (response.data.gameOver === false) {
+            sendGameStateMessage(clientRef, lobbyId, "end round");
+          } else {
+            sendGameStateMessage(clientRef, lobbyId, "end last round");
+          }
+        } catch (error) {
+          console.log(error);
+          navigateToLobbies();
         }
       } else if (gameState === "end round") {
-        await deleteTurn(lobbyId);
-        await createTurn(lobbyId);
-        sendGameStateMessage(clientRef, lobbyId, "start round");
+        try {
+          await deleteTurn(lobbyId);
+          await createTurn(lobbyId);
+          sendGameStateMessage(clientRef, lobbyId, "start round");
+        } catch (error) {
+          console.log(error);
+          navigateToLobbies();
+        }
       } else if (gameState === "end last round") {
         sendGameStateMessage(clientRef, lobbyId, "end game");
       }
@@ -68,7 +91,6 @@ const CountDownTimer = forwardRef((props, ref) => {
   }
 
   function endRound(duration) {
-    console.log("end round");
     startTimer(duration);
   }
 
