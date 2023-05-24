@@ -24,6 +24,8 @@
   }
 
   & label {
+    animation: fadeIn 1.5s forwards; /* Use the fadeIn animation with a duration of 1 second */
+
     & span {
       font-weight: 700;
       font-size: 105%;
@@ -32,6 +34,8 @@
   }
 
   & input {
+    animation: fadeIn 1.5s forwards; /* Use the fadeIn animation with a duration of 1 second */
+
     margin-top: 3em;
     width: 100%;
   }

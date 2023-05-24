@@ -4,7 +4,7 @@ import { DisconnectionType } from "./Game";
 const LobbyClosedComponent = ({ disconnectedType, t }) => {
   console.log("type: ", disconnectedType);
   return (
-    <div className="login">
+    <div className="login" style={{ marginTop: "100px" }}>
       <div className="subcontainer header-container">
         {disconnectedType === DisconnectionType.HOST_CLOSED_LOBBY ? (
           <h1>{t("gamePage.lobbyClosed.lobbyClosed")}</h1>

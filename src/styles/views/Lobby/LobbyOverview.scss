@@ -62,10 +62,13 @@
       margin-top: 0;
       margin-bottom: 2em;
       color: $text-color;
+      animation: fadeIn 1s forwards; /* Use the fadeIn animation with a duration of 1 second */
     }
   }
 
   &.sub-container-list {
+    animation: fadeIn 1s forwards; /* Use the fadeIn animation with a duration of 1 second */
+
     height: 70%;
     display: block;
     align-items: flex-start;

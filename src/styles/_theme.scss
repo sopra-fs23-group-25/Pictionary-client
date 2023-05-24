@@ -100,3 +100,15 @@ $borderRadius: 0.75em;
     top: 0;
   }
 }
+
+@keyframes popout {
+  from {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}

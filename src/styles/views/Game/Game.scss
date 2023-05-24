@@ -140,6 +140,8 @@
 }
 
 .host-button-container {
+  animation: fadeIn 1s forwards; /* Use the fadeIn animation with a duration of 1 second */
+
   width: 30%;
   display: flex;
   flex-direction: column;

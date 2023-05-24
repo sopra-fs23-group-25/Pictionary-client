@@ -39,6 +39,7 @@
     }
   }
   &.form-container {
+    animation: fadeIn 1.5s forwards; /* Use the fadeIn animation with a duration of 1 second */
     height: 60%;
   }
   &.button-container {
