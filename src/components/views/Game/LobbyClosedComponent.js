@@ -9,9 +9,9 @@ const LobbyClosedComponent = ({ disconnectedType, t }) => {
         {disconnectedType === DisconnectionType.HOST_CLOSED_LOBBY ? (
           <h1>{t("gamePage.lobbyClosed.lobbyClosed")}</h1>
         ) : (
-          <h1>Host Disconnected</h1>
+          <h1>{t("gamePage.lobbyClosed.hostDisconnected")}</h1>
         )}
-        <h2>you get redirected to lobby-overview page...</h2>
+        <h2>{t("gamePage.lobbyClosed.redirect")}</h2>
         <br></br>
         <br></br>
       </div>
