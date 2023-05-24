@@ -68,6 +68,8 @@ const AppRouter = () => {
         <Route exact path="/">
           <Redirect to="/register" />
         </Route>
+
+        <Redirect from="*" to="/lobbies" />
       </Switch>
     </BrowserRouter>
   );
