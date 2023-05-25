@@ -151,6 +151,15 @@ After all rounds have been played, the game ends and the final scores are displa
 <img width="1512" alt="FinalScores" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/f8839f9e-c904-4d92-a387-82eaddd88817">
 
 
+## Roadmap
+Possible Feature Ideas to add in the Future.
+- Make Drawing-Board responsive and work also on mobile devices.
+- Enable touch-input on Drawing-Bord.
+- Image recognition that allows a user to play against a CPU.
+- Saving and sharing of images painted during a turn.
+- Add more languages to choose from.
+- Add synonym-recognition to Translator to increase consistency of Translations.
+
 ## Authors
 - [Joana Cieri](https://github.com/jo-ana-c)
 - [Leo Engelberger](https://github.com/pcplusgit)
