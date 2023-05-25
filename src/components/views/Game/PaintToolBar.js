@@ -61,6 +61,7 @@ const PaintToolbar = (props) => {
           min={"1"}
           max={"29"}
           step={"2"}
+          width={"129px"}
         ></RangeSelection>
         <div className="toolbar-button-container">
           <button

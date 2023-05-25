@@ -11,7 +11,7 @@
   "lobbySettings": {
     "lobbySettings": "Lobby Settings",
     "lobbyName": "Lobby Name",
-    "secPerRound": "seconds per round",
+    "secPerRound": "seconds per turn",
     "nrOfRounds": "number of rounds",
     "nrOfPlayers": "max number of players",
     "placeHolder": "enter here ...",

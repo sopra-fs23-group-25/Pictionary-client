@@ -71,7 +71,6 @@ const LobbyOverview = () => {
 
   async function refreshLobby() {
     await fetchData();
-    console.log(lobbies);
   }
 
   async function joinLobby(lobbyId) {
@@ -130,7 +129,6 @@ const LobbyOverview = () => {
 
   const navigateToUserSettings = () => {
     const userId = sessionStorage.getItem("userId");
-    //console.log("sessionStorage ID", userId);
     history.push("/users/" + userId.toString());
   };
 
