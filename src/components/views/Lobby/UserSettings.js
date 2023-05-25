@@ -5,7 +5,7 @@ import "styles/views//Lobby/UserSettings.scss";
 import "styles/ui/DropDownMenu.scss";
 import User from "../../../models/User";
 import { useTranslation } from "react-i18next";
-import "locales/index";
+import "locales/translator";
 import ErrorPopup from "components/ui/ErrorPopUp";
 
 /*

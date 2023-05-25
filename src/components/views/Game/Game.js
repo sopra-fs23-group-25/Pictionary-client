@@ -24,7 +24,7 @@ import EndOfGame from "./EndOfGame";
 import EndOfTurn from "./EndOfTurnResults";
 import LobbyClosedComponent from "./LobbyClosedComponent";
 import { useTranslation } from "react-i18next";
-import "locales/index";
+import "locales/translator";
 import TurnOverIntermediateComponent from "./TurnOverIntermediateComponent";
 
 import ErrorPopup from "components/ui/ErrorPopUp";

@@ -5,7 +5,7 @@ import { apiWithAuth } from "helpers/api";
 import "styles/views/Lobby/LobbySettings.scss";
 
 import { useTranslation } from "react-i18next";
-import "locales/index";
+import "locales/translator";
 import { handleError } from "helpers/api";
 import ErrorPopup from "components/ui/ErrorPopUp";
 

@@ -6,7 +6,7 @@ import "styles/views/Lobby/LobbyOverview.scss";
 import refreshIcon from "images/refresh-icon.png";
 import { Spinner } from "components/ui/Spinner";
 import { useTranslation } from "react-i18next";
-import "locales/index";
+import "locales/translator";
 import ErrorPopup from "components/ui/ErrorPopUp";
 import rules from "images/document.png";
 
