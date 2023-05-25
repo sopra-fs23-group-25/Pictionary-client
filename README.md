@@ -97,8 +97,15 @@ The login page is where the user with an existing account can log in with their 
 
 ### Lobby Overview
 On the lobby overview page, shown here from a French user's view, the user has the possiblity to join a lobby by clicking on the name of it or create a new lobby with their own settings by clicking on the ```CREATE A LOBBY``` button.
-The refresh button is to reload the page so newly created lobbies get loaded. ```CREATE A LOBBY``` button redirects the user to the lobby settings page for a new lobby. ```SETTINGS``` button is for user settings, where you can change username, password and preferred language and the ```LOGOUT``` button logs you out and redirects to the login page.
-<img width="1512" alt="LobbyOverviewFr" src="https://github.com/sopra-fs23-group-25/Pictionary-client/assets/116800549/946ef5de-9171-49af-b504-f346e8811450">
+The refresh button is to reload the page so newly created lobbies get loaded. ```CREATE A LOBBY``` button redirects the user to the lobby settings page for a new lobby. ```SETTINGS``` button is for user settings, where you can change username, password and preferred language and the ```LOGOUT``` button logs you out and redirects to the login page.  
+By clicking on the ```rules-icon``` in the top-right corner, the user can read the game descirption and rules on the pictionary rules page.
+![Screenshot from 2023-05-25 10-44-15](https://github.com/sopra-fs23-group-25/Pictionary-client/assets/91031963/4e915cf0-0d61-444f-bb77-c2367ba525eb)
+
+### Game Description and Rules
+
+On the pictionary rules page (shown here from a German user's view), the user can inspect the game description and read about the game rules and point distribution.  
+By clicking on the ```BACK``` button, the user gets redirected to the lobby overview page.
+![Screenshot from 2023-05-25 10-40-38](https://github.com/sopra-fs23-group-25/Pictionary-client/assets/91031963/2bd5ab17-f817-4d47-ae76-810d5634ad90)
 
 ### User Settings
 The user settings page is where the user can edit the username, password and preferred language. By clicking on the ```SAVE``` button, the user can check if the newly chosen username is unique and valid and save the credentials. By clicking on the ```BACK``` button, the user gets redirected to the lobby overview page.
