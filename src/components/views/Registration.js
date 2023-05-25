@@ -83,7 +83,6 @@ const Register = (props) => {
   const doRegister = async () => {
     try {
       const requestBody = JSON.stringify({ username, password, language });
-      console.log(requestBody);
       await api.post("/users", requestBody);
 
       const requestBodyForLogin = JSON.stringify({ username, password });
@@ -100,7 +99,6 @@ const Register = (props) => {
       sessionStorage.setItem("token", user.token);
       sessionStorage.setItem("userId", user.userId);
       sessionStorage.setItem("language", user.language);
-      console.log("pref lang:", user.language);
 
       i18n.changeLanguage(user.language);
 

@@ -128,9 +128,7 @@ const GameView = (props) => {
       }
 
       try {
-        console.log(lobbyId);
         const response = await api.get(`/lobbies/${lobbyId}`);
-        console.log(response);
         setTimePerRound(response.data.timePerRound);
         setNrOfRounds(response.data.nrOfRounds);
         setPlayers(response.data.players);
@@ -259,7 +257,6 @@ const GameView = (props) => {
             try {
               await updateGame(lobbyId);
               const response = await fetchGame(lobbyId);
-              console.log(response.data);
               if (response.data.gameOver === false) {
                 sendGameStateMessage(clientRef, lobbyId, "inactive end round");
               } else {
@@ -284,7 +281,6 @@ const GameView = (props) => {
   // these functions will never change
 
   useEffect(() => {
-    console.log(gameState);
     if (players.length > 0 && gameState !== "before game") {
       try {
         configurePainter();
@@ -334,7 +330,6 @@ const GameView = (props) => {
 
     const turnResponse = await fetchTurn(lobbyId); // to get Result
     const gameResponse = await fetchGame(lobbyId); // to get new Roles
-    console.log(gameResponse.data.players);
 
     setRoundResult(turnResponse.data.guesses.sort((a, b) => b.score - a.score));
     setPlayers(
