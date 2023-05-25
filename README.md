@@ -4,7 +4,11 @@
 <h1 align="center">SoPra FS23 Group 25 - Pictionary Client</h1>
 
 ## Introduction
-We created a web-based version of Pictionary, a fun draw and guess game, where users play against each other in real-time.  The game can be played in a user's preferred language. We used Google Translate API to allow users with different chosen languages to play together.			
+We created a web-based version of Pictionary, a fun draw and guess game, where users play against each other in real-time.  The game can be played in a user's preferred language. We used Google Translate API to allow users with different chosen languages to play together.  
+
+The motivation behind our Pictionary application is to provide an entertaining game that brings people together, encouraging laughter, creativity and friendly competition. It aims to provide a fun and entertaining experience for players of all ages and backgrounds.   
+By incorporating the Google Translate API, our application enables users from different linguistic backgrounds to interact and enjoy the game together. 
+
 
 ### Hosted on:
 - Client: https://sopra-fs23-group-25-client.oa.r.appspot.com/
