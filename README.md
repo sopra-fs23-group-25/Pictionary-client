@@ -23,6 +23,25 @@ We created a web-based version of Pictionary, a fun draw and guess game, where u
 
 <img src="https://github.com/get-icon/geticon/blob/master/icons/github-icon.svg" width="16" height="16" /> [**GitHub**](https://github.com/) : version control, tracability and planning.
 
+## High Level Components
+
+The front end consists primarily of [`views`](https://github.com/sopra-fs23-group-25/Pictionary-client/tree/main/src/components/views), which are the components that users directly interact with. In the client, the [`index.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/index.js) file serves as the main entry point for the application. Let's explore the main components of the application:
+
+### Game
+
+The view [`Game.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/Game.js) is the central component of our application. It acts as the main controller of the game on the front-end. It manages the current state of the game and renders its child-components accordingly. It controls when it shows the [`EndOfTurnResults.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/EndOfTurnResults.js) component, the [`EndOfGame.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/EndOfGame.js) component or the [`DrawingBoard.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/DrawingBoard.js) component.  
+
+One essential subcomponents of the  [`Game.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/Game.js) is the [`DrawingBoard.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/DrawingBoard.js),  which has the functionality to draw on the canvas and ensures that only the current player designated as the painter can draw on it.  
+
+Another important subcomponent is the [`CountDownTimer.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/views/Game/CountDownTimer.js), responsible for tracking the duration of turns and intervals between turns  and making sure that the players have only a limited time to draw or guess the word.  
+
+[`Socket.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/components/socket/Socket.js) is also plays a significant role, because it handles how to send messages over websockets to other players and how to handle incoming messages received over the subscribed topics.
+
+### Translation
+
+In the application, the users preferred language can be chosen and all the titles/texts are displayed in the chosen language. This logic is managed in the folder [`locales`](https://github.com/sopra-fs23-group-25/Pictionary-client/tree/main/src/locales) with the main component [`translator.js`](https://github.com/sopra-fs23-group-25/Pictionary-client/blob/main/src/locales/translator.js), which handles the translation with the help of the [i18next](https://www.npmjs.com/package/i18next) library.
+
+
 ## Launch and Deployment
 
 Get the client
