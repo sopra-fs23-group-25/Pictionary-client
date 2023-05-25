@@ -1,6 +1,6 @@
 import "styles/views/Lobby/LobbySettings.scss";
 
-const RangeSelection = ({ setter, state, min, max, step, disabled }) => {
+const RangeSelection = ({ setter, state, min, max, step, disabled, width }) => {
   return (
     <input
       className=""
@@ -9,6 +9,7 @@ const RangeSelection = ({ setter, state, min, max, step, disabled }) => {
       max={max}
       value={state}
       step={step}
+      style={(width = { width })}
       disabled={disabled}
       onChange={(e) => setter(parseInt(e.target.value))}
     ></input>
