@@ -11,7 +11,7 @@
   "lobbySettings": {
     "lobbySettings": "Lobby Einstellungen",
     "lobbyName": "Lobby Name",
-    "secPerRound": "Sekunden pro Runde",
+    "secPerRound": "Sekunden pro Zug",
     "nrOfRounds": "Anzahl Runden",
     "nrOfPlayers": "maximale Anzahl Spieler",
     "placeHolder": "hier eingeben ...",
